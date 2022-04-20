@@ -20,7 +20,6 @@ function weather() {
   curl wttr.in/$1;
 }
 
-
 ZSH_THEME="spaceship"
 SPACESHIP_TIME_SHOW=true
 SPACESHIP_TIME_PREFIX=
@@ -70,14 +69,14 @@ tm() {
 COMPLETION_WAITING_DOTS="true"
 
 plugins=(
-	vi-mode
+  vi-mode
   git
   colored-man-pages
   copypath
   macos
   wd
   zsh-autosuggestions
-	kubectl
+  kubectl
   docker
   docker-compose
 )
@@ -179,6 +178,6 @@ eval "$(pyenv init --path)"
 eval "$(pyenv virtualenv-init -)"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME.sdkman"
+export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
