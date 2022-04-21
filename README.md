@@ -64,7 +64,7 @@ Enable the environment by creating symbolic links to the dotfiles in this reposi
 * `ln -s $DEV/rspurgeon/dots/.zshrc ~/.zshrc`
 * `ln -s $DEV/rspurgeon/dots/.vimrc $HOME/.vimrc`
 * `ln -s $DEV/rspurgeon/dots/.tmux.conf.local $HOME/.tmux.conf.local`
-* `ln -s powerline config....`
+* `ln -s -f $DEV/rspurgeon/dots/.config/powerline ~/.config/powerline`
 
 Install [powerline status bar](), which I use in vim and tmux
 * `pip install powerline-status`
