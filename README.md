@@ -1,7 +1,7 @@
 # dots
-A repository containing dotfiles and instructions for tools I use on my dev environment.
+A repository containing instructions and dotfiles for tools I use on my dev environment.
 
-I use the `zsh` shell which is the default on macOS Monterey, the current OS of choice. The `brew install` commands below could be replaced with a `Brewfile`, just haven't take the time yet.
+I use the `zsh` shell which is the default on macOS Monterey, the current OS of choice. The `brew install` commands below could be replaced with a `Brewfile` solutions, I just haven't take the time yet.
 
 Clone *this* repo 
 * `git clone git@github.com:rspurgeon/dots.git $HOME/dev/rspurgeon/`
@@ -9,20 +9,18 @@ Clone *this* repo
 Install the [xcode command line tools](https://mac.install.guide/commandlinetools/4.html)
 * `xcode-select –install`
 
-Install [Powerline Fonts](https://github.com/powerline/fonts)
-* `git clone git@github.com:powerline/fonts.git $HOME/dev/powerline`
-* `$HOME/dev/powerline/install.sh`
-* Exploring patched [nerd-fonts](https://github.com/ryanoasis/nerd-fonts) which contain extra glyphs, for fun things like `exa --icons`
-
-Install various tools
-* `brew install wget`
-* `brew install zsh-syntax-highlighting`
-
 Install [Homebrew](https://brew.sh/)
 * `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
 
+Install [Sauce Code Pro Nerd Font](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/SourceCodePro)
+* `brew tap homebrew/cask-fonts`
+* `brew install --cask font-sauce-code-pro-nerd-font`
+
+Install various tools
+* `brew install wget zsh-syntax-highlighting`
+
 Install [iTerm2](https://iterm2.com/)
-* Once installed, import the profile in `$HOME/dev/rspurgeon/dots/iterm2-default-profile.json` 
+* Once installed, import the profile in `$HOME/dev/rspurgeon/dots/iterm2-default-profile.json` and switch to iTerm 
 
 Install [vim](https://github.com/vim/vim)
 * `brew install vim`
