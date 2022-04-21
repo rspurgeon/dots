@@ -70,7 +70,7 @@ Install [powerline status bar](), which I use in vim and tmux
 * `pip install powerline-status`
 
 Modify `$HOME/.vimrc` file to load the run time path to the installed powerline site packages (TODO: Figure out how to auto-detect this from `pyenv`).
-* set rtp+=$HOME/.pyenv/versions/3.8.13/lib/python3.8/site-packages/powerline/bindings/vim/
+* `set rtp+=$HOME/.pyenv/versions/3.8.13/lib/python3.8/site-packages/powerline/bindings/vim/`
 
 Install [exa](https://github.com/ogham/exa) for better file listing
 * `brew install exa`
