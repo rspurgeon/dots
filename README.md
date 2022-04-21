@@ -12,6 +12,7 @@ Install the [xcode command line tools](https://mac.install.guide/commandlinetool
 Install [Powerline Fonts](https://github.com/powerline/fonts)
 * `git clone git@github.com:powerline/fonts.git $HOME/dev/powerline`
 * `$HOME/dev/powerline/install.sh`
+* Exploring patched [nerd-fonts](https://github.com/ryanoasis/nerd-fonts) which contain extra glyphs, for fun things like `exa --icons`
 
 Install various tools
 * `brew install wget`

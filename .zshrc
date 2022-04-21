@@ -93,7 +93,7 @@ alias mux='tmuxinator'
 
 alias copy='pbcopy'
 
-alias ll='exa --long --header --git -F --no-user'
+alias ll='exa --long --header --git -F --no-user --icons'
 alias la='ll -a'
 alias lli='ll -i'
 alias lt='exa --tree --level=2 --long'
