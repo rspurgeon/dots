@@ -24,7 +24,6 @@ ZSH_THEME="spaceship"
 SPACESHIP_TIME_SHOW=true
 SPACESHIP_TIME_PREFIX=
 SPACESHIP_CCLOUD_SHOW=false
-SPACESHIP_CCLOUD_PREFIX=
 SPACESHIP_KUBECONTEXT_SHOW=false
 SPACESHIP_DOCKER_SHOW=false
 SPACESHIP_NODE_SHOW=false
@@ -44,7 +43,6 @@ SPACESHIP_PROMPT_ORDER=(
   aws           # Amazon Web Services section
   venv          # virtualenv section
   pyenv         # Pyenv section
-  # kubecontext   # Kubectl context section
   exec_time     # Execution time
   line_sep      # Line break
   battery       # Battery level and status
@@ -91,12 +89,12 @@ alias m='make'
 alias e='vim'
 alias v='vim'
 
-alias mux=tmuxinator
+alias mux='tmuxinator'
 
 alias copy='pbcopy'
 
-alias ll='exa --long --header --git -F'
-alias lla='ll -a'
+alias ll='exa --long --header --git -F --no-user'
+alias la='ll -a'
 alias lli='ll -i'
 alias lt='exa --tree --level=2 --long'
 alias ltt='exa --tree --level=3 --long'

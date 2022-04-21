@@ -60,6 +60,9 @@ Install [.tmux](https://github.com/gpakosz/.tmux), which is a nice base tmux con
 * `git clone https://github.com/gpakosz/.tmux.git $HOME/dev/gpakosz`
 * `ln -s -f $HOME/dev/gpakosz/.tmux/.tmux.conf ~/.tmux.conf`
 
+Install [tmuxinator](https://github.com/tmuxinator/tmuxinator)
+* `brew install tmuxinator`
+
 Enable the environment by creating symbolic links to the dotfiles in this repository 
 * `ln -s $DEV/rspurgeon/dots/.zshrc ~/.zshrc`
 * `ln -s $DEV/rspurgeon/dots/.vimrc $HOME/.vimrc`
@@ -81,4 +84,7 @@ Install [fzf](https://github.com/junegunn/fzf) for powerful search
 
 Install [ag](https://github.com/ggreer/the_silver_searcher), the silver searcher 
 * `brew install the_silver_searcher`
+
+Install [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/#install-with-homebrew-on-macos)
+* `brew install kubectl`
 
