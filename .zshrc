@@ -23,27 +23,40 @@ function weather() {
 ZSH_THEME="spaceship"
 SPACESHIP_TIME_SHOW=true
 SPACESHIP_TIME_PREFIX=
-SPACESHIP_CCLOUD_SHOW=false
-SPACESHIP_KUBECONTEXT_SHOW=false
+
+SPACESHIP_KUBECTL_SHOW=true
+SPACESHIP_KUBECTL_VERSION_SHOW=false
+SPACESHIP_KUBECTL_PREFIX=
+
+SPACESHIP_GIT_PREFIX=
+SPACESHIP_DIR_PREFIX=
+
+SPACESHIP_GIT_STATUS_COLOR=yellow 
+
+SPACESHIP_RUBY_SHOW=false
 SPACESHIP_DOCKER_SHOW=false
 SPACESHIP_NODE_SHOW=false
 SPACESHIP_PACKAGE_SHOW=false
 SPACESHIP_PYENV_SHOW=false
+SPACESHIP_AWS_SHOW=false
+SPACESHIP_TIME_SHOW=false
 
 SPACESHIP_PROMPT_ORDER=(
   time          # Time stamps section
   user          # Username section
   host          # Hostname section
   dir           # Current directory section
+  exec_time     # Execution time
   git           # Git section (git_branch + git_status)
   package       # Package version
   ruby          # Ruby section
   golang        # Go section
+  kubectl
   docker        # Docker section
+  node
   aws           # Amazon Web Services section
   venv          # virtualenv section
   pyenv         # Pyenv section
-  exec_time     # Execution time
   line_sep      # Line break
   battery       # Battery level and status
   vi_mode       # Vi-mode indicator
@@ -51,6 +64,7 @@ SPACESHIP_PROMPT_ORDER=(
   exit_code     # Exit code section
   char          # Prompt character
 )
+
 
 # tm - create new tmux session, or switch to existing one. Works from within tmux too
 # `tm` will allow you to select your tmux session via fzf.
@@ -90,17 +104,28 @@ alias e='vim'
 alias v='vim'
 
 alias mux='tmuxinator'
+alias wmip='dig @resolver4.opendns.com myip.opendns.com +short'
 
 alias copy='pbcopy'
+alias tf='terraform'
+alias tfp='terraform plan -out plan'
+alias tfa='terraform apply plan'
+alias tfgo='tfp && tfa'
+alias tfd='terraform destroy'
+alias tfv='terraform validate'
 
 alias ll='exa --long --header --git -F --no-user --icons'
+alias l=ll
 alias la='ll -a'
 alias lli='ll -i'
 alias lt='exa --tree --level=2 --long'
 alias ltt='exa --tree --level=3 --long'
 alias lttt='exa --tree --level=4 --long'
 alias ltttt='exa --tree --level=5 --long'
+
 alias tmake='make --dry-run'
+alias makep='make -n'
+
 alias lol='lolcat'
 alias hunt='ag'
 alias hunta='ag -A5 -B5'
@@ -110,29 +135,33 @@ alias vf='vim $(fzf --height 40% --reverse)'
 bindkey -s "^f" 'vf^M'
 alias s='ag --nobreak --nonumbers --noheading . | fzf'
 #bindkey -s "^a" 'vc^M'
+bindkey -M vicmd v edit-command-line
 
 alias tmp=' directory=$(mktemp -d) && cd $directory'
 
+export PATH="/opt/homebrew/opt/kubernetes-cli@1.22/bin:$PATH"
 alias k8=kubectl
-
-alias makep='make -n'
+alias kk='kubectl -n kong'
+alias ks='kubectl -n kube-system'
 
 alias ping='prettyping --nolegend'
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 alias help='tldr'
 
+alias d='docker'
 alias dc='docker compose'
 alias dcud='docker compose up -d'
 alias dcdv='docker compose down -v'
-
 alias dps="docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.ID}}'"
 alias dpp="docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.ID}}\t{{.Ports}}'"
 alias dpa='docker ps -a'
-
 alias dry='docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_HOST=$DOCKER_HOST moncho/dry'
 alias ctop='docker run --rm -ti --name=ctop -v /var/run/docker.sock:/var/run/docker.sock quay.io/vektorlab/ctop:latest'
 
-alias config='/usr/bin/git --git-dir=$HOME/Dropbox/.cfg/ --work-tree=$HOME'
+alias h='http --print=b'
+alias hh='http --print=hH'
+alias hhh='http --print=HhBb'
+alias ht='http --offline'
 
 alias g='git --no-pager'
 alias gf='git fetch -P --tags -f'
@@ -150,6 +179,8 @@ alias grpo='git remote prune origin'
 alias gout='git checkout'
 alias ggo='git checkout'
 alias gsa='git --no-pager stash list'
+
+alias awsl='saml2aws --username=$SAML2AWS_USERNAME --password=$SAML2AWS_PASSWORD --skip-prompt --role $SAML2AWS_ROLE login'
 
 cheat() { q="$1" ; curl https://cheat.sh/$q }
 
@@ -171,9 +202,18 @@ autoload -U compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 
 complete -F __start_kubectl k
+complete -o nospace -C /opt/homebrew/bin/terraform terraform
 
 eval "$(pyenv init --path)"
 eval "$(pyenv virtualenv-init -)"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+eval "$(rbenv init - zsh)"
+
+eval spaceship_vi_mode_enable
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
