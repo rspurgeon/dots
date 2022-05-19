@@ -1,0 +1,37 @@
+format = """
+[┌──────── ](#5daa67)[ ](white)[ $directory $git_branch$git_status$git_state](#5daa67)
+[│](#4ea892) $kubernetes $aws
+[└─❯](#4695be) """
+
+# 
+# 
+# 
+#[└─❯❯](#4695be) """
+
+[aws]
+disabled=false
+format='[$symbol($profile )(\($region\) )(\[$duration\] )](#eab676)'
+symbol = "  "
+
+[terraform]
+disabled=true
+
+[status]
+disabled=true
+
+[directory]
+format="$path"
+
+[git_branch]
+format="[$symbol](white)[$branch(:$remote_branch)](#5daa67) "
+symbol = " "
+
+[git_status]
+style="bold yellow"
+
+[kubernetes]
+disabled=false
+format = '[$symbol](white)[$context](#e28743)'
+[kubernetes.context_aliases]
+"arn:aws:eks:(?P<var_region>[\\w-]+):(?P<var_acct>[\\d]+):cluster/(?P<var_cluster>[\\w-]+)" = "$var_cluster => $var_region"
+"gke_.*_(?P<var_cluster>[\\w-]+)" = "gke-$var_cluster"
