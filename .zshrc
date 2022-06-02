@@ -21,49 +21,49 @@ function weather() {
 }
 
 ZSH_THEME="spaceship"
-SPACESHIP_TIME_SHOW=true
-SPACESHIP_TIME_PREFIX=
-
-SPACESHIP_KUBECTL_SHOW=true
-SPACESHIP_KUBECTL_VERSION_SHOW=false
-SPACESHIP_KUBECTL_PREFIX=
-
-SPACESHIP_GIT_PREFIX=
-SPACESHIP_DIR_PREFIX=
-
-SPACESHIP_GIT_STATUS_COLOR=yellow 
-
-SPACESHIP_RUBY_SHOW=false
-SPACESHIP_DOCKER_SHOW=false
-SPACESHIP_NODE_SHOW=false
-SPACESHIP_PACKAGE_SHOW=false
-SPACESHIP_PYENV_SHOW=false
-SPACESHIP_AWS_SHOW=false
-SPACESHIP_TIME_SHOW=false
-
-SPACESHIP_PROMPT_ORDER=(
-  time          # Time stamps section
-  user          # Username section
-  host          # Hostname section
-  dir           # Current directory section
-  exec_time     # Execution time
-  git           # Git section (git_branch + git_status)
-  package       # Package version
-  ruby          # Ruby section
-  golang        # Go section
-  kubectl
-  docker        # Docker section
-  node
-  aws           # Amazon Web Services section
-  venv          # virtualenv section
-  pyenv         # Pyenv section
-  line_sep      # Line break
-  battery       # Battery level and status
-  vi_mode       # Vi-mode indicator
-  jobs          # Backgound jobs indicator
-  exit_code     # Exit code section
-  char          # Prompt character
-)
+#SPACESHIP_TIME_SHOW=true
+#SPACESHIP_TIME_PREFIX=
+#
+#SPACESHIP_KUBECTL_SHOW=true
+#SPACESHIP_KUBECTL_VERSION_SHOW=false
+#SPACESHIP_KUBECTL_PREFIX=
+#
+#SPACESHIP_GIT_PREFIX=
+#SPACESHIP_DIR_PREFIX=
+#
+#SPACESHIP_GIT_STATUS_COLOR=yellow 
+#
+#SPACESHIP_RUBY_SHOW=false
+#SPACESHIP_DOCKER_SHOW=false
+#SPACESHIP_NODE_SHOW=false
+#SPACESHIP_PACKAGE_SHOW=false
+#SPACESHIP_PYENV_SHOW=false
+#SPACESHIP_AWS_SHOW=false
+#SPACESHIP_TIME_SHOW=false
+#
+#SPACESHIP_PROMPT_ORDER=(
+#  time          # Time stamps section
+#  user          # Username section
+#  host          # Hostname section
+#  dir           # Current directory section
+#  exec_time     # Execution time
+#  git           # Git section (git_branch + git_status)
+#  package       # Package version
+#  ruby          # Ruby section
+#  golang        # Go section
+#  kubectl
+#  docker        # Docker section
+#  node
+#  aws           # Amazon Web Services section
+#  venv          # virtualenv section
+#  pyenv         # Pyenv section
+#  line_sep      # Line break
+#  battery       # Battery level and status
+#  vi_mode       # Vi-mode indicator
+#  jobs          # Backgound jobs indicator
+#  exit_code     # Exit code section
+#  char          # Prompt character
+#)
 
 
 # tm - create new tmux session, or switch to existing one. Works from within tmux too
@@ -99,7 +99,11 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=240"
 export EDITOR='vim'
 export VIMRUNTIME="$HOME/dev/vim/vim/runtime/"
 
+alias browse='open -a "Google Chrome"'
+alias b='browse'
+
 alias m='make'
+alias vim='vim -O'
 alias e='vim'
 alias v='vim'
 
@@ -143,6 +147,7 @@ export PATH="/opt/homebrew/opt/kubernetes-cli@1.22/bin:$PATH"
 alias k8=kubectl
 alias kk='kubectl -n kong'
 alias ks='kubectl -n kube-system'
+alias kco='kubectl config unset current-context'
 
 alias ping='prettyping --nolegend'
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
@@ -162,6 +167,12 @@ alias h='http --print=b'
 alias hh='http --print=hH'
 alias hhh='http --print=HhBb'
 alias ht='http --offline'
+function hdp() {
+	http --print=b "$KONG_DP/$1"
+}
+function hcp() {
+  http --print=b "$KONG_CP/$1"
+}
 
 alias g='git --no-pager'
 alias gf='git fetch -P --tags -f'
@@ -181,6 +192,8 @@ alias ggo='git checkout'
 alias gsa='git --no-pager stash list'
 
 alias awsl='saml2aws --username=$SAML2AWS_USERNAME --password=$SAML2AWS_PASSWORD --skip-prompt --role $SAML2AWS_ROLE login'
+alias awso='AWS_PROFILE='
+awso
 
 cheat() { q="$1" ; curl https://cheat.sh/$q }
 
