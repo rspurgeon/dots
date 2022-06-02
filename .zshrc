@@ -93,6 +93,22 @@ plugins=(
   docker-compose
 )
 
+export AWS_DEFAULT_REGION=us-west-2
+export AWS_PROFILE=sandbox
+export AWS_PAGER=
+export KONG_GW_HOST=localhost
+export KONG_GW_SCHEME=http
+export KONG_ADMIN_PORT=8001
+export KONG_CP="$KONG_GW_SCHEME://$KONG_GW_HOST:$KONG_ADMIN_PORT"
+export kcp=$KONG_CP
+export KONG_DATA_PORT=8000
+export KONG_DP="$KONG_GW_SCHEME://$KONG_GW_HOST:$KONG_DATA_PORT"
+export kdp=$KONG_DP
+
+export KONG_LICENSE_FILE=/Users/rick.spurgeon@konghq.com/.kong-license-data/license.json
+
+export GIT_PAGER=
+
 source $ZSH/oh-my-zsh.sh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=240"
 
