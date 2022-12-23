@@ -1,6 +1,10 @@
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
+
 fpath=(/usr/local/share/zsh-completions $fpath)
+#fpath+=(~/bin/functions "${fpath[@]}" )
+fpath+=( ~/bin/functions )
+fpath+=( "$(brew --prefix)/share/zsh/site-functions" )
 
 # colors, a lot of colors!
 function clicolors() {
@@ -21,50 +25,6 @@ function weather() {
 }
 
 ZSH_THEME="spaceship"
-#SPACESHIP_TIME_SHOW=true
-#SPACESHIP_TIME_PREFIX=
-#
-#SPACESHIP_KUBECTL_SHOW=true
-#SPACESHIP_KUBECTL_VERSION_SHOW=false
-#SPACESHIP_KUBECTL_PREFIX=
-#
-#SPACESHIP_GIT_PREFIX=
-#SPACESHIP_DIR_PREFIX=
-#
-#SPACESHIP_GIT_STATUS_COLOR=yellow 
-#
-#SPACESHIP_RUBY_SHOW=false
-#SPACESHIP_DOCKER_SHOW=false
-#SPACESHIP_NODE_SHOW=false
-#SPACESHIP_PACKAGE_SHOW=false
-#SPACESHIP_PYENV_SHOW=false
-#SPACESHIP_AWS_SHOW=false
-#SPACESHIP_TIME_SHOW=false
-#
-#SPACESHIP_PROMPT_ORDER=(
-#  time          # Time stamps section
-#  user          # Username section
-#  host          # Hostname section
-#  dir           # Current directory section
-#  exec_time     # Execution time
-#  git           # Git section (git_branch + git_status)
-#  package       # Package version
-#  ruby          # Ruby section
-#  golang        # Go section
-#  kubectl
-#  docker        # Docker section
-#  node
-#  aws           # Amazon Web Services section
-#  venv          # virtualenv section
-#  pyenv         # Pyenv section
-#  line_sep      # Line break
-#  battery       # Battery level and status
-#  vi_mode       # Vi-mode indicator
-#  jobs          # Backgound jobs indicator
-#  exit_code     # Exit code section
-#  char          # Prompt character
-#)
-
 
 # tm - create new tmux session, or switch to existing one. Works from within tmux too
 # `tm` will allow you to select your tmux session via fzf.
@@ -96,26 +56,41 @@ plugins=(
 export AWS_DEFAULT_REGION=us-west-2
 export AWS_PROFILE=sandbox
 export AWS_PAGER=
-export KONG_GW_HOST=localhost
-export KONG_GW_SCHEME=http
-export KONG_ADMIN_PORT=8001
-export KONG_CP="$KONG_GW_SCHEME://$KONG_GW_HOST:$KONG_ADMIN_PORT"
-export kcp=$KONG_CP
-export KONG_DATA_PORT=8000
-export KONG_DP="$KONG_GW_SCHEME://$KONG_GW_HOST:$KONG_DATA_PORT"
-export kdp=$KONG_DP
 
+function cfgkong() {
+  export KONG_GW_HOST=${1:-localhost}
+  export KONG_ADMIN_PORT=${2:-8001}
+  export KONG_DATA_PORT=${3:-8000}
+  export KONG_GW_SCHEME=http
+  export KONG_CP="$KONG_GW_SCHEME://$KONG_GW_HOST:$KONG_ADMIN_PORT"
+  export kcp=$KONG_CP
+  export KONG_DP="$KONG_GW_SCHEME://$KONG_GW_HOST:$KONG_DATA_PORT"
+  export kdp=$KONG_DP
+	export PROXY_IP=$kdp
+}
+cfgkong
+
+function cfgkongfromk8s() {
+	NAMESPACE="${NAMESPACE:-kong}"
+	PROXY_NAME="${PROXY_NAME:-kong-proxy}"
+	cfgkong $(kubectl get -o jsonpath="{.status.loadBalancer.ingress[0].ip}" service -n "$NAMESPACE" "$PROXY_NAME") 80 80
+}
+function cfgkongfromk8slb() {
+	NAMESPACE="${NAMESPACE:-kong}"
+	PROXY_NAME="${PROXY_NAME:-kong-proxy}"
+	cfgkong $(kubectl get -o jsonpath="{.status.loadBalancer.ingress[0].hostname}" service -n "$NAMESPACE" "$PROXY_NAME") 80 80
+}
+
+# source ~/.local/bin/license --no-update
 export KONG_LICENSE_FILE=/Users/rick.spurgeon@konghq.com/.kong-license-data/license.json
+export KONG_LICENSE_DATA=$(cat $KONG_LICENSE_FILE)
 
 export GIT_PAGER=
 
 source $ZSH/oh-my-zsh.sh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=240"
 
-export EDITOR='vim'
-export VIMRUNTIME="$HOME/dev/vim/vim/runtime/"
-
-alias browse='open -a "Google Chrome"'
+alias browse='open -a "Arc"'
 alias b='browse'
 
 alias m='make'
@@ -138,10 +113,11 @@ alias ll='exa --long --header --git -F --no-user --icons'
 alias l=ll
 alias la='ll -a'
 alias lli='ll -i'
-alias lt='exa --tree --level=2 --long'
-alias ltt='exa --tree --level=3 --long'
-alias lttt='exa --tree --level=4 --long'
-alias ltttt='exa --tree --level=5 --long'
+alias lt='exa --tree'
+alias ltt='exa --tree --level=2'
+alias lttt='exa --tree --level=3'
+alias ltttt='exa --tree --level=4'
+alias lttttt='exa --tree --level=5'
 
 alias tmake='make --dry-run'
 alias makep='make -n'
@@ -153,13 +129,12 @@ alias spot='find . -name'
 
 alias vf='vim $(fzf --height 40% --reverse)'
 bindkey -s "^f" 'vf^M'
-alias s='ag --nobreak --nonumbers --noheading . | fzf'
+alias s='ag --nobreak --nonumbers --noheading . | fzf --delimiter=: --nth=2..'
 #bindkey -s "^a" 'vc^M'
 bindkey -M vicmd v edit-command-line
 
 alias tmp=' directory=$(mktemp -d) && cd $directory'
 
-export PATH="/opt/homebrew/opt/kubernetes-cli@1.22/bin:$PATH"
 alias k8=kubectl
 alias kk='kubectl -n kong'
 alias ks='kubectl -n kube-system'
@@ -183,11 +158,107 @@ alias h='http --print=b'
 alias hh='http --print=hH'
 alias hhh='http --print=HhBb'
 alias ht='http --offline'
+
 function hdp() {
-	http --print=b "$KONG_DP/$1"
+  if [[ $# -eq 0 ]]; then
+    verb="get"
+    url="/"
+  elif [[ $# -eq 1 ]]; then
+    verb="get"
+    url="$@"
+  else 
+    verb="$1"
+    shift 1
+    url="$@"
+  fi
+  http --print=b $verb "$KONG_DP/$url"
 }
+function hhdp() {
+  if [[ $# -eq 0 ]]; then
+    verb="get"
+    url="/"
+  elif [[ $# -eq 1 ]]; then
+    verb="get"
+    url="$@"
+  else 
+    verb="$1"
+    shift 1
+    url="$@"
+  fi
+  http --print=hH $verb "$KONG_DP/$url"
+}
+function hhhdp() {
+  if [[ $# -eq 0 ]]; then
+    verb="get"
+    url="/"
+  elif [[ $# -eq 1 ]]; then
+    verb="get"
+    url="$@"
+  else 
+    verb="$1"
+    shift 1
+    url="$@"
+  fi
+  http --print=hbHB $verb "$KONG_DP/$url"
+}
+
 function hcp() {
-  http --print=b "$KONG_CP/$1"
+  if [[ $# -eq 0 ]]; then
+    verb="get"
+    url="/"
+  elif [[ $# -eq 1 ]]; then
+    verb="get"
+    url="$@"
+  else 
+    verb="$1"
+    shift 1
+    url="$@"
+  fi
+
+  http --print=b $verb "$KONG_CP/$url"
+}
+function hhcp() {
+  if [[ $# -eq 0 ]]; then
+    verb="get"
+    url="/"
+  elif [[ $# -eq 1 ]]; then
+    verb="get"
+    url="$@"
+  else 
+    verb="$1"
+    shift 1
+    url="$@"
+  fi
+
+  http --print=hH $verb "$KONG_CP/$url"
+}
+function hhhcp() {
+  if [[ $# -eq 0 ]]; then
+    verb="get"
+    url="/"
+  elif [[ $# -eq 1 ]]; then
+    verb="get"
+    url="$@"
+  else 
+    verb="$1"
+    shift 1
+    url="$@"
+  fi
+
+  http --print=hbHB $verb "$KONG_CP/$url"
+}
+
+function get_service_id() {
+  http --print=b $kcp/services | jq -r '.data | .[] | select(.name == "'"$1"'") | .id'
+}
+function get_services() {
+  http --print=b $kcp/services | jq -r '.data | .[]'
+}
+function get_consumers() {
+  http --print=b $kcp/consumers | jq -r '.data | .[]'
+}
+function get_consumer_id() {
+  http --print=b $kcp/consumers | jq -r '.data | .[] | select(.username == "'"$1"'") | .id'
 }
 
 alias g='git --no-pager'
@@ -206,6 +277,8 @@ alias grpo='git remote prune origin'
 alias gout='git checkout'
 alias ggo='git checkout'
 alias gsa='git --no-pager stash list'
+
+alias lg=lazygit
 
 alias awsl='saml2aws --username=$SAML2AWS_USERNAME --password=$SAML2AWS_PASSWORD --skip-prompt --role $SAML2AWS_ROLE login'
 alias awso='AWS_PROFILE='
@@ -245,7 +318,15 @@ eval "$(rbenv init - zsh)"
 eval spaceship_vi_mode_enable
 eval "$(starship init zsh)"
 
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/rick.spurgeon@konghq.com/bin/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/rick.spurgeon@konghq.com/bin/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/rick.spurgeon@konghq.com/bin/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/rick.spurgeon@konghq.com/bin/google-cloud-sdk/completion.zsh.inc'; fi
+
+
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
 

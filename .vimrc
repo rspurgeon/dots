@@ -142,6 +142,9 @@ endif
 " Add a bit extra margin to the left
 set foldcolumn=1
 
+" Unfolded by default
+set nofoldenable
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
@@ -155,13 +158,19 @@ if $COLORTERM == 'gnome-terminal'
 endif
 
 try
-    colorscheme darkblue
+    colorscheme evening
 catch
 endtry
 
 set background=dark
 
 hi StatusLine ctermbg=grey ctermfg=black
+
+" Highlight long line area
+highlight ColorColumn ctermbg=235 guibg=#2c2d27
+"let &colorcolumn="80,".join(range(120,999),",")
+nnoremap <leader>L :execute "set colorcolumn=" . (&colorcolumn == "" ? "120" : "")<CR>
+" nnoremap <leader>L :execute "set colorcolumn=" . (&colorcolumn="80,".join(range(120,999),","))<CR>
 
 " Set extra options when running in GUI mode
 if has("gui_running")
@@ -241,7 +250,7 @@ map <leader>bd :Bclose<cr>:tabclose<cr>gT
 map <leader>ba :bufdo bd<cr>
 
 map <leader>l :bnext<cr>
-map <leader>h :bprevious<cr>
+map <leader>j :bprevious<cr>
 
 " Useful mappings for managing tabs
 map <leader>tn :tabnew<cr>
@@ -360,7 +369,8 @@ map <leader>x :e ~/buffer.md<cr>
 map <leader>pp :setlocal paste!<cr>
 set paste
 
-noremap <leader>l :set list!<CR>
+" hide / show symbols
+noremap <leader>s :set list!<CR>
 noremap <leader>h :nohl<CR><C-l>
 noremap <leader>sq :xa<CR>
 nnoremap <silent><c-s> :<c-u>update<cr>
