@@ -110,6 +110,7 @@ alias tfd='terraform destroy'
 alias tfv='terraform validate'
 
 alias ll='exa --long --header --git -F --no-user --icons'
+alias lld='exa --long --header --git -F --no-user --icons -s modified -r'
 alias l=ll
 alias la='ll -a'
 alias lli='ll -i'
@@ -289,7 +290,6 @@ cheat() { q="$1" ; curl https://cheat.sh/$q }
 export PS1="$PS1"
 
 export DEV=$HOME/dev
-export PATH=~/bin:$PATH
 
 export HISTSIZE=20000000
 export HISTFILE=$HOME/.zsh_history
@@ -320,16 +320,17 @@ eval "$(starship init zsh)"
 
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
+export PATH=~/.local/bin:$PATH
+export PATH=~/bin:$PATH
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/rick.spurgeon@konghq.com/bin/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/rick.spurgeon@konghq.com/bin/google-cloud-sdk/path.zsh.inc'; fi
+#if [ -f '/Users/rick.spurgeon@konghq.com/bin/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/rick.spurgeon@konghq.com/bin/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/rick.spurgeon@konghq.com/bin/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/rick.spurgeon@konghq.com/bin/google-cloud-sdk/completion.zsh.inc'; fi
+#if [ -f '/Users/rick.spurgeon@konghq.com/bin/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/rick.spurgeon@konghq.com/bin/google-cloud-sdk/completion.zsh.inc'; fi
 
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-
 
