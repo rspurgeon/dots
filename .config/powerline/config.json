@@ -1,6 +1,6 @@
 {
 	"common": {
-		"term_truecolor": true
+		"term_truecolor": false
 	},
 	"ext": {
 		"ipython": {
@@ -16,7 +16,15 @@
 			"colorscheme": "default",
 			"theme": "default"
 		},
-   	"tmux": {
+		"shell": {
+			"colorscheme": "default",
+			"theme": "default",
+			"local_themes": {
+				"continuation": "continuation",
+				"select": "select"
+			}
+		},
+		"tmux": {
 			"colorscheme": "default",
 			"theme": "default"
 		},
@@ -38,7 +46,8 @@
 		},
 		"wm": {
 			"colorscheme": "default",
-			"theme": "default"
+			"theme": "default",
+			"update_interval": 2
 		}
 	}
 }

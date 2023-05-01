@@ -276,6 +276,7 @@ tmux_conf_copy_to_os_clipboard=false
 # this is the place to override or undo settings
 set -g mouse on
 unbind C-b
+unbind C-a
 set -g prefix C-j
 bind C-j send-prefix
 
@@ -307,6 +308,8 @@ bind -r C-l resize-pane -R
 bind -r n next-window
 bind -r p previous-window
 
+bind ";" display-popup -E 'tmux new-session -A -s scratch -c "#{pane_current_path}"'
+
 bind Q send-keys C-l \; run 'sleep 0.1' \; clear-history
 
 unbind Up
@@ -321,14 +324,15 @@ unbind C-Right
 set -g status-interval 4
 
 # List of plugins
-#set -g @plugin 'tmux-plugins/tpm'
-#set -g @plugin 'tmux-plugins/tmux-sensible'
-#set -g @plugin 'tmux-plugins/tmux-open'
-#set -g @plugin 'tmux-plugins/tmux-copycat'
-#set -g @plugin 'tmux-plugins/tmux-yank'
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-sensible'
+# set -g @plugin 'erikw/tmux-powerline'
+
+# Other examples:
+# set -g @plugin 'github_username/plugin_name'
+# set -g @plugin 'github_username/plugin_name#branch'
+# set -g @plugin 'git@github.com:user/plugin'
+# set -g @plugin 'git@bitbucket.com:user/plugin'
 
 # Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
-#run '~/.tmux/plugins/tpm/tpm'
-#run-shell ~/.tmux/plugins/tmux-yank/yank.tmux
-#run-shell "powerline-daemon -q"
-#source "/Users/rspurgeon/.pyenv/versions/3.7.13/lib/python3.7/site-packages/powerline/bindings/tmux/powerline.conf"
+run '~/.tmux/plugins/tpm/tpm'

@@ -1,5 +1,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
+export XDG_CONFIG_HOME="$HOME/.config"
 
 fpath=(/usr/local/share/zsh-completions $fpath)
 #fpath+=(~/bin/functions "${fpath[@]}" )
@@ -94,9 +95,13 @@ alias browse='open -a "Arc"'
 alias b='browse'
 
 alias m='make'
-alias vim='vim -O'
+
+# alias vim='vim -O'
+alias vim=nvim
 alias e='vim'
 alias v='vim'
+alias vf='vim $(fzf --height 40% --reverse)'
+bindkey -s "^f" 'vf^M'
 
 alias mux='tmuxinator'
 alias wmip='dig @resolver4.opendns.com myip.opendns.com +short'
@@ -128,8 +133,6 @@ alias hunt='ag'
 alias hunta='ag -A5 -B5'
 alias spot='find . -name'
 
-alias vf='vim $(fzf --height 40% --reverse)'
-bindkey -s "^f" 'vf^M'
 alias s='ag --nobreak --nonumbers --noheading . | fzf --delimiter=: --nth=2..'
 #bindkey -s "^a" 'vc^M'
 bindkey -M vicmd v edit-command-line
@@ -315,7 +318,7 @@ export NVM_DIR="$HOME/.nvm"
 
 eval "$(rbenv init - zsh)"
 
-eval spaceship_vi_mode_enable
+#eval spaceship_vi_mode_enable
 eval "$(starship init zsh)"
 
 export GOPATH=$HOME/go
