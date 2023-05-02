@@ -6,8 +6,10 @@ require('neo-tree').setup {
             hide_dotfiles = false,
             hide_gitignored = false
         }
-    }
+    },
 }
+
+vim.cmd[[highlight NeotreeCursorline guibg=#3a3942]]
 
 vim.keymap.set("n", "<leader>fe", function()
     vim.cmd.Neotree("filesystem", "toggle", "show", "left", "reveal")

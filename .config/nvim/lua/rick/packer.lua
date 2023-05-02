@@ -18,6 +18,13 @@ return require('packer').startup(function(use)
 
     use({ 'rose-pine/neovim', as = 'rose-pine' })
     vim.cmd('colorscheme rose-pine')
+    --use { "catppuccin/nvim", as = "catppuccin" }
+    --vim.cmd.colorscheme "catppuccin"
+
+    use {
+        'nvim-lualine/lualine.nvim',
+        requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+    }
 
     use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
     use('nvim-treesitter/playground')
@@ -64,5 +71,7 @@ return require('packer').startup(function(use)
         {'L3MON4D3/LuaSnip'},     -- Required
             }
     }
+
+    use('github/copilot.vim')
 
 end)

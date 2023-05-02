@@ -1,12 +1,19 @@
 
-vim.g.mapleader = ";"
+vim.g.mapleader = " "
 
 -- (f)ile -> (n)avigate
 --vim.keymap.set("n", "<leader>fe", vim.cmd.Ex)
 
-vim.keymap.set("n", "<leader>bd", vim.cmd.bd)
-vim.keymap.set("n", "<leader>bn", vim.cmd.bn)
-vim.keymap.set("n", "<leader>bp", vim.cmd.bp)
+vim.keymap.set("n", "<leader>w", vim.cmd.w)
+vim.keymap.set("n", "<leader>q", vim.cmd.xa)
+
+vim.keymap.set("n", "<leader>d", vim.cmd.bd)
+vim.keymap.set("n", "<leader>n", vim.cmd.bn)
+vim.keymap.set("n", "<leader>p", vim.cmd.bp)
+
+--map <leader>n :bn<cr>
+--map <leader>p :bp<cr>
+--map <leader>d :bd<cr>
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
