@@ -102,6 +102,7 @@ alias e='vim'
 alias v='vim'
 alias vf='vim $(fzf --height 40% --reverse)'
 bindkey -s "^f" 'vf^M'
+export EDITOR=nvim
 
 alias mux='tmuxinator'
 alias wmip='dig @resolver4.opendns.com myip.opendns.com +short'
@@ -318,20 +319,12 @@ export NVM_DIR="$HOME/.nvm"
 
 eval "$(rbenv init - zsh)"
 
-#eval spaceship_vi_mode_enable
 eval "$(starship init zsh)"
 
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 export PATH=~/.local/bin:$PATH
 export PATH=~/bin:$PATH
-
-# The next line updates PATH for the Google Cloud SDK.
-#if [ -f '/Users/rick.spurgeon@konghq.com/bin/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/rick.spurgeon@konghq.com/bin/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-#if [ -f '/Users/rick.spurgeon@konghq.com/bin/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/rick.spurgeon@konghq.com/bin/google-cloud-sdk/completion.zsh.inc'; fi
-
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
