@@ -7,20 +7,22 @@ return require('packer').startup(function(use)
 
     -- Packer can manage itself
     use('wbthomason/packer.nvim')
-    -- Better Netrw
+    -- Slimmer Netrw
     use('tpope/vim-vinegar')
 
+    -- File searching and grep-ing 
     use {
         'nvim-telescope/telescope.nvim', tag = '0.1.1',
         -- or                            , branch = '0.1.x',
         requires = { {'nvim-lua/plenary.nvim'} }
     }
 
+    -- Color scheme
     use({ 'rose-pine/neovim', as = 'rose-pine' })
-    vim.cmd('colorscheme rose-pine')
-    --use { "catppuccin/nvim", as = "catppuccin" }
-    --vim.cmd.colorscheme "catppuccin"
 
+    use('nvim-vertsplit')
+
+    -- Powerline like status bar
     use {
         'nvim-lualine/lualine.nvim',
         requires = { 'nvim-tree/nvim-web-devicons', opt = true }
@@ -28,9 +30,13 @@ return require('packer').startup(function(use)
 
     use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
     use('nvim-treesitter/playground')
+    -- simple common file navigator
     use('theprimeagen/harpoon')
+    -- undo on roids
     use('mbbill/undotree')
+    -- git management in a buffer
     use('tpope/vim-fugitive')
+    -- easy motion style movements
     use {
         'phaazon/hop.nvim',
         branch = 'v2', -- optional but strongly recommended
@@ -40,7 +46,7 @@ return require('packer').startup(function(use)
         end
     }
 
-    -- neo-tree
+    -- Tree style file explorer
     use {
         "nvim-neo-tree/neo-tree.nvim",
           branch = "v2.x",
@@ -51,6 +57,7 @@ return require('packer').startup(function(use)
           }
     }
 
+    -- LSP and autocompletion
     use {
         'VonHeikemen/lsp-zero.nvim',
         branch = 'v2.x',
@@ -72,6 +79,7 @@ return require('packer').startup(function(use)
             }
     }
 
+    -- AI Driven autocompletion
     use('github/copilot.vim')
 
 end)

@@ -321,6 +321,13 @@ eval "$(rbenv init - zsh)"
 
 eval "$(starship init zsh)"
 
+# tmux-powerline configuration
+export TMUX_POWERLINE_LEFT_STATUS_SEGMENTS=(
+		"tmux_session_info 40 0" \
+		"pwd 28 255" \
+		"vcs_branch 22 255" \
+	)
+
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 export PATH=~/.local/bin:$PATH

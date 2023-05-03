@@ -19,9 +19,6 @@ vim.keymap.set('n', '<leader>ff', function()
     builtin.find_files( { hidden = true} )
 end)
 
-vim.keymap.set("n", "<leader>fe", function()
-    vim.cmd.Neotree("filesystem", "toggle", "show", "left", "reveal")
-end)
 -- (f)ile -> (g)it -> (f)ind
 vim.keymap.set('n', '<leader>fgf', builtin.git_files, {})
 -- (f)ile -> (s)earch 
