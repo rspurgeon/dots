@@ -40,9 +40,7 @@ fi
 if [ -z $TMUX_POWERLINE_WINDOW_STATUS_FORMAT ]; then
 	TMUX_POWERLINE_WINDOW_STATUS_FORMAT=(
 		"#[$(format regular)]" \
-		"  #I#{?window_flags,#F, } " \
-		"$TMUX_POWERLINE_SEPARATOR_RIGHT_THIN" \
-		" #W "
+        "  #I) #W "
 	)
 fi
 
@@ -74,8 +72,9 @@ fi
 if [ -z $TMUX_POWERLINE_LEFT_STATUS_SEGMENTS ]; then
 	TMUX_POWERLINE_LEFT_STATUS_SEGMENTS=(
 		"tmux_session_info 12 0" \
-		"pwd 12 0" \
-		"vcs_branch 12 0" \
+		"time 12 0 " \
+		#"pwd 12 0" \
+		#"vcs_branch 12 0" \
 		#"hostname 33 0" \
 		#"ifstat 30 255" \
 		#"vcs_branch 29 88" \

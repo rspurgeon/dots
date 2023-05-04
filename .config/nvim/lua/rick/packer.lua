@@ -81,5 +81,4 @@ return require('packer').startup(function(use)
 
     -- AI Driven autocompletion
     use('github/copilot.vim')
-
 end)
