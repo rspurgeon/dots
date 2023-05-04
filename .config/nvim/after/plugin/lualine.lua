@@ -28,6 +28,7 @@ require('lualine').setup {
             {
                 'filename',
                 width = '100%',
+                path = 1,
                 color = inactive_color,
             }
         },
