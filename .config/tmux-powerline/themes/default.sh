@@ -73,7 +73,7 @@ if [ -z $TMUX_POWERLINE_LEFT_STATUS_SEGMENTS ]; then
 	TMUX_POWERLINE_LEFT_STATUS_SEGMENTS=(
 		"tmux_session_info 12 0" \
 		"time 12 0 " \
-		#"pwd 12 0" \
+		"pwd 12 0" \
 		#"vcs_branch 12 0" \
 		#"hostname 33 0" \
 		#"ifstat 30 255" \

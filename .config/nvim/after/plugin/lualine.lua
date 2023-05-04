@@ -7,6 +7,12 @@ require('lualine').setup {
     extensions = {'neo-tree', 'fugitive'},
     options = {
         theme = custom_auto
+    },
+    sections = {
+        lualine_c = {
+            { 'filename', path = 1 }
+        },
+        lualine_x = { 'encoding', 'filetype' },
     }
 }
 
