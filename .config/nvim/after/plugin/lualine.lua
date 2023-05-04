@@ -10,9 +10,9 @@ require('lualine').setup {
     },
     sections = {
         lualine_c = {
-            { 'filename', path = 1 }
+            { 'filename', path = 1, shorting_target = 25 }
         },
-        lualine_x = { 'encoding', 'filetype' },
+        lualine_x = { 'filetype' },
     }
 }
 
