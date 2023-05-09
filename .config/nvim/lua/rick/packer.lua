@@ -1,5 +1,3 @@
--- This file can be loaded by calling `lua require('plugins')` from your init.vim
-
 -- Only required if you have packer configured as `opt`
 vim.cmd [[packadd packer.nvim]]
 
@@ -20,22 +18,43 @@ return require('packer').startup(function(use)
     -- Color scheme
     use({ 'rose-pine/neovim', as = 'rose-pine' })
 
-    use('nvim-vertsplit')
-
     -- Powerline like status bar
     use {
         'nvim-lualine/lualine.nvim',
         requires = { 'nvim-tree/nvim-web-devicons', opt = true }
     }
 
+    use('lewis6991/gitsigns.nvim')
     use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
     use('nvim-treesitter/playground')
+
     -- simple common file navigator
     use('theprimeagen/harpoon')
     -- undo on roids
     use('mbbill/undotree')
     -- git management in a buffer
     use('tpope/vim-fugitive')
+    -- adding, changing, or deleting surrounding parentheses, brackets, quotes, XML tags, and more
+    use({
+        "kylechui/nvim-surround",
+        tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+        config = function()
+            require("nvim-surround").setup({
+                -- Configuration here, or leave empty to use defaults
+            })
+        end
+    })
+    -- used for splitting/joining blocks of code like arrays, hashes, statements, objects, dictionaries, etc
+    use({
+        'Wansmer/treesj',
+        requires = { 'nvim-treesitter' },
+        config = function()
+            require('treesj').setup({
+                --[[ your config ]]
+            })
+        end,
+    })
+
     -- easy motion style movements
     use {
         'phaazon/hop.nvim',
@@ -63,20 +82,15 @@ return require('packer').startup(function(use)
         branch = 'v2.x',
         requires = {
       	  -- LSP Support
-      	  {'neovim/nvim-lspconfig'},             -- Required
-      	  {                                      -- Optional
-      	  'williamboman/mason.nvim',
-      	  run = function()
-      		  pcall(vim.cmd, 'MasonUpdate')
-      	  end,
-        },
-        {'williamboman/mason-lspconfig.nvim'}, -- Optional
+      	  {'neovim/nvim-lspconfig'},
+      	  {'williamboman/mason.nvim', run = ":MasonUpdate"},
+          {'williamboman/mason-lspconfig.nvim'},
 
-        -- Autocompletion
-        {'hrsh7th/nvim-cmp'},     -- Required
-        {'hrsh7th/cmp-nvim-lsp'}, -- Required
-        {'L3MON4D3/LuaSnip'},     -- Required
-            }
+          -- Autocompletion
+          {'hrsh7th/nvim-cmp'},
+          {'hrsh7th/cmp-nvim-lsp'},
+          {'L3MON4D3/LuaSnip'},
+        }
     }
 
     -- AI Driven autocompletion

@@ -301,7 +301,6 @@ export HISTFILE=$HOME/.zsh_history
 export FZF_DEFAULT_OPTS='--layout=reverse'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Enable zsh completions
 autoload -U compinit && compinit
@@ -321,17 +320,12 @@ eval "$(rbenv init - zsh)"
 
 eval "$(starship init zsh)"
 
-# tmux-powerline configuration
-export TMUX_POWERLINE_LEFT_STATUS_SEGMENTS=(
-		"tmux_session_info 40 0" \
-		"pwd 28 255" \
-		"vcs_branch 22 255" \
-	)
-
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 export PATH=~/.local/bin:$PATH
 export PATH=~/bin:$PATH
+
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
