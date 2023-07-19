@@ -8,7 +8,7 @@ require('telescope').setup {
             '--line-number',
             '--column',
             '--smart-case',
-            '-u'
+            --'-u',
         }
     }
 }
@@ -16,7 +16,7 @@ require('telescope').setup {
 local builtin = require('telescope.builtin')
 -- (f)ile -> (f)ind
 vim.keymap.set('n', '<leader>ff', function()
-    builtin.find_files( { hidden = true} )
+    builtin.find_files()
 end)
 
 -- (f)ile -> (g)it -> (f)ind

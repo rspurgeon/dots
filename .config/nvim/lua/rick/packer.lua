@@ -14,9 +14,20 @@ return require('packer').startup(function(use)
         -- or                            , branch = '0.1.x',
         requires = { {'nvim-lua/plenary.nvim'} }
     }
+    -- better escape
+    -- can use jj or jk to escape insert mode 
+    use {
+      "max397574/better-escape.nvim",
+      config = function()
+        require("better_escape").setup()
+      end,
+    }
 
     -- Color scheme
     use({ 'rose-pine/neovim', as = 'rose-pine' })
+
+    -- navigate between tmux panes and vim splits
+    use('christoomey/vim-tmux-navigator')
 
     -- Powerline like status bar
     use {

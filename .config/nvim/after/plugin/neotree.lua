@@ -4,8 +4,8 @@ require('neo-tree').setup {
         hijack_netrw_behavior = "open_current",
         filtered_items = {
             visible = true,
-            hide_dotfiles = false,
-            hide_gitignored = false
+            hide_dotfiles = true,
+            hide_gitignored = true
         }
     },
 }
@@ -14,6 +14,10 @@ vim.cmd[[highlight NeotreeCursorline guibg=#3a3942]]
 
 vim.keymap.set("n", "<leader>fe", function()
     vim.cmd.Neotree("filesystem", "show", "current", "reveal")
+end)
+
+vim.keymap.set("n", "<leader>fE", function()
+    vim.cmd.Neotree("filesystem", "show")
 end)
 
 vim.keymap.set("n", "<leader>fb", function()

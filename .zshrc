@@ -102,6 +102,10 @@ alias e='vim'
 alias v='vim'
 alias vf='vim $(fzf --height 40% --reverse)'
 bindkey -s "^f" 'vf^M'
+# Ctrl-e to clear the screen
+#    Ctrl-l is used for pane switching
+bindkey '^y' clear-screen
+
 export EDITOR=nvim
 
 alias mux='tmuxinator'
