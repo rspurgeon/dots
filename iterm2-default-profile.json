@@ -14,11 +14,9 @@
   },
   "Use Italic Font" : false,
   "Foreground Color" : {
-    "Red Component" : 0.90980392156862744,
-    "Color Space" : "sRGB",
-    "Blue Component" : 0.42745098039215684,
-    "Alpha Component" : 1,
-    "Green Component" : 0.71764705882352942
+    "Green Component" : "1",
+    "Blue Component" : "1",
+    "Red Component" : "1"
   },
   "Use Custom Window Title" : false,
   "Right Option Key Sends" : 0,
@@ -30,7 +28,6 @@
     "Red Component" : "0.7098"
   },
   "Mouse Reporting" : true,
-  "Cursor Boost" : 0,
   "Ansi 4 Color" : {
     "Green Component" : "0.3960784",
     "Blue Component" : "0.6431373",
@@ -342,11 +339,9 @@
   },
   "Default Bookmark" : "No",
   "Cursor Color" : {
-    "Red Component" : 0.68660108941166031,
-    "Color Space" : "sRGB",
-    "Blue Component" : 0.748931884765625,
-    "Alpha Component" : 1,
-    "Green Component" : 0.67926805466413498
+    "Green Component" : "1",
+    "Blue Component" : "1",
+    "Red Component" : "1"
   },
   "Ansi 1 Color" : {
     "Green Component" : "0",
@@ -382,7 +377,7 @@
   },
   "Cursor Type" : 2,
   "Blur" : false,
-  "Normal Font" : "SauceCodeProNerdFontComplete-Regular 17",
+  "Normal Font" : "CousineNFM-Regular 25",
   "Vertical Spacing" : 1,
   "Ansi 7 Color" : {
     "Green Component" : "0.8431373",
@@ -390,7 +385,7 @@
     "Red Component" : "0.827451"
   },
   "Space" : 0,
-  "Command" : "\/opt\/homebrew\/bin\/tmux new-session -A -s main",
+  "Command" : "",
   "Terminal Type" : "xterm-256color",
   "Horizontal Spacing" : 1,
   "Reduce Flicker" : true,
@@ -407,11 +402,9 @@
   },
   "Transparency" : 0,
   "Background Color" : {
-    "Red Component" : 0.092172489398055571,
-    "Color Space" : "sRGB",
-    "Blue Component" : 0.141571044921875,
-    "Alpha Component" : 1,
-    "Green Component" : 0.085997669957578182
+    "Green Component" : "0",
+    "Blue Component" : "0",
+    "Red Component" : "0"
   },
   "Screen" : -1,
   "Custom Tab Title" : "Terminal",

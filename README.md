@@ -12,6 +12,11 @@ Install the [xcode command line tools](https://mac.install.guide/commandlinetool
 Install [Homebrew](https://brew.sh/)
 * `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
 
+Install fonts
+* `brew tap homebrew/cask-fonts
+brew search '/font-.*-nerd-font/' | awk '{ print $1 }' | xargs -I{} brew install --cask {} || true`
+* https://github.com/rspurgeon/nerd-fonts#patched-fonts
+
 Install [Sauce Code Pro Nerd Font](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/SourceCodePro)
 * `brew tap homebrew/cask-fonts`
 * `brew install --cask font-sauce-code-pro-nerd-font`
@@ -22,12 +27,15 @@ Install various tools
 Install [iTerm2](https://iterm2.com/)
 * Once installed, import the profile in `$HOME/dev/rspurgeon/dots/iterm2-default-profile.json` and switch to iTerm 
 
-Install [vim](https://github.com/vim/vim)
-* `brew install vim`
-* Restart shell for updated `$PATH`
-* Clone `vim` source locally 
-	* I use the local directory for the `VIMRUNTIME` variable. This is probably optional and could be replaced by setting `VIMRUNTIME` to the installed location I just haven't taken the time to figure this out
-	* `git clone git@github.com:vim/vim.git $HOME/dev/vim`
+Install [NeoVim](https://github.com/vim/vim)
+* `brew install neovim`
+
+Install NeoVim Packer
+* `git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+ ~/.local/share/nvim/site/pack/packer/start/packer.nvim`
+
+Install nvm
+* `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash`
 
 Install [pyenv](https://github.com/pyenv/pyenv)
 * `brew install openssl readline sqlite3 xz zlib pyenv pyenv-virtualenv`
@@ -39,15 +47,11 @@ Install [sdkman](https://sdkman.io/install)
 * `source "$HOME/.sdkman/bin/sdkman-init.sh"`
 * `sdk install java 11.0.14-zulu`
 
-Install [Spectacle](https://www.spectacleapp.com/), which I use for window management.
-* Spectacle is no longer maintained, so considering switching to another tool, like [Moom](https://manytricks.com/moom/)
-
 Install [oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh)
 * `sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`
 
-Install [spaceship prompt](https://github.com/spaceship-prompt/spaceship-prompt)
-* `git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1`
-* `ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"`
+Install Starship
+* https://starship.rs/guide/#%F0%9F%9A%80-installation
 
 Install [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md)
 * `git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions`
@@ -62,17 +66,17 @@ Install [.tmux](https://github.com/gpakosz/.tmux), which is a nice base tmux con
 Install [tmuxinator](https://github.com/tmuxinator/tmuxinator)
 * `brew install tmuxinator`
 
+Install [powerline status bar](), which I use in vim and tmux
+* `pip install powerline-status`
+
 Enable the environment by creating symbolic links to the dotfiles in this repository 
 * `ln -s $DEV/rspurgeon/dots/.zshrc ~/.zshrc`
 * `ln -s $DEV/rspurgeon/dots/.vimrc $HOME/.vimrc`
 * `ln -s $DEV/rspurgeon/dots/.tmux.conf.local $HOME/.tmux.conf.local`
-* `ln -s -f $DEV/rspurgeon/dots/.config/powerline ~/.config/powerline`
-
-Install [powerline status bar](), which I use in vim and tmux
-* `pip install powerline-status`
-
-Modify `$HOME/.vimrc` file to load the run time path to the installed powerline site packages (TODO: Figure out how to auto-detect this from `pyenv`).
-* `set rtp+=$HOME/.pyenv/versions/3.8.13/lib/python3.8/site-packages/powerline/bindings/vim/`
+* .config/nvim
+* .config/powerline
+* .config/starship.toml
+* .config/tmux-powerline
 
 Install [exa](https://github.com/ogham/exa) for better file listing
 * `brew install exa`
