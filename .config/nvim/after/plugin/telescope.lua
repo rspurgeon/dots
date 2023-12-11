@@ -13,6 +13,8 @@ require('telescope').setup {
     }
 }
 
+-- require('telescope').load_extension('bookmarks')
+
 local builtin = require('telescope.builtin')
 -- (f)ile -> (f)ind
 vim.keymap.set('n', '<leader>ff', function()
