@@ -1,19 +1,54 @@
 format = """
-[┌─](#5daa67)[](yellow)[─── ](#5daa67)[](white)[ $directory $git_branch$git_status$git_state](#5daa67)
-[│](#4ea892)[  ](white) $kubernetes $aws
-[└─❯❯](#4695be) """
+[┌─](#ebbcba) $character[─ ](#ebbcba)[](#6e6a86)[ $directory $git_branch$git_status$git_state](#7695a0)
+[│](#ebbcba) $cmd_duration${custom.kong-host}$kubernetes$aws
+[└─❯❯](#ebbcba) """
+
+# format = """
+# [┌─](#ebbcba) $character[─ ](#ebbcba)[](#6e6a86)[ $directory $git_branch$git_status$git_state](#7695a0)
+# [│](#ebbcba) $cmd_duration${custom.kong-host}$kubernetes$aws
+# [└─❯❯](#ebbcba) """
 
 # 
 # 
 # 
 # 
 #[└─❯❯](#4695be) """
+# 
+# 雷
+# 瘟
+# 盛
+
+[cmd_duration]
+disabled = false
+min_time = 0
+format = "[$duration](#7695a0)"
+style = "bold blue"
+
+[custom.kong-host]
+command = "echo $KONG_PROXY"
+when = "[[ ! -z \"$KONG_PROXY\" ]]"
+symbol = ""
+format = "[$symbol ($output)]($style) "
+style = "#9e7ca6"
+
+[custom.kong-ver]
+command = "http GET $KONG_ADMIN_API | jq -r .version"
+when = true
+ignore_timeout = true
+format = "[$output]($style)"
+style = "#9e7ca6"
+
+[character]
+format='$symbol'
+error_symbol='[瘟](#eb6f92)'
+success_symbol='[瘟](#7695a0)'
 
 [aws]
 disabled=false
-format='[$symbol](white)[($profile )(\($region\) )(\[$duration\] )](#eab676)'
+format=' [  $symbol](white)[($profile )(\($region\) )(\[$duration\] )](#eab676) '
 #symbol = "  "
-symbol=""
+#symbol=" : "
+symbol=''
 
 [terraform]
 disabled=true
@@ -22,18 +57,21 @@ disabled=true
 disabled=true
 
 [directory]
-format="$path"
+format=" $path"
+truncation_length=2
+truncate_to_repo=false
+fish_style_pwd_dir_length=0
 
 [git_branch]
-format="[$symbol](white)[$branch(:$remote_branch)](#5daa67) "
+format="[$symbol](#6e6a86)[$branch(:$remote_branch)](#7695a0) "
 
 [git_status]
-style="bold yellow"
+format='([\[$modified$ahead_behind\]](#7695a0) )'
 
 [kubernetes]
 disabled=false
-format = '[$symbol](white)[$context](#e28743)'
-symbol = ''
+format = '[$symbol](white)[$context](#e28743) '
+
 [kubernetes.context_aliases]
 "arn:aws:eks:(?P<var_region>[\\w-]+):(?P<var_acct>[\\d]+):cluster/(?P<var_cluster>[\\w-]+)" = "$var_cluster => $var_region"
 "gke_.*_(?P<var_cluster>[\\w-]+)" = "gke-$var_cluster"
