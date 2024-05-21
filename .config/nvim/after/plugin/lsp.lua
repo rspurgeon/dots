@@ -16,7 +16,9 @@ local cmp_mappings = lsp.defaults.cmp_mappings({
   ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
   ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
   ['<C-y>'] = cmp.mapping.confirm( { select = true } ),
-  ["<C-Space>"] = cmp.mapping.complete(),
+  ['<C-e>'] = cmp.mapping.abort(),
+  ['<C-Space>'] = cmp.mapping.complete(),
+  ['<CR>'] = cmp.mapping.confirm({ select = true }),
 })
 
 cmp_mappings['<Tab>'] = nil
@@ -41,6 +43,7 @@ lsp.on_attach(function(_, bufnr)
 
   -- TODO: Make better maps for insert mode
   vim.keymap.set("n", "<leader>Ld", function() vim.lsp.buf.definition() end, opts)
+  vim.keymap.set("n", "<leader>Lt", function() vim.lsp.buf.type_definition() end, opts)
   vim.keymap.set("n", "<leader>Lv", function() vim.lsp.buf.hover() end, opts)
   vim.keymap.set("n", "<leader>Lw", function() vim.lsp.buf.workspace_symbol() end, opts)
   vim.keymap.set("n", "<leader>Lo", function() vim.diagnostic.open_float() end, opts)
@@ -54,6 +57,8 @@ lsp.on_attach(function(_, bufnr)
   vim.keymap.set("n", "<leader>LE", function() vim.diagnostic.enable() end, opts)
 
 end)
+
+vim.keymap.set("n", "<leader>y", "\"+y")
 
 lsp.setup()
 

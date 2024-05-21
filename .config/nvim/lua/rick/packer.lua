@@ -35,6 +35,7 @@ return require('packer').startup(function(use)
 
     -- Color scheme
     use({ 'rose-pine/neovim', as = 'rose-pine' })
+    -- use({ 'ray-x/aurora', as = 'aurora' })
 
     -- navigate between tmux panes and vim splits
     use('christoomey/vim-tmux-navigator')
@@ -96,6 +97,10 @@ return require('packer').startup(function(use)
             "MunifTanjim/nui.nvim",
           }
     }
+
+    -- GoLang support
+    use 'ray-x/go.nvim'
+    use 'ray-x/guihua.lua'
 
     -- LSP and autocompletion
     use {

@@ -58,30 +58,6 @@ export AWS_DEFAULT_REGION=us-west-2
 export AWS_PROFILE=sandbox
 export AWS_PAGER=
 
-function cfgkong() {
-  export KONG_GW_HOST=${1:-localhost}
-  export KONG_ADMIN_PORT=${2:-8001}
-  export KONG_DATA_PORT=${3:-8000}
-  export KONG_GW_SCHEME=http
-  export KONG_CP="$KONG_GW_SCHEME://$KONG_GW_HOST:$KONG_ADMIN_PORT"
-  export kcp=$KONG_CP
-  export KONG_DP="$KONG_GW_SCHEME://$KONG_GW_HOST:$KONG_DATA_PORT"
-  export kdp=$KONG_DP
-	export PROXY_IP=$kdp
-}
-cfgkong
-
-function cfgkongfromk8s() {
-	NAMESPACE="${NAMESPACE:-kong}"
-	PROXY_NAME="${PROXY_NAME:-kong-proxy}"
-	cfgkong $(kubectl get -o jsonpath="{.status.loadBalancer.ingress[0].ip}" service -n "$NAMESPACE" "$PROXY_NAME") 80 80
-}
-function cfgkongfromk8slb() {
-	NAMESPACE="${NAMESPACE:-kong}"
-	PROXY_NAME="${PROXY_NAME:-kong-proxy}"
-	cfgkong $(kubectl get -o jsonpath="{.status.loadBalancer.ingress[0].hostname}" service -n "$NAMESPACE" "$PROXY_NAME") 80 80
-}
-
 # source ~/.local/bin/license --no-update
 export KONG_LICENSE_FILE=/Users/rick.spurgeon@konghq.com/.kong-license-data/license.json
 if [[ -f $KONG_LICENSE_FILE ]]; then
@@ -149,8 +125,6 @@ bindkey -M vicmd v edit-command-line
 alias tmp=' directory=$(mktemp -d) && cd $directory'
 
 alias k8=kubectl
-alias kk='kubectl -n kong'
-alias ks='kubectl -n kube-system'
 alias kco='kubectl config unset current-context'
 
 alias ping='prettyping --nolegend'
@@ -276,7 +250,7 @@ function get_consumer_id() {
   http --print=b $kcp/consumers | jq -r '.data | .[] | select(.username == "'"$1"'") | .id'
 }
 
-alias g='git --no-pager'
+# alias g='git --no-pager'
 alias gf='git fetch -P --tags -f'
 alias gs='git status'
 alias gd='git diff'
@@ -329,6 +303,9 @@ export FZF_DEFAULT_OPTS='--layout=reverse'
 # Enable zsh completions
 autoload -U compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
+eval "$(zoxide init zsh)"
+alias g='z'
+alias gi='zi'
 
 complete -F __start_kubectl k
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
@@ -348,11 +325,11 @@ export PATH=$PATH:$GOPATH/bin
 export PATH=~/.local/bin:$PATH
 export PATH=~/bin:$PATH
 
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 alias hal='chatblade --openai-api-key $(cat ~/.ssh/cgpt.pat)'
 alias ari='ai'
 alias ArI='ai'
+
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
