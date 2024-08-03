@@ -24,6 +24,8 @@ return require('packer').startup(function(use)
       end,
     }
 
+    use('echasnovski/mini.align')
+
     use {
         'tomasky/bookmarks.nvim',
         -- after = "telescope.nvim",
@@ -118,6 +120,17 @@ return require('packer').startup(function(use)
           {'L3MON4D3/LuaSnip'},
         }
     }
+
+    -- Debugging
+    use 'folke/neodev.nvim'
+    use 'mfussenegger/nvim-dap'
+    use { "rcarriga/nvim-dap-ui", requires = {
+        "mfussenegger/nvim-dap",
+        "nvim-neotest/nvim-nio"} }
+    -- save breakpoints between sessions
+    use {'Weissle/persistent-breakpoints.nvim'}
+    -- Go Debugging
+    use 'leoluz/nvim-dap-go'
 
     -- AI Driven autocompletion
     use('github/copilot.vim')
