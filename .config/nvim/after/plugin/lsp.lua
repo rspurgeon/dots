@@ -63,3 +63,10 @@ vim.diagnostic.config({
     virtual_text = true
 })
 
+require'lspconfig'.gopls.setup{
+    settings = {
+        gopls = {
+            buildFlags = {"-tags=integration"},
+        },
+    },
+}

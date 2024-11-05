@@ -29,6 +29,9 @@ vim.keymap.set('n', '<leader>fs', builtin.live_grep, {})
 -- (f)ile -> (c)ommand history
 vim.keymap.set('n', '<leader>fc', builtin.command_history, {})
 
+-- (f)ile -> (c)ommand history
+vim.keymap.set('n', '<leader>fd', builtin.diagnostics, {})
+
 -- (f)ile -> (h)ome
 vim.keymap.set("n", "<Leader>fh", function()
     require('telescope.builtin').find_files({

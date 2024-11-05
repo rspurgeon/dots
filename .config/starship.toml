@@ -1,7 +1,11 @@
 format = """
-[┌─](#ebbcba) $character[─ ](#ebbcba)[](#6e6a86)[ $directory $git_branch$git_status$git_state](#7695a0)
-[│](#ebbcba) $cmd_duration${custom.kong-host}$kubernetes$aws
+[┌─](#ebbcba) $character $cmd_duration [─ ](#ebbcba)[](#6e6a86)[ $directory $git_branch$git_status$git_state](#7695a0)
 [└─❯❯](#ebbcba) """
+
+#format = """
+#[┌─](#ebbcba) $character[─ ](#ebbcba)[](#6e6a86)[ $directory $git_branch$git_status$git_state](#7695a0)
+#[│](#ebbcba) $cmd_duration
+#[└─❯❯](#ebbcba) """
 
 # format = """
 # [┌─](#ebbcba) $character[─ ](#ebbcba)[](#6e6a86)[ $directory $git_branch$git_status$git_state](#7695a0)

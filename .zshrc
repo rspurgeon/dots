@@ -3,7 +3,6 @@ export ZSH="$HOME/.oh-my-zsh"
 export XDG_CONFIG_HOME="$HOME/.config"
 
 fpath=(/usr/local/share/zsh-completions $fpath)
-#fpath+=(~/bin/functions "${fpath[@]}" )
 fpath+=( ~/bin/functions )
 fpath+=( "$(brew --prefix)/share/zsh/site-functions" )
 
@@ -69,12 +68,15 @@ export GIT_PAGER=
 source $ZSH/oh-my-zsh.sh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=240"
 
+#alias kc=/Users/rick.spurgeon@konghq.com/go/src/github.com/Kong/kongctl/kongctl
+#alias kk=/Users/rick.spurgeon@konghq.com/go/src/github.com/Kong/kongctl/kongctl
+#alias k=/Users/rick.spurgeon@konghq.com/go/src/github.com/Kong/kongctl/kongctl
+
 alias browse='open -a "Arc"'
 alias b='browse'
 
 alias m='make'
 
-# alias vim='vim -O'
 alias vim=nvim
 alias e='vim'
 alias v='vim'
@@ -141,116 +143,6 @@ alias dpa='docker ps -a'
 alias dry='docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_HOST=$DOCKER_HOST moncho/dry'
 alias ctop='docker run --rm -ti --name=ctop -v /var/run/docker.sock:/var/run/docker.sock quay.io/vektorlab/ctop:latest'
 
-alias h='http --print=b'
-alias hh='http --print=hH'
-alias hhh='http --print=HhBb'
-alias ht='http --offline'
-
-alias n='~/dev/rspurgeon/scripter/scripter -f ~/dev/rspurgeon/ai-apiops/commands.txt'
-
-function hdp() {
-  if [[ $# -eq 0 ]]; then
-    verb="get"
-    url="/"
-  elif [[ $# -eq 1 ]]; then
-    verb="get"
-    url="$@"
-  else 
-    verb="$1"
-    shift 1
-    url="$@"
-  fi
-  http --print=b $verb "$KONG_DP/$url"
-}
-function hhdp() {
-  if [[ $# -eq 0 ]]; then
-    verb="get"
-    url="/"
-  elif [[ $# -eq 1 ]]; then
-    verb="get"
-    url="$@"
-  else 
-    verb="$1"
-    shift 1
-    url="$@"
-  fi
-  http --print=hH $verb "$KONG_DP/$url"
-}
-function hhhdp() {
-  if [[ $# -eq 0 ]]; then
-    verb="get"
-    url="/"
-  elif [[ $# -eq 1 ]]; then
-    verb="get"
-    url="$@"
-  else 
-    verb="$1"
-    shift 1
-    url="$@"
-  fi
-  http --print=hbHB $verb "$KONG_DP/$url"
-}
-
-function hcp() {
-  if [[ $# -eq 0 ]]; then
-    verb="get"
-    url="/"
-  elif [[ $# -eq 1 ]]; then
-    verb="get"
-    url="$@"
-  else 
-    verb="$1"
-    shift 1
-    url="$@"
-  fi
-
-  http --print=b $verb "$KONG_CP/$url"
-}
-function hhcp() {
-  if [[ $# -eq 0 ]]; then
-    verb="get"
-    url="/"
-  elif [[ $# -eq 1 ]]; then
-    verb="get"
-    url="$@"
-  else 
-    verb="$1"
-    shift 1
-    url="$@"
-  fi
-
-  http --print=hH $verb "$KONG_CP/$url"
-}
-function hhhcp() {
-  if [[ $# -eq 0 ]]; then
-    verb="get"
-    url="/"
-  elif [[ $# -eq 1 ]]; then
-    verb="get"
-    url="$@"
-  else 
-    verb="$1"
-    shift 1
-    url="$@"
-  fi
-
-  http --print=hbHB $verb "$KONG_CP/$url"
-}
-
-function get_service_id() {
-  http --print=b $kcp/services | jq -r '.data | .[] | select(.name == "'"$1"'") | .id'
-}
-function get_services() {
-  http --print=b $kcp/services | jq -r '.data | .[]'
-}
-function get_consumers() {
-  http --print=b $kcp/consumers | jq -r '.data | .[]'
-}
-function get_consumer_id() {
-  http --print=b $kcp/consumers | jq -r '.data | .[] | select(.username == "'"$1"'") | .id'
-}
-
-# alias g='git --no-pager'
 alias gf='git fetch -P --tags -f'
 alias gs='git status'
 alias gd='git diff'
@@ -299,7 +191,6 @@ setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 export FZF_DEFAULT_OPTS='--layout=reverse'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-
 # Enable zsh completions
 autoload -U compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
@@ -325,11 +216,10 @@ export PATH=$PATH:$GOPATH/bin
 export PATH=~/.local/bin:$PATH
 export PATH=~/bin:$PATH
 
-alias hal='chatblade --openai-api-key $(cat ~/.ssh/cgpt.pat)'
-alias ari='ai'
-alias ArI='ai'
-
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+eval "$(/Users/rick.spurgeon@konghq.com/.local/bin/mise activate zsh)"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
