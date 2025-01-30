@@ -43,19 +43,19 @@ COMPLETION_WAITING_DOTS="true"
 plugins=(
   vi-mode
   git
-  colored-man-pages
+  # colored-man-pages
   copypath
   macos
   wd
   zsh-autosuggestions
-  kubectl
-  docker
-  docker-compose
+  # kubectl
+  # docker
+  # docker-compose
 )
 
-export AWS_DEFAULT_REGION=us-west-2
-export AWS_PROFILE=sandbox
-export AWS_PAGER=
+# export AWS_DEFAULT_REGION=us-west-2
+# export AWS_PROFILE=sandbox
+# export AWS_PAGER=
 
 # source ~/.local/bin/license --no-update
 export KONG_LICENSE_FILE=/Users/rick.spurgeon@konghq.com/.kong-license-data/license.json
@@ -90,7 +90,6 @@ export EDITOR=nvim
 
 alias c='curl -s'
 
-alias mux='tmuxinator'
 alias wmip='dig @resolver4.opendns.com myip.opendns.com +short'
 
 alias copy='pbcopy'
@@ -101,8 +100,8 @@ alias tfgo='tfp && tfa'
 alias tfd='terraform destroy'
 alias tfv='terraform validate'
 
-alias ll='eza --long --header --git -F --no-user --icons'
-alias lld='eza --long --header --git -F --no-user --icons -s modified -r'
+alias ll='eza --long --git --no-user --icons=always'
+alias lld='eza --long --git --no-user --header --git --icons=always -s modified -r'
 alias l=ll
 alias la='ll -a'
 alias lli='ll -i'
@@ -119,6 +118,8 @@ alias lol='lolcat'
 alias hunt='ag'
 alias hunta='ag -A5 -B5'
 alias spot='find . -name'
+
+alias ghc='gh copilot'
 
 alias s='ag --nobreak --nonumbers --noheading . | fzf --delimiter=: --nth=2..'
 #bindkey -s "^a" 'vc^M'
@@ -158,6 +159,7 @@ alias grpo='git remote prune origin'
 alias gout='git checkout'
 alias ggo='git checkout'
 alias gsa='git --no-pager stash list'
+alias gpom='git push origin main'
 
 alias lg=lazygit
 
@@ -198,30 +200,30 @@ eval "$(zoxide init zsh)"
 alias g='z'
 alias gi='zi'
 
-complete -F __start_kubectl k
-complete -o nospace -C /opt/homebrew/bin/terraform terraform
+# complete -F __start_kubectl k
+# complete -o nospace -C /opt/homebrew/bin/terraform terraform
 
-eval "$(pyenv init --path)"
-eval "$(pyenv virtualenv-init -)"
+# eval "$(pyenv init --path)"
+# eval "$(pyenv virtualenv-init -)"
 
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+# export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
 eval "$(rbenv init - zsh)"
 
 eval "$(starship init zsh)"
 
 export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin
+export PATH=$GOPATH/bin:$PATH
 export PATH=~/.local/bin:$PATH
 export PATH=~/bin:$PATH
 
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-eval "$(/Users/rick.spurgeon@konghq.com/.local/bin/mise activate zsh)"
+#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+#eval "$(/Users/rick.spurgeon@konghq.com/.local/bin/mise activate zsh)"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+#export SDKMAN_DIR="$HOME/.sdkman"
+#[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 

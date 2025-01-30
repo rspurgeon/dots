@@ -40,7 +40,7 @@ return require('packer').startup(function(use)
     -- use({ 'ray-x/aurora', as = 'aurora' })
 
     -- navigate between tmux panes and vim splits
-    use('christoomey/vim-tmux-navigator')
+    -- use('christoomey/vim-tmux-navigator')
 
     -- Powerline like status bar
     use {
