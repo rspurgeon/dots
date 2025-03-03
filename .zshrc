@@ -113,6 +113,8 @@ alias lttttt='eza --tree --level=5'
 
 alias tmake='make --dry-run'
 alias makep='make -n'
+alias mb='make build'
+alias bb='make build'
 
 alias lol='lolcat'
 alias hunt='ag'
@@ -221,7 +223,7 @@ export PATH=~/bin:$PATH
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 #[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-#eval "$(/Users/rick.spurgeon@konghq.com/.local/bin/mise activate zsh)"
+eval "$(/Users/rick.spurgeon@konghq.com/.local/bin/mise activate zsh)"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 #export SDKMAN_DIR="$HOME/.sdkman"
