@@ -23,8 +23,27 @@ end)
 
 -- (f)ile -> (g)it -> (f)ind
 vim.keymap.set('n', '<leader>fgf', builtin.git_files, {})
--- (f)ile -> (s)earch 
-vim.keymap.set('n', '<leader>fs', builtin.live_grep, {})
+
+local telescope = require('telescope.builtin')
+
+local function grep_all()
+  telescope.live_grep({
+    additional_args = function()
+      return { '--hidden', '--no-ignore' }
+    end,
+  })
+end
+
+local function grep_clean()
+  telescope.live_grep({
+    additional_args = function()
+      return { '--hidden', '--glob', '!**/node_modules/**' }
+    end,
+  })
+end
+
+vim.keymap.set('n', '<leader>fa', grep_all)   -- “find all”
+vim.keymap.set('n', '<leader>fs', grep_clean) -- “find clean”
 
 -- (f)ile -> (c)ommand history
 vim.keymap.set('n', '<leader>fc', builtin.command_history, {})

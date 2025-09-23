@@ -1,6 +1,4 @@
-local lsp = require("lsp-zero")
-
-lsp.preset("recommended")
+local lsp = require("lsp-zero").preset("recommended")
 
 -- Fix Undefined global 'vim'
 lsp.nvim_workspace()
@@ -37,8 +35,8 @@ lsp.on_attach(function(_, bufnr)
   vim.keymap.set("n", "<leader>lv", function() vim.lsp.buf.hover() end, opts)
   --vim.keymap.set("n", "<leader>Lw", function() vim.lsp.buf.workspace_symbol() end, opts)
   vim.keymap.set("n", "<leader>lo", function() vim.diagnostic.open_float() end, opts)
-  vim.keymap.set("n", "<leader>ln", function() vim.diagnostic.goto_next() end, opts)
-  vim.keymap.set("n", "<leader>lp", function() vim.diagnostic.goto_prev() end, opts)
+  vim.keymap.set("n", "<leader>ln", function() vim.diagnostic.jump({count=1}) end, opts)
+  vim.keymap.set("n", "<leader>lp", function() vim.diagnostic.jump({count=-1}) end, opts)
   vim.keymap.set("n", "<leader>lc", function() vim.lsp.buf.code_action() end, opts)
   vim.keymap.set("n", "<leader>lf", function() vim.lsp.buf.references() end, opts)
   vim.keymap.set("n", "<leader>lr", function() vim.lsp.buf.rename() end, opts)
@@ -49,17 +47,9 @@ lsp.on_attach(function(_, bufnr)
 end)
 
 vim.keymap.set("n", "<leader>y", "\"+y")
-
-lsp.setup()
-
 vim.diagnostic.config({
     virtual_text = true
 })
 
-require'lspconfig'.gopls.setup{
-    settings = {
-        gopls = {
-            buildFlags = {"-tags=integration"},
-        },
-    },
-}
+lsp.skip_server_setup({ 'gopls', 'golangci_lint_ls' })
+lsp.setup()

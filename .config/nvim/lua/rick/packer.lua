@@ -99,6 +99,8 @@ return require('packer').startup(function(use)
             "MunifTanjim/nui.nvim",
           }
     }
+    -- Window picker used with neo-tree to choose a target window
+    use { 's1n7ax/nvim-window-picker', tag = 'v1.*' }
 
     -- GoLang support
     use 'ray-x/go.nvim'

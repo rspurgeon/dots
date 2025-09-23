@@ -56,6 +56,7 @@ plugins=(
 # export AWS_DEFAULT_REGION=us-west-2
 # export AWS_PROFILE=sandbox
 # export AWS_PAGER=
+export LESS=FRX
 
 # source ~/.local/bin/license --no-update
 export KONG_LICENSE_FILE=/Users/rick.spurgeon@konghq.com/.kong-license-data/license.json
@@ -162,6 +163,7 @@ alias gout='git checkout'
 alias ggo='git checkout'
 alias gsa='git --no-pager stash list'
 alias gpom='git push origin main'
+alias gwt='git worktree'
 
 alias lg=lazygit
 
@@ -222,10 +224,5 @@ export PATH=~/bin:$PATH
 
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-eval "$(/Users/rick.spurgeon@konghq.com/.local/bin/mise activate zsh)"
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-#export SDKMAN_DIR="$HOME/.sdkman"
-#[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+eval "$(mise activate zsh)"
 
