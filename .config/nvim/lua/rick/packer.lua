@@ -80,13 +80,9 @@ return require('packer').startup(function(use)
     })
 
     -- easy motion style movements
+    -- Hop: easy-motion style jumps (updated to maintained fork)
     use {
-        'phaazon/hop.nvim',
-        branch = 'v2', -- optional but strongly recommended
-        config = function()
-      	  -- you can configure Hop the way you like here; see :h hop-config
-      	  require'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
-        end
+        'smoka7/hop.nvim',
     }
 
     -- Tree style file explorer
@@ -109,7 +105,7 @@ return require('packer').startup(function(use)
     -- LSP and autocompletion
     use {
         'VonHeikemen/lsp-zero.nvim',
-        branch = 'v2.x',
+        branch = 'v4.x',
         requires = {
       	  -- LSP Support
       	  {'neovim/nvim-lspconfig'},

@@ -4,13 +4,15 @@ local function open_with_window_picker(state)
 
     local picker = require('window-picker')
     local winid = picker.pick_window({ include_current_win = false })
+
     if not winid then
-        -- fallback to default open if user cancels
-        require('neo-tree.sources.filesystem.commands').open(state)
-        return
+        -- No eligible target windows: create a vsplit and use it
+        vim.cmd('vsplit')
+        winid = vim.api.nvim_get_current_win()
+    else
+        vim.api.nvim_set_current_win(winid)
     end
 
-    vim.api.nvim_set_current_win(winid)
     -- Delegate to neo-tree's open command (respects config)
     require('neo-tree.sources.filesystem.commands').open(state)
 end

@@ -1,32 +1,31 @@
-local lsp = require("lsp-zero").preset("recommended")
+local lsp_zero = require('lsp-zero')
 
--- Fix Undefined global 'vim'
-lsp.nvim_workspace()
-
+-- nvim-cmp minimal mappings
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
-local cmp_mappings = lsp.defaults.cmp_mappings({
-  ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-  ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-  ['<C-y>'] = cmp.mapping.confirm( { select = true } ),
-  ['<C-e>'] = cmp.mapping.abort(),
-  ['<C-Space>'] = cmp.mapping.complete(),
-  ['<CR>'] = cmp.mapping.confirm({ select = true }),
+cmp.setup({
+  mapping = {
+    ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+    ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
+    ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+    ['<C-e>'] = cmp.mapping.abort(),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+  },
 })
 
-cmp_mappings['<Tab>'] = nil
-cmp_mappings['<S-Tab>'] = nil
-
-lsp.setup_nvim_cmp({
-  mapping = cmp_mappings
+vim.diagnostic.config({
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "❌",
+      [vim.diagnostic.severity.WARN]  = "⚠️",
+      [vim.diagnostic.severity.HINT]  = "💡",
+      [vim.diagnostic.severity.INFO]  = "ℹ️",
+    },
+  },
 })
 
-vim.fn.sign_define("DiagnosticSignError", { text = "❌", texthl = "LspDiagnosticsSignError" })
-vim.fn.sign_define("DiagnosticSignWarn", { text = "⚠️", texthl = "LspDiagnosticsSignError" })
-vim.fn.sign_define("DiagnosticSignHint", { text = "💡", texthl = "LspDiagnosticsSignError" })
-vim.fn.sign_define("DiagnosticSignInfo", { text = "ℹ️", texthl = "LspDiagnosticsSignError" })
-
-lsp.on_attach(function(_, bufnr)
+lsp_zero.on_attach(function(_, bufnr)
   local opts = {buffer = bufnr, remap = false}
 
   -- TODO: Make better maps for insert mode
@@ -47,9 +46,16 @@ lsp.on_attach(function(_, bufnr)
 end)
 
 vim.keymap.set("n", "<leader>y", "\"+y")
-vim.diagnostic.config({
-    virtual_text = true
-})
+vim.diagnostic.config({ virtual_text = true })
 
-lsp.skip_server_setup({ 'gopls', 'golangci_lint_ls' })
-lsp.setup()
+require('mason').setup({})
+require('mason-lspconfig').setup({
+  handlers = {
+    function(server)
+      if server == 'gopls' or server == 'golangci_lint_ls' then
+        return
+      end
+      lsp_zero.default_setup(server)
+    end
+  },
+})
