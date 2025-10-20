@@ -2,6 +2,9 @@
 export ZSH="$HOME/.oh-my-zsh"
 export XDG_CONFIG_HOME="$HOME/.config"
 
+#zle_highlight+=(paste:none)
+zle_bracketed_paste=0
+
 fpath=(/usr/local/share/zsh-completions $fpath)
 fpath+=( ~/bin/functions )
 fpath+=( "$(brew --prefix)/share/zsh/site-functions" )
@@ -86,6 +89,7 @@ bindkey -s "^f" 'vf^M'
 # Ctrl-e to clear the screen
 #    Ctrl-l is used for pane switching
 bindkey '^y' clear-screen
+bindkey '^B' autosuggest-disable
 
 export EDITOR=nvim
 
