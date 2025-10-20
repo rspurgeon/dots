@@ -89,7 +89,19 @@ bindkey -s "^f" 'vf^M'
 # Ctrl-e to clear the screen
 #    Ctrl-l is used for pane switching
 bindkey '^y' clear-screen
-bindkey '^B' autosuggest-disable
+
+# Toggle autosuggestions with Ctrl+B
+autosuggest-toggle() {
+  if [[ -n $ZSH_AUTOSUGGEST_DISABLED ]]; then
+    _zsh_autosuggest_enable
+    unset ZSH_AUTOSUGGEST_DISABLED
+  else
+    _zsh_autosuggest_disable
+    ZSH_AUTOSUGGEST_DISABLED=1
+  fi
+}
+zle -N autosuggest-toggle
+bindkey '^B' autosuggest-toggle
 
 export EDITOR=nvim
 
