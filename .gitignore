@@ -1,0 +1,6 @@
+# macOS system files
+.DS_Store
+.config/.DS_Store
+
+# tmux logs
+tmux-client-*.log
