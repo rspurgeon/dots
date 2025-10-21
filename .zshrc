@@ -107,12 +107,9 @@ bindkey '^B' autosuggest-toggle
 prompt-toggle() {
   if [[ "$STARSHIP_CONFIG" == "$HOME/.config/starship-simple.toml" ]]; then
     unset STARSHIP_CONFIG
-    echo "Normal prompt"
   else
     export STARSHIP_CONFIG="$HOME/.config/starship-simple.toml"
-    echo "Simple prompt"
   fi
-  eval "$(starship init zsh)"
   zle reset-prompt
 }
 zle -N prompt-toggle
