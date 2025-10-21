@@ -231,6 +231,21 @@ alias gi='zi'
 
 eval "$(rbenv init - zsh)"
 
+# Toggle between normal and simple starship prompt for clean recordings
+prompt-toggle() {
+  if [[ "$STARSHIP_CONFIG" == "$HOME/.config/starship-simple.toml" ]]; then
+    # Switch back to normal prompt
+    unset STARSHIP_CONFIG
+    echo "Switched to normal prompt"
+  else
+    # Switch to simple prompt
+    export STARSHIP_CONFIG="$HOME/.config/starship-simple.toml"
+    echo "Switched to simple prompt"
+  fi
+  # Reinitialize starship with new config
+  eval "$(starship init zsh)"
+}
+
 eval "$(starship init zsh)"
 
 export GOPATH=$HOME/go
