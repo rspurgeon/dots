@@ -103,6 +103,21 @@ autosuggest-toggle() {
 zle -N autosuggest-toggle
 bindkey '^B' autosuggest-toggle
 
+# Toggle prompt with Ctrl+P for clean demo recordings
+prompt-toggle() {
+  if [[ "$STARSHIP_CONFIG" == "$HOME/.config/starship-simple.toml" ]]; then
+    unset STARSHIP_CONFIG
+    echo "Normal prompt"
+  else
+    export STARSHIP_CONFIG="$HOME/.config/starship-simple.toml"
+    echo "Simple prompt"
+  fi
+  eval "$(starship init zsh)"
+  zle reset-prompt
+}
+zle -N prompt-toggle
+bindkey '^P' prompt-toggle
+
 export EDITOR=nvim
 
 alias c='curl -s'
@@ -230,21 +245,6 @@ alias gi='zi'
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
 eval "$(rbenv init - zsh)"
-
-# Toggle between normal and simple starship prompt for clean recordings
-prompt-toggle() {
-  if [[ "$STARSHIP_CONFIG" == "$HOME/.config/starship-simple.toml" ]]; then
-    # Switch back to normal prompt
-    unset STARSHIP_CONFIG
-    echo "Switched to normal prompt"
-  else
-    # Switch to simple prompt
-    export STARSHIP_CONFIG="$HOME/.config/starship-simple.toml"
-    echo "Switched to simple prompt"
-  fi
-  # Reinitialize starship with new config
-  eval "$(starship init zsh)"
-}
 
 eval "$(starship init zsh)"
 
