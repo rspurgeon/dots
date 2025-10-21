@@ -1,30 +1,7 @@
 # Minimal starship config for clean demo recordings
-format = "$directory$git_branch$character"
+# Just the prompt character, nothing else
+format = "$character"
 
 [character]
 success_symbol = "[❯](bold green)"
 error_symbol = "[❯](bold red)"
-
-[directory]
-format = "[$path]($style) "
-style = "bold cyan"
-truncation_length = 3
-truncate_to_repo = true
-
-[git_branch]
-format = "[$symbol$branch]($style) "
-symbol = ""
-style = "bold purple"
-
-# Disable everything else for minimal look
-[cmd_duration]
-disabled = true
-
-[aws]
-disabled = true
-
-[kubernetes]
-disabled = true
-
-[git_status]
-disabled = true
