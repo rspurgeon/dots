@@ -19,10 +19,10 @@ local builtin = require('telescope.builtin')
 -- (f)ile -> (f)ind
 vim.keymap.set('n', '<leader>ff', function()
     builtin.find_files()
-end)
+end, { noremap = true, silent = true })
 
 -- (f)ile -> (g)it -> (f)ind
-vim.keymap.set('n', '<leader>fgf', builtin.git_files, {})
+vim.keymap.set('n', '<leader>fgf', builtin.git_files, { noremap = true, silent = true })
 
 local telescope = require('telescope.builtin')
 
@@ -42,14 +42,14 @@ local function grep_clean()
   })
 end
 
-vim.keymap.set('n', '<leader>fa', grep_all)   -- “find all”
-vim.keymap.set('n', '<leader>fs', grep_clean) -- “find clean”
+vim.keymap.set('n', '<leader>fa', grep_all, { noremap = true, silent = true })   -- "find all"
+vim.keymap.set('n', '<leader>fs', grep_clean, { noremap = true, silent = true }) -- "find clean"
 
 -- (f)ile -> (c)ommand history
-vim.keymap.set('n', '<leader>fc', builtin.command_history, {})
+vim.keymap.set('n', '<leader>fc', builtin.command_history, { noremap = true, silent = true })
 
--- (f)ile -> (c)ommand history
-vim.keymap.set('n', '<leader>fd', builtin.diagnostics, {})
+-- (f)ile -> (d)iagnostics
+vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { noremap = true, silent = true })
 
 -- (f)ile -> (h)ome
 vim.keymap.set("n", "<Leader>fh", function()

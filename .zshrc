@@ -75,6 +75,7 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=240"
 #alias kc=/Users/rick.spurgeon@konghq.com/go/src/github.com/Kong/kongctl/kongctl
 #alias kk=/Users/rick.spurgeon@konghq.com/go/src/github.com/Kong/kongctl/kongctl
 #alias k=/Users/rick.spurgeon@konghq.com/go/src/github.com/Kong/kongctl/kongctl
+alias k=kongctl
 
 alias browse='open -a "Arc"'
 alias b='browse'
