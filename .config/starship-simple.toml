@@ -1,0 +1,7 @@
+# Minimal starship config for clean demo recordings
+# Just the prompt character, nothing else
+format = "$character"
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"

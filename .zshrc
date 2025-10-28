@@ -103,6 +103,18 @@ autosuggest-toggle() {
 zle -N autosuggest-toggle
 bindkey '^B' autosuggest-toggle
 
+# Toggle prompt with Ctrl+H for clean demo recordings
+prompt-toggle() {
+  if [[ "$STARSHIP_CONFIG" == "$HOME/.config/starship-simple.toml" ]]; then
+    unset STARSHIP_CONFIG
+  else
+    export STARSHIP_CONFIG="$HOME/.config/starship-simple.toml"
+  fi
+  zle reset-prompt
+}
+zle -N prompt-toggle
+bindkey '^H' prompt-toggle
+
 export EDITOR=nvim
 
 alias c='curl -s'
