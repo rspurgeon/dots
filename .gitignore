@@ -4,3 +4,6 @@
 
 # tmux logs
 tmux-client-*.log
+
+# Theme backups (local only)
+.theme-backups/

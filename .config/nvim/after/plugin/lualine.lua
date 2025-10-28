@@ -1,5 +1,14 @@
 local custom_auto = require'lualine.themes.auto'
 
+-- Ensure section c exists for all modes (some themes don't define it)
+local modes = {'normal', 'insert', 'visual', 'replace', 'command', 'inactive'}
+for _, mode in ipairs(modes) do
+    if custom_auto[mode] then
+        custom_auto[mode].c = custom_auto[mode].c or {}
+    end
+end
+
+-- Copy colors from section b to section c for consistency
 custom_auto.normal.c.bg = custom_auto.normal.b.bg
 custom_auto.insert.c.bg = custom_auto.insert.b.bg
 custom_auto.visual.c.bg = custom_auto.visual.b.bg

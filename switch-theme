@@ -1,0 +1,259 @@
+#!/usr/bin/env bash
+#
+# Universal Theme Switcher
+# Switches themes across ghostty, neovim, and tmux simultaneously
+# Includes backup and restore functionality
+
+set -e
+
+DOTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+BACKUP_DIR="$DOTS_DIR/.theme-backups"
+
+# Theme mappings (ghostty -> neovim colorscheme name)
+declare -A NVIM_THEMES=(
+    ["gruvbox-dark"]="gruvbox"
+    ["tokyo-night"]="tokyonight"
+    ["catppuccin-mocha"]="catppuccin"
+    ["nord"]="nord"
+)
+
+# Available themes
+AVAILABLE_THEMES=("gruvbox-dark" "tokyo-night" "catppuccin-mocha" "nord")
+
+# Files that will be modified
+GHOSTTY_CONFIG="$DOTS_DIR/.config/ghostty/config"
+NVIM_COLORS="$DOTS_DIR/.config/nvim/after/plugin/colors.lua"
+TMUX_CONFIG="$DOTS_DIR/.tmux.conf.local"
+POWERLINE_THEME_DIR="$DOTS_DIR/.config/tmux-powerline/themes"
+
+show_usage() {
+    echo "Usage: $0 <command> [theme-name]"
+    echo ""
+    echo "Commands:"
+    echo "  switch <theme>   Switch to a theme (creates automatic backup)"
+    echo "  list            List available themes"
+    echo "  current         Show current theme"
+    echo "  backup          Create manual backup of current configs"
+    echo "  restore         Restore from most recent backup"
+    echo "  restore-list    List available backups"
+    echo ""
+    echo "Available themes:"
+    for theme in "${AVAILABLE_THEMES[@]}"; do
+        echo "  - $theme"
+    done
+    echo ""
+    echo "Examples:"
+    echo "  $0 switch gruvbox-dark"
+    echo "  $0 backup"
+    echo "  $0 restore"
+}
+
+create_backup() {
+    local timestamp="${1:-$(date +%Y%m%d_%H%M%S)}"
+    local backup_path="$BACKUP_DIR/$timestamp"
+
+    mkdir -p "$backup_path"
+
+    # Backup each config file
+    if [ -f "$GHOSTTY_CONFIG" ]; then
+        cp "$GHOSTTY_CONFIG" "$backup_path/ghostty-config"
+    fi
+    if [ -f "$NVIM_COLORS" ]; then
+        cp "$NVIM_COLORS" "$backup_path/nvim-colors.lua"
+    fi
+    if [ -f "$TMUX_CONFIG" ]; then
+        cp "$TMUX_CONFIG" "$backup_path/tmux.conf.local"
+    fi
+    if [ -f "$POWERLINE_THEME_DIR/rick.sh" ]; then
+        cp "$POWERLINE_THEME_DIR/rick.sh" "$backup_path/powerline-rick.sh"
+    fi
+
+    echo "✅ Backup created: $backup_path"
+}
+
+restore_backup() {
+    if [ ! -d "$BACKUP_DIR" ] || [ -z "$(ls -A "$BACKUP_DIR" 2>/dev/null)" ]; then
+        echo "❌ No backups found"
+        exit 1
+    fi
+
+    # Get most recent backup
+    local latest_backup=$(ls -t "$BACKUP_DIR" | head -n1)
+    local backup_path="$BACKUP_DIR/$latest_backup"
+
+    echo "🔄 Restoring from backup: $latest_backup"
+
+    # Restore each file
+    if [ -f "$backup_path/ghostty-config" ]; then
+        cp "$backup_path/ghostty-config" "$GHOSTTY_CONFIG"
+        echo "  ✓ Restored ghostty config"
+    fi
+    if [ -f "$backup_path/nvim-colors.lua" ]; then
+        cp "$backup_path/nvim-colors.lua" "$NVIM_COLORS"
+        echo "  ✓ Restored neovim colors"
+    fi
+    if [ -f "$backup_path/tmux.conf.local" ]; then
+        cp "$backup_path/tmux.conf.local" "$TMUX_CONFIG"
+        echo "  ✓ Restored tmux config"
+    fi
+    if [ -f "$backup_path/powerline-rick.sh" ]; then
+        cp "$backup_path/powerline-rick.sh" "$POWERLINE_THEME_DIR/rick.sh"
+        echo "  ✓ Restored tmux-powerline theme"
+    fi
+
+    echo ""
+    echo "✅ Configuration restored successfully!"
+    echo "   Reload ghostty: Cmd+Comma or restart"
+    echo "   Reload neovim: Restart nvim"
+    echo "   Reload tmux: tmux source-file ~/.tmux.conf"
+}
+
+list_backups() {
+    if [ ! -d "$BACKUP_DIR" ] || [ -z "$(ls -A "$BACKUP_DIR" 2>/dev/null)" ]; then
+        echo "No backups found"
+        exit 0
+    fi
+
+    echo "Available backups (most recent first):"
+    ls -t "$BACKUP_DIR" | while read backup; do
+        echo "  - $backup"
+    done
+}
+
+get_current_theme() {
+    if [ -f "$GHOSTTY_CONFIG" ]; then
+        grep "^theme = " "$GHOSTTY_CONFIG" | head -n1 | sed 's/theme = //' | tr -d ' '
+    else
+        echo "unknown"
+    fi
+}
+
+switch_theme() {
+    local theme="$1"
+
+    # Validate theme
+    if [[ ! " ${AVAILABLE_THEMES[@]} " =~ " ${theme} " ]]; then
+        echo "❌ Invalid theme: $theme"
+        echo ""
+        show_usage
+        exit 1
+    fi
+
+    # Get neovim theme name
+    local nvim_theme="${NVIM_THEMES[$theme]}"
+
+    echo "🎨 Switching to theme: $theme"
+    echo ""
+
+    # Create automatic backup before switching
+    local timestamp=$(date +%Y%m%d_%H%M%S)
+    echo "📦 Creating backup..."
+    create_backup "$timestamp"
+    echo ""
+
+    # 1. Update Ghostty config
+    if [ -f "$GHOSTTY_CONFIG" ]; then
+        # Comment out all theme lines and add the new one
+        sed -i.tmp '/^theme = /s/^/# /' "$GHOSTTY_CONFIG"
+        sed -i.tmp '/^# theme = '"$theme"'/s/^# //' "$GHOSTTY_CONFIG" 2>/dev/null || \
+            echo "theme = $theme" >> "$GHOSTTY_CONFIG"
+        rm -f "$GHOSTTY_CONFIG.tmp"
+        echo "  ✓ Updated ghostty config"
+    else
+        echo "  ⚠️  Ghostty config not found"
+    fi
+
+    # 2. Update Neovim colors
+    if [ -f "$NVIM_COLORS" ]; then
+        sed -i.tmp "s/color = color or \".*\"/color = color or \"$nvim_theme\"/" "$NVIM_COLORS"
+        sed -i.tmp "s/ColorMyPencils(\".*\")/ColorMyPencils(\"$nvim_theme\")/" "$NVIM_COLORS"
+        sed -i.tmp "s/ColorMyPencils()/ColorMyPencils(\"$nvim_theme\")/" "$NVIM_COLORS"
+        rm -f "$NVIM_COLORS.tmp"
+        echo "  ✓ Updated neovim colors"
+    else
+        echo "  ⚠️  Neovim colors config not found"
+    fi
+
+    # 3. Update Tmux config (source theme file at end)
+    if [ -f "$TMUX_CONFIG" ]; then
+        local tmux_theme_file="$DOTS_DIR/.config/tmux/themes/${theme}.conf"
+
+        # Remove any existing theme source lines
+        sed -i.tmp '/^# THEME: /d' "$TMUX_CONFIG"
+        sed -i.tmp '/source-file.*\.config\/tmux\/themes/d' "$TMUX_CONFIG"
+
+        # Add new theme source at the end
+        echo "" >> "$TMUX_CONFIG"
+        echo "# THEME: $theme (managed by switch-theme script)" >> "$TMUX_CONFIG"
+        echo "source-file $tmux_theme_file" >> "$TMUX_CONFIG"
+
+        rm -f "$TMUX_CONFIG.tmp"
+        echo "  ✓ Updated tmux config"
+    else
+        echo "  ⚠️  Tmux config not found"
+    fi
+
+    # 4. Update tmux-powerline theme (copy theme file to rick.sh)
+    if [ -d "$POWERLINE_THEME_DIR" ]; then
+        local powerline_source="$POWERLINE_THEME_DIR/rick-${theme}.sh"
+        local powerline_target="$POWERLINE_THEME_DIR/rick.sh"
+
+        if [ -f "$powerline_source" ]; then
+            cp "$powerline_source" "$powerline_target"
+            echo "  ✓ Updated tmux-powerline theme"
+        else
+            echo "  ⚠️  tmux-powerline theme file not found: rick-${theme}.sh"
+        fi
+    else
+        echo "  ⚠️  tmux-powerline themes directory not found"
+    fi
+
+    echo ""
+    echo "✅ Theme switched to: $theme"
+    echo ""
+    echo "📝 Next steps:"
+    echo "   Ghostty: Press Cmd+Comma or restart ghostty to reload config"
+    echo "   Neovim:  Restart nvim or run :colorscheme $nvim_theme"
+    echo "   Tmux:    Run: tmux source-file ~/.tmux.conf"
+    echo ""
+    echo "💡 To undo this change, run: $0 restore"
+}
+
+# Main command handler
+case "${1:-}" in
+    switch)
+        if [ -z "${2:-}" ]; then
+            echo "❌ Please specify a theme"
+            echo ""
+            show_usage
+            exit 1
+        fi
+        switch_theme "$2"
+        ;;
+    list)
+        echo "Available themes:"
+        for theme in "${AVAILABLE_THEMES[@]}"; do
+            current=$(get_current_theme)
+            if [ "$theme" = "$current" ]; then
+                echo "  * $theme (current)"
+            else
+                echo "    $theme"
+            fi
+        done
+        ;;
+    current)
+        echo "Current theme: $(get_current_theme)"
+        ;;
+    backup)
+        create_backup
+        ;;
+    restore)
+        restore_backup
+        ;;
+    restore-list)
+        list_backups
+        ;;
+    *)
+        show_usage
+        ;;
+esac

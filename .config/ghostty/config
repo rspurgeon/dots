@@ -1,0 +1,81 @@
+# Ghostty Terminal Configuration
+# Generated for developer workflow with tmux integration
+
+# Font Configuration
+# JetBrains Mono is excellent for coding with ligatures
+# Install with: brew install --cask font-jetbrains-mono
+font-family = "JetBrains Mono"
+font-size = 14
+
+# Enable font ligatures for better code readability (==, =>, !=, etc.)
+font-feature = ss01
+font-feature = ss02
+font-feature = ss03
+font-feature = ss04
+font-feature = ss05
+font-feature = calt
+font-feature = liga
+
+# Window Configuration
+window-padding-x = 8
+window-padding-y = 8
+window-padding-balance = true
+
+# Cursor Configuration
+cursor-style = block
+cursor-style-blink = false
+
+# Shell Integration
+shell-integration = detect
+shell-integration-features = cursor,sudo,title
+
+# Tmux-specific optimizations
+# Enable true color support (critical for tmux)
+term = xterm-256color
+
+# Clipboard
+clipboard-read = allow
+clipboard-write = allow
+clipboard-paste-protection = false
+
+# Mouse support (useful for tmux pane selection)
+mouse-hide-while-typing = true
+
+# Performance (ghostty's main advantage)
+# These are generally good defaults
+macos-non-native-fullscreen = false
+
+# Keybindings
+# Keep familiar mappings from iTerm2
+keybind = super+t=new_tab
+keybind = super+w=close_surface
+keybind = super+n=new_window
+keybind = super+shift+d=new_split:right
+keybind = super+d=new_split:down
+keybind = super+k=clear_screen
+keybind = ctrl+shift+c=copy_to_clipboard
+keybind = ctrl+shift+v=paste_from_clipboard
+
+# Quick theme switching
+# Uncomment one of these or use the default theme file
+#theme = tokyo-night
+
+# Available themes (uncomment to switch):
+#theme = catppuccin-mocha
+#theme = nord
+theme = gruvbox-dark
+
+# Alternative: use a theme file directly
+# You can switch themes by changing this line and reloading config
+# theme = dark:tokyo-night,light:tokyo-night
+
+# Background and transparency
+# Uncomment if you want some transparency (tmux users often prefer opaque)
+# background-opacity = 0.95
+# background-blur-radius = 20
+
+# Confirm before closing
+confirm-close-surface = false
+
+# Auto-update (recommended)
+auto-update = check

@@ -13,6 +13,9 @@ require('telescope').setup {
     }
 }
 
+-- Load fzf native extension for better fuzzy finding
+require('telescope').load_extension('fzf')
+
 -- require('telescope').load_extension('bookmarks')
 
 local builtin = require('telescope.builtin')

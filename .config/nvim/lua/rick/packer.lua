@@ -9,11 +9,16 @@ return require('packer').startup(function(use)
     use('tpope/vim-vinegar')
 
 
-    -- File searching and grep-ing 
+    -- File searching and grep-ing
     use {
         'nvim-telescope/telescope.nvim', tag = '0.1.4',
         -- or                            , branch = '0.1.x',
         requires = { {'nvim-lua/plenary.nvim'} }
+    }
+    -- Better fuzzy finding algorithm for telescope
+    use {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        run = 'make'
     }
     -- better escape
     -- can use jj or jk to escape insert mode 
@@ -35,9 +40,13 @@ return require('packer').startup(function(use)
         end
     }
 
-    -- Color scheme
+    -- Color schemes
     use({ 'rose-pine/neovim', as = 'rose-pine' })
     -- use({ 'ray-x/aurora', as = 'aurora' })
+    use({ 'ellisonleao/gruvbox.nvim' })
+    use({ 'folke/tokyonight.nvim' })
+    use({ 'catppuccin/nvim', as = 'catppuccin' })
+    use({ 'shaunsingh/nord.nvim' })
 
     -- navigate between tmux panes and vim splits
     -- use('christoomey/vim-tmux-navigator')
