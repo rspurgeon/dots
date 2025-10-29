@@ -12,6 +12,10 @@ cmp.setup({
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<CR>'] = cmp.mapping.confirm({ select = true }),
   },
+  sources = {
+    { name = 'nvim_lsp' },
+  },
+  preselect = cmp.PreselectMode.None,
 })
 
 vim.diagnostic.config({
