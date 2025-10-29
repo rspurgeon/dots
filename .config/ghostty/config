@@ -79,3 +79,7 @@ confirm-close-surface = false
 
 # Auto-update (recommended)
 auto-update = check
+
+custom-shader = shaders/cursor_warp.glsl
+#custom-shader = shaders/ripple_cusor.glsl
+
