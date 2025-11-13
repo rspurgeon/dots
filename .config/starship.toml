@@ -28,24 +28,10 @@ min_time = 0
 format = "[$duration](#7695a0)"
 style = "bold blue"
 
-[custom.kong-host]
-command = "echo $KONG_PROXY"
-when = "[[ ! -z \"$KONG_PROXY\" ]]"
-symbol = ""
-format = "[$symbol ($output)]($style) "
-style = "#9e7ca6"
-
-[custom.kong-ver]
-command = "http GET $KONG_ADMIN_API | jq -r .version"
-when = true
-ignore_timeout = true
-format = "[$output]($style)"
-style = "#9e7ca6"
-
 [character]
 format='$symbol'
-error_symbol='[瘟](#eb6f92)'
-success_symbol='[瘟](#7695a0)'
+error_symbol='[✦ ](#eb6f92)'
+success_symbol='[✦ ](#7695a0)'
 
 [aws]
 disabled=false

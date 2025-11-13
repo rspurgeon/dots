@@ -7,7 +7,6 @@ zle_bracketed_paste=0
 
 fpath=(/usr/local/share/zsh-completions $fpath)
 fpath+=( ~/bin/functions )
-fpath+=( "$(brew --prefix)/share/zsh/site-functions" )
 
 # colors, a lot of colors!
 function clicolors() {
@@ -27,7 +26,7 @@ function weather() {
   curl wttr.in/$1;
 }
 
-ZSH_THEME="spaceship"
+#ZSH_THEME="spaceship"
 
 # tm - create new tmux session, or switch to existing one. Works from within tmux too
 # `tm` will allow you to select your tmux session via fzf.
@@ -234,7 +233,6 @@ alias g='z'
 alias gi='zi'
 
 # complete -F __start_kubectl k
-# complete -o nospace -C /opt/homebrew/bin/terraform terraform
 
 # eval "$(pyenv init --path)"
 # eval "$(pyenv virtualenv-init -)"
@@ -242,7 +240,7 @@ alias gi='zi'
 # export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
-eval "$(rbenv init - zsh)"
+#eval "$(rbenv init - zsh)"
 
 eval "$(starship init zsh)"
 
@@ -251,7 +249,7 @@ export PATH=$GOPATH/bin:$PATH
 export PATH=~/.local/bin:$PATH
 export PATH=~/bin:$PATH
 
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 
 eval "$(mise activate zsh)"
 
