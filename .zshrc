@@ -224,7 +224,17 @@ setopt HIST_VERIFY               # Don't execute immediately upon history expans
 setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 
 export FZF_DEFAULT_OPTS='--layout=reverse'
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# fzf integration on Arch
+if command -v fzf >/dev/null 2>&1; then
+  # Keybindings
+  [ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
+
+  # Completions (optional but nice)
+  [ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
+fi
+
+# Make sure Ctrl-R uses the fzf history widget
+bindkey '^R' fzf-history-widget
 
 # Enable zsh completions
 autoload -U compinit && compinit
