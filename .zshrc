@@ -121,7 +121,8 @@ alias c='curl -s'
 
 alias wmip='dig @resolver4.opendns.com myip.opendns.com +short'
 
-alias copy='pbcopy'
+alias copy='wl-copy'
+alias paste='wl-paste'
 alias tf='terraform'
 alias tfp='terraform plan -out plan'
 alias tfa='terraform apply plan'
