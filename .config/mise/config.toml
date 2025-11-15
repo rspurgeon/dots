@@ -1,0 +1,8 @@
+[tools]
+go = "latest"
+kongctl = "v0.3.3-alpha.2"
+node = "25.1.0"
+python = "3.11"
+
+[alias]
+kongctl = 'github:Kong/kongctl'
