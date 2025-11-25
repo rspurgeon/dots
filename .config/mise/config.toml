@@ -1,8 +1,10 @@
 [tools]
+gcloud = "latest"
 go = "latest"
-kongctl = "v0.3.3-alpha.2"
+kongctl = "latest"
 node = "25.1.0"
 python = "3.11"
+terraform = "latest"
 
 [alias]
 kongctl = 'github:Kong/kongctl'

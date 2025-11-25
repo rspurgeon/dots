@@ -40,6 +40,5 @@
 	insteadOf = git://github.com/
 [gpg "ssh"]
 	allowedSignersFile = /home/rspurgeon/.ssh/allowed_signers
-	program = /opt/1Password/op-ssh-sign
 [status]
 	display = normal

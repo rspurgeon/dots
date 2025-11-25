@@ -36,3 +36,6 @@ vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 vim.opt.foldlevel = 99
+
+-- all yanks/puts use the + register (CLIPBOARD) by default
+vim.opt.clipboard = "unnamedplus"

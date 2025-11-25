@@ -75,6 +75,8 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=240"
 #alias kk=/Users/rick.spurgeon@konghq.com/go/src/github.com/Kong/kongctl/kongctl
 #alias k=/Users/rick.spurgeon@konghq.com/go/src/github.com/Kong/kongctl/kongctl
 alias k=kongctl
+alias ve='nvim .latest-e2e/tests'
+
 
 alias browse='open -a "Arc"'
 alias b='browse'
@@ -256,6 +258,12 @@ alias gi='zi'
 eval "$(starship init zsh)"
 
 export GOPATH=$HOME/go
+mkdir -p $HOME/go/{cache,tmp,e2e-artifacts,mod-cache}
+export GOCACHE=$HOME/go/cache
+export GOTMPDIR=$HOME/go/tmp
+export GOMODCACHE=$HOME/go/mod-cache
+export KONGCTL_E2E_ARTIFACTS_DIR=$HOME/go/e2e-artifacts
+
 export PATH=$GOPATH/bin:$PATH
 export PATH=~/.local/bin:$PATH
 export PATH=~/bin:$PATH
@@ -263,4 +271,7 @@ export PATH=~/bin:$PATH
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 
 eval "$(mise activate zsh)"
+
+# SSH Agent configuration
+export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
 
