@@ -71,12 +71,20 @@ export GIT_PAGER=
 source $ZSH/oh-my-zsh.sh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=240"
 
-#alias kc=/Users/rick.spurgeon@konghq.com/go/src/github.com/Kong/kongctl/kongctl
-#alias kk=/Users/rick.spurgeon@konghq.com/go/src/github.com/Kong/kongctl/kongctl
-#alias k=/Users/rick.spurgeon@konghq.com/go/src/github.com/Kong/kongctl/kongctl
+#alias codex='codex --add-dir /home/rspurgeon/.config/kongctl --add-dir /home/rspurgeon/go --sandbox workspace-write --ask-for-approval on-request'
+#alias claude='claude --add-dir /home/rspurgeon/go'
+
 alias k=kongctl
+alias kk=./kongctl
 alias ve='nvim .latest-e2e/tests'
 
+export OPENCODE_SERVER_PASSWORD=$(cat ~/.tok/opencode_server_password)
+alias pilot='opencode attach http://localhost:4096 --dir ~/dev/kong/kongctl --session ses_2de44df06ffeYX3nayycga7dH5'
+
+export KONGCTL_E2E_KONNECT_PAT=$(cat ~/.tok/kongctl-acceptance)
+export KONGCTL_DEFAULT_KONNECT_PAT=$(cat ~/.tok/kongctl-acceptance)
+export KONGCTL_ENABLE_EVENT_GATEWAY=1
+export KONGCTL_E2E_GMAIL_ADDRESS=kongctle2e@gmail.com
 
 alias browse='open -a "Arc"'
 alias b='browse'
@@ -85,7 +93,7 @@ alias m='make'
 
 alias vim=nvim
 alias e='vim'
-alias v='vim'
+alias v='vim .'
 alias vf='vim $(fzf --height 40% --reverse)'
 bindkey -s "^f" 'vf^M'
 # Ctrl-e to clear the screen
@@ -118,6 +126,11 @@ zle -N prompt-toggle
 bindkey '^H' prompt-toggle
 
 export EDITOR=nvim
+edit-current-dir() {
+  nvim .
+}
+zle -N edit-current-dir
+bindkey '^N' edit-current-dir
 
 alias c='curl -s'
 
@@ -147,6 +160,7 @@ alias tmake='make --dry-run'
 alias makep='make -n'
 alias mb='make build'
 alias bb='make build'
+alias ro='make reset-org'
 
 alias lol='lolcat'
 alias hunt='ag'
@@ -195,6 +209,10 @@ alias ggo='git checkout'
 alias gsa='git --no-pager stash list'
 alias gpom='git push origin main'
 alias gwt='git worktree'
+alias gbv='git branch -vv'
+
+source ~/dev/chmouel/lazyworktree/shell/functions.zsh
+lwt() { worktree_jump ~/dev/kong/kongctl "$@"; }
 
 alias lg=lazygit
 
@@ -262,15 +280,37 @@ mkdir -p $HOME/go/{cache,tmp,e2e-artifacts,mod-cache}
 export GOCACHE=$HOME/go/cache
 export GOTMPDIR=$HOME/go/tmp
 export GOMODCACHE=$HOME/go/mod-cache
+
+export TMPDIR="$HOME/.tmp"
+
 export KONGCTL_E2E_ARTIFACTS_DIR=$HOME/go/e2e-artifacts
 
 export PATH=$GOPATH/bin:$PATH
 export PATH=~/.local/bin:$PATH
 export PATH=~/bin:$PATH
+export PATH=~/.cargo/bin:$PATH
+
+function yazii() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
+alias y=yazii
+alias o=y
+zle -N yazii
+bindkey '^o' yazii 
+
+function vibe() {
+    bash -lc "$(agent-en-place codex)" 
+}
+zle -N vibe
+bindkey '^u' vibe
 
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 
-eval "$(mise activate zsh)"
+eval "$(mise activate zsh --shims)"
 
 # SSH Agent configuration
 export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"

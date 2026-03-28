@@ -42,3 +42,11 @@
 	allowedSignersFile = /home/rspurgeon/.ssh/allowed_signers
 [status]
 	display = normal
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/home/rspurgeon/.local/share/mise/installs/gh/2.83.2/gh_2.83.2_linux_amd64/bin/gh auth git-credential
+[credential]
+	helper = !gh auth git-credential
+	useHttpPath = true
+[credential "https://github.com"]
+	helper = !gh auth git-credential

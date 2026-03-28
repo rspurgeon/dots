@@ -20,6 +20,10 @@ return require('packer').startup(function(use)
         'nvim-telescope/telescope-fzf-native.nvim',
         run = 'make'
     }
+    -- Pass ripgrep arguments directly in live grep prompt
+    use {
+        'nvim-telescope/telescope-live-grep-args.nvim',
+    }
     -- better escape
     -- can use jj or jk to escape insert mode 
     use {
