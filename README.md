@@ -17,9 +17,9 @@ Install fonts
 brew search '/font-.*-nerd-font/' | awk '{ print $1 }' | xargs -I{} brew install --cask {} || true`
 * https://github.com/rspurgeon/nerd-fonts#patched-fonts
 
-Install [Sauce Code Pro Nerd Font](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/SourceCodePro)
-* `brew tap homebrew/cask-fonts`
-* `brew install --cask font-sauce-code-pro-nerd-font`
+Install [JetBrains Mono Nerd Font](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/JetBrainsMono)
+* Use your platform package manager or install from the Nerd Fonts project
+* The active Ghostty, Neovim GUI, and iTerm2 configs use `JetBrainsMono Nerd Font Mono`
 
 Install various tools
 * `brew install wget zsh-syntax-highlighting`
@@ -90,4 +90,3 @@ Install [ag](https://github.com/ggreer/the_silver_searcher), the silver searcher
 
 Install [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/#install-with-homebrew-on-macos)
 * `brew install kubectl`
-

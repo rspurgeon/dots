@@ -63,31 +63,31 @@ tmux_conf_theme_focused_pane_bg='#0087d7'               # light blue
 tmux_conf_theme_pane_border_style=thin
 
 # pane borders colours:
-tmux_conf_theme_pane_border='#665c54'                   # gruvbox gray-brown
-tmux_conf_theme_pane_active_border='#fe8019'            # gruvbox orange
+tmux_conf_theme_pane_border='#4A4D49'                   # kong gray 700
+tmux_conf_theme_pane_active_border='#B7BDB5'            # kong bay
 
 # pane indicator colours
-tmux_conf_theme_pane_indicator='#00afff'                # light blue
-tmux_conf_theme_pane_active_indicator='#00afff'         # light blue
+tmux_conf_theme_pane_indicator='#B7BDB5'                # kong bay
+tmux_conf_theme_pane_active_indicator='#B7BDB5'         # kong bay
 
 # status line style
-tmux_conf_theme_message_fg='#000000'                    # black
-tmux_conf_theme_message_bg='#ffff00'                    # yellow
+tmux_conf_theme_message_fg='#000F06'                    # kong dark green
+tmux_conf_theme_message_bg='#CCFF00'                    # kong electric lime
 tmux_conf_theme_message_attr='bold'
 
 # status line command style (<prefix> : Escape)
-tmux_conf_theme_message_command_fg='#ffff00'            # yellow
-tmux_conf_theme_message_command_bg='#000000'            # black
+tmux_conf_theme_message_command_fg='#CCFF00'            # kong electric lime
+tmux_conf_theme_message_command_bg='#000F06'            # kong dark green
 tmux_conf_theme_message_command_attr='bold'
 
 # window modes style
-tmux_conf_theme_mode_fg='#000000'                       # black
-tmux_conf_theme_mode_bg='#ffff00'                       # yellow
+tmux_conf_theme_mode_fg='#000F06'                       # kong dark green
+tmux_conf_theme_mode_bg='#CCFF00'                       # kong electric lime
 tmux_conf_theme_mode_attr='bold'
 
 # status line style
-tmux_conf_theme_status_fg='#8a8a8a'                     # light gray
-tmux_conf_theme_status_bg='#080808'                     # dark gray
+tmux_conf_theme_status_fg='#B7BDB5'                     # kong bay
+tmux_conf_theme_status_bg='#101110'                     # kong gray 900
 tmux_conf_theme_status_attr='none'
 
 # terminal title
@@ -98,7 +98,7 @@ tmux_conf_theme_status_attr='none'
 #     - #{hostname_ssh}
 #     - #{username}
 #     - #{username_ssh}
-tmux_conf_theme_terminal_title='#h ❐ #S ● #I #W'
+tmux_conf_theme_terminal_title='#h • #S • #I) #W'
 
 # window status style
 #   - built-in variables are:
@@ -108,8 +108,8 @@ tmux_conf_theme_terminal_title='#h ❐ #S ● #I #W'
 #     - #{hostname_ssh}
 #     - #{username}
 #     - #{username_ssh}
-tmux_conf_theme_window_status_fg='#8a8a8a'              # light gray
-tmux_conf_theme_window_status_bg='#080808'              # dark gray
+tmux_conf_theme_window_status_fg='#B7BDB5'              # kong bay
+tmux_conf_theme_window_status_bg='#101110'              # kong gray 900
 tmux_conf_theme_window_status_attr='none'
 tmux_conf_theme_window_status_format='#I #W'
 #tmux_conf_theme_window_status_format='#{circled_window_index} #W'
@@ -124,8 +124,8 @@ tmux_conf_theme_window_status_format='#I #W'
 #     - #{hostname_ssh}
 #     - #{username}
 #     - #{username_ssh}
-tmux_conf_theme_window_status_current_fg='#000000'      # black
-tmux_conf_theme_window_status_current_bg='#00afff'      # light blue
+tmux_conf_theme_window_status_current_fg='#000F06'      # kong dark green
+tmux_conf_theme_window_status_current_bg='#6B9E8A'      # kong teal
 tmux_conf_theme_window_status_current_attr='bold'
 tmux_conf_theme_window_status_current_format='#I #W'
 #tmux_conf_theme_window_status_current_format='#{circled_window_index} #W'
@@ -137,12 +137,12 @@ tmux_conf_theme_window_status_activity_bg='default'
 tmux_conf_theme_window_status_activity_attr='underscore'
 
 # window bell status style
-tmux_conf_theme_window_status_bell_fg='#ffff00'         # yellow
+tmux_conf_theme_window_status_bell_fg='#A3BE40'         # kong muted lime
 tmux_conf_theme_window_status_bell_bg='default'
 tmux_conf_theme_window_status_bell_attr='blink,bold'
 
 # window last status style
-tmux_conf_theme_window_status_last_fg='#00afff'         # light blue
+tmux_conf_theme_window_status_last_fg='#7DAF7D'         # kong sage
 tmux_conf_theme_window_status_last_bg='default'
 tmux_conf_theme_window_status_last_attr='none'
 
@@ -184,13 +184,13 @@ tmux_conf_theme_status_left=' ❐ #S '
 tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized} #{?battery_status, #{battery_status},}#{?battery_bar, #{battery_bar},}#{?battery_percentage, #{battery_percentage},} , %R , %d %b '
 
 # status left style
-tmux_conf_theme_status_left_fg='#000000,#e4e4e4,#e4e4e4'  # black, white , white
-tmux_conf_theme_status_left_bg='#ffff00,#ff00af,#00afff'  # yellow, pink, white blue
+tmux_conf_theme_status_left_fg='#000F06,#B7BDB5,#B7BDB5'  # kong dark green, kong bay, kong bay
+tmux_conf_theme_status_left_bg='#6B9E8A,#101110,#101110'  # kong teal, kong gray 900, kong gray 900
 tmux_conf_theme_status_left_attr='bold,none,none'
 
 # status right style
-tmux_conf_theme_status_right_fg='#8a8a8a,#e4e4e4,#000000' # light gray, white, black
-tmux_conf_theme_status_right_bg='#080808,#d70000,#e4e4e4' # dark gray, red, white
+tmux_conf_theme_status_right_fg='#B7BDB5,#B7BDB5,#000F06' # kong bay, kong bay, kong dark green
+tmux_conf_theme_status_right_bg='#101110,#4A4D49,#6B9E8A' # kong gray 900, kong gray 700, kong teal
 tmux_conf_theme_status_right_attr='none,none,bold'
 
 # pairing indicator
@@ -309,6 +309,8 @@ bind -r C-l resize-pane -R
 
 bind -r n next-window
 bind -r p previous-window
+bind C-o run-shell 'target=$(tmux show-options -gvq @jump_back_previous); [ -n "$target" ] || { tmux display-message "No previous tmux location recorded"; exit 0; }; current=$(tmux display-message -p "#{session_id}:#{window_id}:#{pane_id}"); session=${target%%:*}; rest=${target#*:}; window=${rest%%:*}; pane=${rest##*:}; tmux switch-client -t "$session"; tmux select-window -t "$window"; tmux select-pane -t "$pane"; tmux set-option -gq @jump_back_previous "$current"; tmux set-option -gq @jump_back_current "$target"'
+bind C-a run-shell 'PITCH_ROOT=/srv/pitch-host/worktrees/rspurgeon/pitch/tmux-sidebar pitch agents-popup'
 
 # move window left/right
 bind-key -n C-S-Left swap-window -t -1 \; select-window -t -1
@@ -353,6 +355,16 @@ bind-key -T copy-mode-vi 'C-\' select-pane -l
 # Cycle panes and zoom the selected pane without colliding with next-window.
 bind -r N select-pane -t .+1 \; resize-pane -Z
 bind-key Y set-window-option synchronize-panes \; display-message "synchronize-panes: #{?pane_synchronized,on,off}"
+
+# Track the previous session/window/pane so prefix + o can jump back to it.
+set -g @jump_back_current ''
+set -g @jump_back_previous ''
+run-shell 'current=$(tmux display-message -p "#{session_id}:#{window_id}:#{pane_id}" 2>/dev/null || true); [ -n "$current" ] && tmux set-option -gq @jump_back_current "$current"'
+set-hook -g client-session-changed "run-shell 'current=\$(tmux display-message -p \"#{session_id}:#{window_id}:#{pane_id}\"); last=\$(tmux show-options -gvq @jump_back_current); [ \"\$current\" = \"\$last\" ] && exit 0; [ -n \"\$last\" ] && tmux set-option -gq @jump_back_previous \"\$last\"; tmux set-option -gq @jump_back_current \"\$current\"'"
+set-hook -g after-select-pane "run-shell 'current=\$(tmux display-message -p \"#{session_id}:#{window_id}:#{pane_id}\"); last=\$(tmux show-options -gvq @jump_back_current); [ \"\$current\" = \"\$last\" ] && exit 0; [ -n \"\$last\" ] && tmux set-option -gq @jump_back_previous \"\$last\"; tmux set-option -gq @jump_back_current \"\$current\"'"
+set-hook -g after-select-window "run-shell 'current=\$(tmux display-message -p \"#{session_id}:#{window_id}:#{pane_id}\"); last=\$(tmux show-options -gvq @jump_back_current); [ \"\$current\" = \"\$last\" ] && exit 0; [ -n \"\$last\" ] && tmux set-option -gq @jump_back_previous \"\$last\"; tmux set-option -gq @jump_back_current \"\$current\"'"
+set-hook -g after-split-window "run-shell 'current=\$(tmux display-message -p \"#{session_id}:#{window_id}:#{pane_id}\"); last=\$(tmux show-options -gvq @jump_back_current); [ \"\$current\" = \"\$last\" ] && exit 0; [ -n \"\$last\" ] && tmux set-option -gq @jump_back_previous \"\$last\"; tmux set-option -gq @jump_back_current \"\$current\"'"
+set-hook -g after-new-window "run-shell 'current=\$(tmux display-message -p \"#{session_id}:#{window_id}:#{pane_id}\"); last=\$(tmux show-options -gvq @jump_back_current); [ \"\$current\" = \"\$last\" ] && exit 0; [ -n \"\$last\" ] && tmux set-option -gq @jump_back_previous \"\$last\"; tmux set-option -gq @jump_back_current \"\$current\"'"
 
 # List of plugins
 set -g @plugin 'tmux-plugins/tmux-sensible'

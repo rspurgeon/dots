@@ -73,7 +73,13 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=240"
 
 #alias codex='codex --add-dir /home/rspurgeon/.config/kongctl --add-dir /home/rspurgeon/go --sandbox workspace-write --ask-for-approval on-request'
 #alias claude='claude --add-dir /home/rspurgeon/go'
+alias cc='CLAUDE_CONFIG_DIR=~/.claude CLAUDE_CODE_NO_FLICKER=1 claude'
+alias ccp='CLAUDE_CONFIG_DIR=~/.claude-personal CLAUDE_CODE_NO_FLICKER=1 claude'
 
+alias grep=pgrep
+
+alias p=pitch
+alias sb='ssh pitch-sandbox'
 alias k=kongctl
 alias kk=./kongctl
 alias ve='nvim .latest-e2e/tests'
@@ -126,11 +132,11 @@ zle -N prompt-toggle
 bindkey '^H' prompt-toggle
 
 export EDITOR=nvim
-edit-current-dir() {
-  nvim .
-}
-zle -N edit-current-dir
-bindkey '^N' edit-current-dir
+#edit-current-dir() {
+#  nvim .
+#}
+#zle -N edit-current-dir
+#bindkey '^M' edit-current-dir
 
 alias c='curl -s'
 
@@ -302,6 +308,8 @@ alias o=y
 zle -N yazii
 bindkey '^o' yazii 
 
+export LIBVIRT_DEFAULT_URI=qemu:///system
+
 function vibe() {
     bash -lc "$(agent-en-place codex)" 
 }
@@ -312,6 +320,10 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.pl
 
 eval "$(mise activate zsh --shims)"
 
-# SSH Agent configuration
 export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
+if [ -t 0 ] && [ -S "$SSH_AUTH_SOCK" ]; then
+  if ! ssh-add -l >/dev/null 2>&1; then
+    ssh-add /home/rspurgeon/.ssh/id_ed25519 </dev/tty
+  fi
+fi
 

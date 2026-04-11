@@ -377,7 +377,7 @@
   },
   "Cursor Type" : 2,
   "Blur" : false,
-  "Normal Font" : "CousineNFM-Regular 25",
+  "Normal Font" : "JetBrainsMonoNFM-Regular 25",
   "Vertical Spacing" : 1,
   "Ansi 7 Color" : {
     "Green Component" : "0.8431373",
@@ -409,7 +409,7 @@
   "Screen" : -1,
   "Custom Tab Title" : "Terminal",
   "Initial Use Transparency" : false,
-  "Non Ascii Font" : "Monaco 12",
+  "Non Ascii Font" : "JetBrainsMonoNFM-Regular 25",
   "Ansi 13 Color" : {
     "Green Component" : "0.4980392",
     "Blue Component" : "0.6588235",

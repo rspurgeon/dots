@@ -24,6 +24,8 @@
 	# The location of the window list. Can be {"absolute-centre, centre, left, right"}.
 	# Note that "absolute-centre" is only supported on `tmux -V` >= 3.2.
 	export TMUX_POWERLINE_STATUS_JUSTIFICATION="left"
+	# Keep the unused status-line background aligned with the active Kong theme.
+	export TMUX_POWERLINE_STATUS_STYLE="fg=#B7BDB5,bg=#101110"
 
 	# The maximum length of the left status bar.
 	export TMUX_POWERLINE_STATUS_LEFT_LENGTH="0"

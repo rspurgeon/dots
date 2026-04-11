@@ -1,0 +1,34 @@
+{
+  "extends": "claude",
+  "meta": {
+    "name": "kongctl-claude",
+    "description": "Conservative kongctl additions on top of the built-in claude profile"
+  },
+  "filesystem": {
+    "allow": [
+      "$TMPDIR",
+      "$HOME/.cache/mise",
+      "$HOME/.cache/go",
+      "$HOME/.cache/golangci-lint",
+      "/srv/pitch-host/.pitch-agent-status",
+      "/srv/pitch-host/repos/kong/kongctl/.git",
+      "/srv/pitch-host/repos/kong/kongctl/.git/worktrees"
+    ],
+    "read": [
+      "/etc",
+      "/proc",
+      "/usr",
+      "/usr/local/sbin",
+      "/srv/shared/codex-guest-config",
+      "/srv/shared/git-signing",
+      "/srv/pitch-host/repos/rspurgeon/pitch",
+      "$HOME/.config/go",
+      "$HOME/.config/gh",
+      "$HOME/.config/mise",
+      "$HOME/.local/share/mise/installs",
+      "$HOME/.local/share/mise/shims",
+      "$HOME/.local/share/omarchy/bin",
+      "$HOME/bin"
+    ]
+  }
+}

@@ -1,0 +1,100 @@
+# Guest Codex rule set for sandbox-vm.
+#
+# These rules are intentionally conservative and focus on common development
+# workflows we want Codex to run without extra approval friction inside the VM.
+
+prefix_rule(
+    pattern = ["gh", "issue", "view"],
+    decision = "allow",
+    justification = "Reading GitHub issues is a routine sandbox-vm workflow.",
+)
+
+prefix_rule(
+    pattern = ["gh", "pr", "view"],
+    decision = "allow",
+    justification = "Reading pull requests is a routine sandbox-vm workflow.",
+)
+
+prefix_rule(
+    pattern = ["gh", "pr", "comment"],
+    decision = "allow",
+    justification = "Posting PR review feedback is a common sandbox-vm workflow.",
+)
+
+prefix_rule(
+    pattern = ["gh", "pr", "review"],
+    decision = "allow",
+    justification = "Submitting or updating PR reviews is a common sandbox-vm workflow.",
+)
+
+prefix_rule(
+    pattern = ["gh", "api"],
+    decision = "allow",
+    justification = "GitHub API queries are used heavily for PR review and CI investigation.",
+)
+
+prefix_rule(
+    pattern = ["gh", "run", ["view", "list", "download"]],
+    decision = "allow",
+    justification = "Viewing or downloading GitHub Actions run details and artifacts is routine triage work.",
+)
+
+prefix_rule(
+    pattern = ["gh", "run", "watch"],
+    decision = "prompt",
+    justification = "Watching long-running workflows is useful, but keep an approval checkpoint for the persistent operation.",
+)
+
+prefix_rule(
+    pattern = ["gh", "auth", "status"],
+    decision = "allow",
+    justification = "Auth inspection is safe and commonly used for diagnostics.",
+)
+
+prefix_rule(
+    pattern = ["git", ["status", "diff", "log", "show", "branch", "rev-parse"]],
+    decision = "allow",
+    justification = "Read-oriented Git inspection should not require extra approval in the VM.",
+)
+
+prefix_rule(
+    pattern = ["git", ["fetch", "pull", "checkout", "switch", "merge-base"]],
+    decision = "allow",
+    justification = "Routine branch sync and checkout operations are expected during PR triage inside the VM.",
+)
+
+prefix_rule(
+    pattern = ["make", ["test", "test-all", "test-integration", "test-e2e", "test-e2e-scenarios", "build", "build-ci", "lint", "mod", "coverage", "open-latest-e2e", "analyze-latest-e2e"]],
+    decision = "allow",
+    justification = "These Make targets are standard Kong workflows and should run without extra prompt friction in the VM.",
+)
+
+prefix_rule(
+    pattern = ["go", ["env", "list", "test"]],
+    decision = "allow",
+    justification = "Routine Go inspection and test commands are expected in Kong workflows.",
+)
+
+prefix_rule(
+    pattern = ["go", ["build", "run", "install", "generate", "vet", "fmt"]],
+    decision = "allow",
+    justification = "Routine Go development commands should run freely within the sandbox VM.",
+)
+
+prefix_rule(
+    pattern = ["go", "mod", ["download", "tidy"]],
+    decision = "allow",
+    justification = "Module sync commands are common and safe within the VM sandbox.",
+)
+
+prefix_rule(
+    pattern = ["go", "mod", "vendor"],
+    decision = "allow",
+    justification = "Vendoring dependencies is a common local workflow in Kong repositories.",
+)
+
+prefix_rule(
+    pattern = ["mise", "install"],
+    decision = "allow",
+    justification = "Repo runtime bootstrap should run without repeated approval prompts.",
+)

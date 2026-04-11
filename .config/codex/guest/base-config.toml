@@ -1,0 +1,53 @@
+model = "gpt-5.4"
+model_reasoning_effort = "xhigh"
+personality = "pragmatic"
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+web_search = "cached"
+
+[notice]
+hide_gpt5_1_migration_prompt = true
+"hide_gpt-5.1-codex-max_migration_prompt" = true
+hide_full_access_warning = true
+
+[notice.model_migrations]
+"gpt-5.1-codex-max" = "gpt-5.2-codex"
+"gpt-5.2-codex" = "gpt-5.3-codex"
+"gpt-5.3-codex" = "gpt-5.4"
+
+[sandbox_workspace_write]
+network_access = true
+exclude_slash_tmp = true
+writable_roots = [
+  "/home/rspurgeon/go",
+  "/home/rspurgeon/go/mod-cache",
+  "/home/rspurgeon/go/cache",
+  "/home/rspurgeon/go/tmp",
+  "/home/rspurgeon/go/e2e-artifacts",
+  "/home/rspurgeon/.local/bin",
+]
+
+[mcp_servers.konnect]
+url = "https://us.mcp.konghq.com"
+bearer_token_env_var = "KONGCTL_DEFAULT_KONNECT_PAT"
+enabled = false
+
+[features]
+use_linux_sandbox_bwrap = true
+prevent_idle_sleep = true
+guardian_approval = false
+codex_hooks = true
+
+[tui]
+status_line = ["model-with-reasoning", "context-remaining", "git-branch", "current-dir"]
+
+[[skills.config]]
+path = "/home/rspurgeon/.codex/skills/.system/slides/SKILL.md"
+enabled = false
+
+[[skills.config]]
+path = "/home/rspurgeon/.codex/skills/.system/spreadsheets/SKILL.md"
+enabled = false
+
+[plugins."github@openai-curated"]
+enabled = true

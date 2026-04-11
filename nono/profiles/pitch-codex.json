@@ -1,0 +1,33 @@
+{
+  "extends": "codex",
+  "meta": {
+    "name": "pitch-codex",
+    "description": "Conservative rspurgeon/pitch additions on top of the built-in codex profile"
+  },
+  "filesystem": {
+    "allow": [
+      "$TMPDIR",
+      "$HOME/.cache/mise",
+      "$HOME/.cache/go",
+      "$HOME/.cache/golangci-lint",
+      "/srv/pitch-host/.pitch-agent-status",
+      "/srv/pitch-host/repos/rspurgeon/pitch/.git",
+      "/srv/pitch-host/repos/rspurgeon/pitch/.git/worktrees"
+    ],
+    "read": [
+      "/etc",
+      "/proc",
+      "/usr",
+      "/usr/local/sbin",
+      "/srv/shared/codex-guest-config",
+      "/srv/shared/git-signing",
+      "$HOME/.config/go",
+      "$HOME/.config/gh",
+      "$HOME/.config/mise",
+      "$HOME/.local/share/mise/installs",
+      "$HOME/.local/share/mise/shims",
+      "$HOME/.local/share/omarchy/bin",
+      "$HOME/bin"
+    ]
+  }
+}

@@ -1,0 +1,118 @@
+defaults:
+  repo: kong/kongctl
+  agent: codex 
+  environment: pitch-sandbox
+  worktree_root: /srv/pitch-host/worktrees
+
+bootstrap_prompts:
+  issue: >
+    Use gh to read GitHub issue #{issue_number} in {repo}. Understand the
+    task, constraints, and acceptance criteria. Do not make changes yet.
+    Wait for the next instruction.
+  pr: >
+    Use gh to read GitHub PR #{pr_number} in {repo}. Understand the current
+    changes, review comments, and checks. Inspect the checked-out branch
+    locally. Run local tests. Do not make changes yet. 
+    Wait for the next instruction.
+
+# To add another repo for VM use:
+# 1. Bind-mount the real host repo into /srv/pitch-host/repos/<owner>/<repo>
+#    via /etc/fstab, for example:
+#    /home/rspurgeon/dev/acme/widget /srv/pitch-host/repos/acme/widget none
+#    bind 0 0
+# 2. Mount it with: sudo mount /srv/pitch-host/repos/acme/widget
+# 3. Add the repo here with main_worktree under /srv/pitch-host/repos/...
+# 4. New workspaces will be created under /srv/pitch-host/worktrees/...
+# 5. If the repo needs extra shared dirs, bind-mount them under /srv/shared
+#    and list those guest-visible paths in additional_paths.
+# No new VM virtiofs device is needed as long as the repo lives under
+# /srv/pitch-host and extras live under /srv/shared.
+repos:
+  kong/kongctl:
+    sandbox: codex
+    main_worktree: /srv/pitch-host/repos/kong/kongctl
+    additional_paths:
+      - /srv/shared/go
+    bootstrap_prompts:
+      pr: >
+        Use gh to read GitHub PR #{pr_number} in {repo}. Understand the current
+        changes, review comments, and checks. Inspect the checked-out branch
+        locally. Run local tests. DO NOT RUN e2e tests or read KONGCTL_E2E_* 
+        environment variables. Do not make changes yet. 
+        Wait for the next instruction.
+    pane_commands:
+      top_right: "nvim ."
+      bottom_right: "make build"
+  rspurgeon/pitch:
+    sandbox: codex
+    main_worktree: /srv/pitch-host/repos/rspurgeon/pitch
+
+environments:
+  host:
+    kind: host
+
+  pitch-sandbox:
+    kind: vm-ssh
+    ssh_host: pitch-sandbox
+    ssh_user: rspurgeon
+    ssh_port: 22
+    ssh_identity_file: /home/rspurgeon/.ssh/id_ed25519
+    ssh_options:
+      - -o
+      - IdentitiesOnly=yes
+      - -o
+      - StrictHostKeyChecking=accept-new
+    libvirt_domain: pitch-sandbox
+    guest_workspace_root: /srv/pitch/workspaces
+    shared_paths:
+      - host_path: /srv/pitch-host
+        guest_path: /srv/pitch-host
+        mode: rw
+      - host_path: /srv/shared
+        guest_path: /srv/shared
+        mode: ro
+    bootstrap:
+      mise_install: true
+
+sandboxes:
+  codex:
+    provider: nono
+    capability_elevation: true
+
+agents:
+  codex:
+    type: codex
+    args:
+      - --ask-for-approval
+      - on-request
+
+  claude-enterprise:
+    type: claude
+    args:
+      - --permission-mode
+      - auto
+    env:
+      CLAUDE_CONFIG_DIR: ~/.claude
+      CLAUDE_CODE_NO_FLICKER: "1"
+
+  claude-personal:
+    type: claude
+    args:
+      - --permission-mode
+      - auto
+    env:
+      CLAUDE_CONFIG_DIR: ~/.claude-personal
+      CLAUDE_CODE_NO_FLICKER: "1"
+
+  opencode:
+    type: opencode
+    args:
+      - attach
+      - http://localhost:4096
+      - --dir
+    env:
+      OPENCODE_SERVER_PASSWORD: ricky
+
+  # Guest-native OpenCode CLI for sandbox-vm runs.
+  opencode-vm:
+    type: opencode
