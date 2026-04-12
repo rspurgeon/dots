@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+PITCH_ROOT="${PITCH_ROOT:-/home/rspurgeon/dev/rspurgeon/pitch}"
+if [ -n "${SSH_AUTH_SOCK:-}" ] && command -v tmux >/dev/null 2>&1; then
+  tmux set-environment -g SSH_AUTH_SOCK "$SSH_AUTH_SOCK" >/dev/null 2>&1 || true
+fi
+exec npx tsx "$PITCH_ROOT/src/index.ts"
