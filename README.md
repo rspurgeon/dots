@@ -1,5 +1,36 @@
 # dots
-A repository containing instructions and dotfiles for tools I use on my dev environment.
+A repository containing instructions and dotfiles for tools I use across multiple development machines.
+
+The repo now includes a layered bootstrap flow for symlinking managed files into
+a machine:
+
+* `bin/bootstrap plan`
+* `bin/bootstrap status`
+* `bin/bootstrap apply`
+
+See [docs/BOOTSTRAP.md](/Users/rick.spurgeon/dev/rspurgeon/dots/docs/BOOTSTRAP.md)
+for the manifest layout, backup behavior, and the shared/OS/host overlay model.
+
+For CLI tool installation policy, see [docs/MISE.md](/Users/rick.spurgeon/dev/rspurgeon/dots/docs/MISE.md).
+
+The repo is intended to keep one `main` branch that supports machine diversity
+through overlays rather than long-lived machine branches.
+
+The shell config is layered:
+
+* `.zshrc` is a thin loader
+* `shell/zshrc.shared` contains the common baseline
+* `shell/zshrc.macos` or `shell/zshrc.linux` contains OS-specific setup
+* `shell/zshrc.host.<hostname>` is for tracked host-specific overrides
+* `~/.config/rspurgeon/local.zsh` is the untracked local include for secrets and machine-private paths
+* `local/local.zsh.example` and `local/git-config.local.example` show the intended local-only shape
+
+The bootstrap manifests are also layered:
+
+* `bootstrap/manifest.d/00-shared.tsv`
+* `bootstrap/manifest.d/10-macos.tsv`
+* `bootstrap/manifest.d/10-linux.tsv`
+* `bootstrap/manifest.d/20-host-<hostname>.tsv`
 
 I use the `zsh` shell which is the default on macOS Monterey, the current OS of choice. The `brew install` commands below could be replaced with a `Brewfile` solutions, I just haven't take the time yet.
 
@@ -17,12 +48,15 @@ Install fonts
 brew search '/font-.*-nerd-font/' | awk '{ print $1 }' | xargs -I{} brew install --cask {} || true`
 * https://github.com/rspurgeon/nerd-fonts#patched-fonts
 
-Install [Sauce Code Pro Nerd Font](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/SourceCodePro)
-* `brew tap homebrew/cask-fonts`
-* `brew install --cask font-sauce-code-pro-nerd-font`
+Install [JetBrains Mono Nerd Font](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/JetBrainsMono)
+* Use your platform package manager or install from the Nerd Fonts project
+* The active Ghostty, Neovim GUI, and iTerm2 configs use `JetBrainsMono Nerd Font Mono`
 
 Install various tools
 * `brew install wget zsh-syntax-highlighting`
+
+Install shared CLI tools from the repo-managed `mise` config
+* `bin/mise-sync install`
 
 Install [iTerm2](https://iterm2.com/)
 * Once installed, import the profile in `$HOME/dev/rspurgeon/dots/iterm2-default-profile.json` and switch to iTerm 
@@ -31,8 +65,8 @@ Install [NeoVim](https://github.com/vim/vim)
 * `brew install neovim`
 
 Install NeoVim Packer
-* `git clone --depth 1 https://github.com/wbthomason/packer.nvim\
- ~/.local/share/nvim/site/pack/packer/start/packer.nvim`
+* `bin/setup-nvim`
+* Then run `nvim +PackerSync`
 
 Install nvm
 * `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash`
@@ -60,23 +94,25 @@ Install [tmux](https://github.com/tmux/tmux/wiki)
 * `brew install tmux`
 
 Install [.tmux](https://github.com/gpakosz/.tmux), which is a nice base tmux configuration
-* `git clone https://github.com/gpakosz/.tmux.git $HOME/dev/gpakosz`
-* `ln -s -f $HOME/dev/gpakosz/.tmux/.tmux.conf ~/.tmux.conf`
+* `bin/setup-tmux`
+* This installs the gpakosz base config at `~/dev/gpakosz/.tmux`, links `~/.tmux.conf`, installs TPM, and prepares tmux plugins
 
 Install [tmuxinator](https://github.com/tmuxinator/tmuxinator)
 * `brew install tmuxinator`
+
+Install tmux plugins
+* `bin/setup-tmux`
+* If tmux is already running, the script reloads the base and local config and installs TPM plugins
+* Otherwise start tmux and run `~/.tmux/plugins/tpm/bin/install_plugins`, or press `prefix + I`
 
 Install [powerline status bar](), which I use in vim and tmux
 * `pip install powerline-status`
 
 Enable the environment by creating symbolic links to the dotfiles in this repository 
-* `ln -s $DEV/rspurgeon/dots/.zshrc ~/.zshrc`
-* `ln -s $DEV/rspurgeon/dots/.vimrc $HOME/.vimrc`
-* `ln -s $DEV/rspurgeon/dots/.tmux.conf.local $HOME/.tmux.conf.local`
-* .config/nvim
-* .config/powerline
-* .config/starship.toml
-* .config/tmux-powerline
+* `bin/bootstrap plan`
+* `bin/bootstrap apply`
+* Managed paths currently include `.zshrc`, `.vimrc`, `.tmux.conf.local`, `.config/alacritty`, `.config/git/config`, `.config/nvim`, `.config/powerline`, `.config/starship.toml`, `.config/starship-simple.toml`, `.config/tmux-powerline`, `.config/tmux-powerline-segments`, `.config/ghostty`, `.local/bin/pitch`, `.local/bin/pitch-mcp`, and the iTerm2 dynamic profile on macOS
+* `mise` is handled by `bin/mise-sync`, which copies `mise/config.toml` into `~/.config/mise/config.toml` instead of symlinking it
 
 Install [exa](https://github.com/ogham/exa) for better file listing
 * `brew install exa`
@@ -90,4 +126,3 @@ Install [ag](https://github.com/ggreer/the_silver_searcher), the silver searcher
 
 Install [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/#install-with-homebrew-on-macos)
 * `brew install kubectl`
-

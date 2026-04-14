@@ -1,0 +1,36 @@
+# Optional and work-specific tools.
+# Do not symlink this by default. Promote entries into mise/config.toml only
+# after they install successfully on a real machine and you are comfortable
+# making them part of the shared baseline.
+
+[tools]
+bat = "latest"
+eza = "latest"
+fd = "latest"
+fzf = "latest"
+gcloud = "latest"
+gh = "latest"
+"github:Kong/deck" = "1.54.0"
+"github:agavra/tuicr" = "latest"
+"github:always-further/nono" = "latest"
+"github:chmouel/lazyworktree" = "latest"
+"github:kong/kongctl" = "v0.7.0"
+"github:speakeasy-api/speakeasy" = "1.700.1"
+go = "latest"
+gofumpt = "latest"
+golangci-lint = "2.11.4"
+jq = "latest"
+kubectl = "latest"
+lazygit = "latest"
+mockery = "latest"
+"npm:@openchamber/web" = "latest"
+opencode = "latest"
+python = "3.11"
+ripgrep = "latest"
+starship = "latest"
+terraform = "latest"
+vale = "latest"
+vercel = "latest"
+yazi = "latest"
+yq = "latest"
+zoxide = "latest"

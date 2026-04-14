@@ -1,7 +1,12 @@
-local lsp_zero = require('lsp-zero')
+local ok_lsp_zero, lsp_zero = pcall(require, 'lsp-zero')
+local ok_cmp, cmp = pcall(require, 'cmp')
+local ok_mason, mason = pcall(require, 'mason')
+local ok_mason_lspconfig, mason_lspconfig = pcall(require, 'mason-lspconfig')
+if not (ok_lsp_zero and ok_cmp and ok_mason and ok_mason_lspconfig) then
+  return
+end
 
 -- nvim-cmp minimal mappings
-local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
 cmp.setup({
   mapping = {
@@ -52,8 +57,8 @@ end)
 vim.keymap.set("n", "<leader>y", "\"+y")
 vim.diagnostic.config({ virtual_text = true })
 
-require('mason').setup({})
-require('mason-lspconfig').setup({
+mason.setup({})
+mason_lspconfig.setup({
   handlers = {
     function(server)
       if server == 'gopls' or server == 'golangci_lint_ls' then

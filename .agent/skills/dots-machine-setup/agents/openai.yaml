@@ -1,0 +1,7 @@
+interface:
+  display_name: "Dots Machine Setup"
+  short_description: "Onboard and repair dots-managed machines"
+  default_prompt: "Use $dots-machine-setup to onboard, repair, or sync a machine managed by the rspurgeon dots repo."
+
+policy:
+  allow_implicit_invocation: true

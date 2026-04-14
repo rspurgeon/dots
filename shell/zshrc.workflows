@@ -1,0 +1,11 @@
+alias p='pitch'
+alias sb='ssh pitch-sandbox'
+alias k='kongctl'
+alias kk='./kongctl'
+alias ve='nvim .latest-e2e/tests'
+alias ro='make reset-org'
+
+if [ -f "$HOME/dev/chmouel/lazyworktree/shell/functions.zsh" ]; then
+    source "$HOME/dev/chmouel/lazyworktree/shell/functions.zsh"
+    lwt() { worktree_jump "$HOME/dev/kong/kongctl" "$@"; }
+fi

@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+GPAKOSZ_REPO_DIR="$HOME/dev/gpakosz"
+GPAKOSZ_CONF="$GPAKOSZ_REPO_DIR/.tmux.conf"
+TMUX_CONF_LINK="$HOME/.tmux.conf"
+TPM_DIR="$HOME/.tmux/plugins/tpm"
+
+mkdir -p "$HOME/dev"
+
+if [ ! -d "$GPAKOSZ_REPO_DIR" ]; then
+    git clone https://github.com/gpakosz/.tmux.git "$GPAKOSZ_REPO_DIR"
+fi
+
+ln -sfn "$GPAKOSZ_CONF" "$TMUX_CONF_LINK"
+
+if [ ! -d "$TPM_DIR" ]; then
+    git clone https://github.com/tmux-plugins/tpm "$TPM_DIR"
+fi
+
+if [ -n "${TMUX:-}" ]; then
+    tmux source-file "$HOME/.tmux.conf"
+    tmux source-file "$HOME/.tmux.conf.local"
+    "$TPM_DIR/bin/install_plugins"
+else
+    echo "Base tmux config linked at $TMUX_CONF_LINK"
+    echo "TPM installed at $TPM_DIR"
+    echo "Start tmux, then run:"
+    echo "  ~/.tmux/plugins/tpm/bin/install_plugins"
+    echo
+    echo "Or inside tmux, press prefix + I"
+fi

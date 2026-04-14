@@ -1,3 +1,8 @@
+local ok_neotree, neotree = pcall(require, 'neo-tree')
+if not ok_neotree then
+    return
+end
+
 local function open_with_window_picker(state)
     local node = state.tree:get_node()
     if not node then return end
@@ -17,7 +22,7 @@ local function open_with_window_picker(state)
     require('neo-tree.sources.filesystem.commands').open(state)
 end
 
-require('neo-tree').setup {
+neotree.setup {
     close_if_last_window = true,
     filesystem = {
         hijack_netrw_behavior = "open_current",

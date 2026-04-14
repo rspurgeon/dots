@@ -1,0 +1,239 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+DOTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+MANIFEST_FILE="${DOTS_MANIFEST:-}"
+MANIFEST_DIR="${DOTS_MANIFEST_DIR:-$DOTS_DIR/bootstrap/manifest.d}"
+MODE="${1:-plan}"
+
+usage() {
+    cat <<'EOF'
+Usage: bin/bootstrap [plan|apply|status]
+
+Commands:
+  plan    Show what would be linked for the current host and OS.
+  apply   Backup conflicting targets and create/update symlinks.
+  status  Show whether each managed target is linked correctly.
+
+Environment:
+  DOTS_HOSTNAME   Override detected hostname.
+  DOTS_OS         Override detected OS family (macos/linux).
+  DOTS_MANIFEST   Override manifest file path.
+  DOTS_MANIFEST_DIR Override manifest directory path.
+EOF
+}
+
+case "$MODE" in
+    plan|apply|status)
+        ;;
+    -h|--help|help)
+        usage
+        exit 0
+        ;;
+    *)
+        usage >&2
+        exit 1
+        ;;
+esac
+
+detect_os() {
+    if [ -n "${DOTS_OS:-}" ]; then
+        printf '%s\n' "$DOTS_OS"
+        return
+    fi
+
+    case "$(uname -s)" in
+        Darwin) printf 'macos\n' ;;
+        Linux) printf 'linux\n' ;;
+        *) printf 'unknown\n' ;;
+    esac
+}
+
+detect_host() {
+    if [ -n "${DOTS_HOSTNAME:-}" ]; then
+        printf '%s\n' "$DOTS_HOSTNAME"
+        return
+    fi
+
+    hostname | tr -d '\n'
+}
+
+CURRENT_OS="$(detect_os)"
+CURRENT_HOST="$(detect_host)"
+BACKUP_ROOT="$HOME/.dots-backups/$(date +%Y%m%d-%H%M%S)"
+BACKUP_CREATED=0
+ENTRY_COUNT=0
+MANIFEST_COUNT=0
+
+gather_manifests() {
+    if [ -n "$MANIFEST_FILE" ]; then
+        if [ ! -f "$MANIFEST_FILE" ]; then
+            echo "manifest not found: $MANIFEST_FILE" >&2
+            exit 1
+        fi
+        printf '%s\n' "$MANIFEST_FILE"
+        return
+    fi
+
+    if [ -d "$MANIFEST_DIR" ]; then
+        find "$MANIFEST_DIR" -maxdepth 1 -type f -name '*.tsv' | sort
+        return
+    fi
+
+    if [ -f "$DOTS_DIR/bootstrap/manifest.tsv" ]; then
+        printf '%s\n' "$DOTS_DIR/bootstrap/manifest.tsv"
+        return
+    fi
+
+    echo "manifest not found: $DOTS_DIR/bootstrap/manifest.tsv or $MANIFEST_DIR" >&2
+    exit 1
+}
+
+expand_target() {
+    local path="$1"
+    case "$path" in
+        \~/*)
+            printf '%s/%s\n' "$HOME" "${path#\~/}"
+            ;;
+        *)
+            printf '%s\n' "$path"
+            ;;
+    esac
+}
+
+matches_selector() {
+    local selector="$1"
+    local value="$2"
+
+    if [ -z "$selector" ] || [ "$selector" = "*" ]; then
+        return 0
+    fi
+
+    local item
+    OLD_IFS="$IFS"
+    IFS=','
+    for item in $selector; do
+        item="${item#"${item%%[![:space:]]*}"}"
+        item="${item%"${item##*[![:space:]]}"}"
+        if [ "$item" = "$value" ]; then
+            IFS="$OLD_IFS"
+            return 0
+        fi
+    done
+    IFS="$OLD_IFS"
+    return 1
+}
+
+ensure_backup_root() {
+    if [ "$BACKUP_CREATED" -eq 0 ]; then
+        mkdir -p "$BACKUP_ROOT"
+        BACKUP_CREATED=1
+    fi
+}
+
+backup_target() {
+    local target="$1"
+    local rel="${target#/}"
+    local destination="$BACKUP_ROOT/$rel"
+
+    ensure_backup_root
+    mkdir -p "$(dirname "$destination")"
+    mv "$target" "$destination"
+    printf 'backup  %s -> %s\n' "$target" "$destination"
+}
+
+link_target() {
+    local source="$1"
+    local target="$2"
+
+    mkdir -p "$(dirname "$target")"
+    ln -sfn "$source" "$target"
+    printf 'linked  %s -> %s\n' "$target" "$source"
+}
+
+report_status() {
+    local source="$1"
+    local target="$2"
+
+    if [ -L "$target" ]; then
+        local resolved
+        resolved="$(readlink "$target")"
+        if [ "$resolved" = "$source" ]; then
+            printf 'ok      %s\n' "$target"
+        else
+            printf 'drift   %s -> %s (expected %s)\n' "$target" "$resolved" "$source"
+        fi
+    elif [ -e "$target" ]; then
+        printf 'file    %s\n' "$target"
+    else
+        printf 'missing %s\n' "$target"
+    fi
+}
+
+while IFS= read -r manifest_path; do
+    [ -n "$manifest_path" ] || continue
+    MANIFEST_COUNT=$((MANIFEST_COUNT + 1))
+
+    while IFS=$'\t' read -r source_rel target_path os_selector host_selector; do
+        if [ -z "${source_rel:-}" ] || [[ "$source_rel" == \#* ]]; then
+            continue
+        fi
+
+        if ! matches_selector "${os_selector:-*}" "$CURRENT_OS"; then
+            continue
+        fi
+
+        if ! matches_selector "${host_selector:-*}" "$CURRENT_HOST"; then
+            continue
+        fi
+
+        source_abs="$DOTS_DIR/$source_rel"
+        target_abs="$(expand_target "$target_path")"
+        ENTRY_COUNT=$((ENTRY_COUNT + 1))
+
+        if [ ! -e "$source_abs" ]; then
+            printf 'skip    %s (missing source %s)\n' "$target_abs" "$source_abs" >&2
+            continue
+        fi
+
+        case "$MODE" in
+            plan)
+                if [ -L "$target_abs" ] && [ "$(readlink "$target_abs")" = "$source_abs" ]; then
+                    printf 'keep    %s\n' "$target_abs"
+                elif [ -e "$target_abs" ] || [ -L "$target_abs" ]; then
+                    printf 'change  %s -> %s\n' "$target_abs" "$source_abs"
+                else
+                    printf 'create  %s -> %s\n' "$target_abs" "$source_abs"
+                fi
+                ;;
+            status)
+                report_status "$source_abs" "$target_abs"
+                ;;
+            apply)
+                if [ -L "$target_abs" ]; then
+                    if [ "$(readlink "$target_abs")" = "$source_abs" ]; then
+                        printf 'keep    %s\n' "$target_abs"
+                    else
+                        rm "$target_abs"
+                        link_target "$source_abs" "$target_abs"
+                    fi
+                elif [ -e "$target_abs" ]; then
+                    backup_target "$target_abs"
+                    link_target "$source_abs" "$target_abs"
+                else
+                    link_target "$source_abs" "$target_abs"
+                fi
+                ;;
+        esac
+    done < "$manifest_path"
+done < <(gather_manifests)
+
+printf 'host    %s\n' "$CURRENT_HOST"
+printf 'os      %s\n' "$CURRENT_OS"
+printf 'entries  %s\n' "$ENTRY_COUNT"
+printf 'manifests %s\n' "$MANIFEST_COUNT"
+
+if [ "$MODE" = "apply" ] && [ "$BACKUP_CREATED" -eq 1 ]; then
+    printf 'backups %s\n' "$BACKUP_ROOT"
+fi

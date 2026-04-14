@@ -20,6 +20,9 @@ return require('packer').startup(function(use)
         'nvim-telescope/telescope-fzf-native.nvim',
         run = 'make'
     }
+    use {
+        'nvim-telescope/telescope-live-grep-args.nvim',
+    }
     -- better escape
     -- can use jj or jk to escape insert mode 
     use {
@@ -59,7 +62,6 @@ return require('packer').startup(function(use)
 
     use('lewis6991/gitsigns.nvim')
     use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
-    use('nvim-treesitter/playground')
 
     -- simple common file navigator
     use('theprimeagen/harpoon')

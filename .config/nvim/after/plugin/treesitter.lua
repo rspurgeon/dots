@@ -1,4 +1,14 @@
-require'nvim-treesitter.configs'.setup {
+local parser_install_dir = vim.fn.stdpath('data') .. '/treesitter'
+vim.fn.mkdir(parser_install_dir, 'p')
+vim.opt.runtimepath:append(parser_install_dir)
+
+local ok, treesitter = pcall(require, 'nvim-treesitter.configs')
+if not ok then
+  return
+end
+
+treesitter.setup {
+  parser_install_dir = parser_install_dir,
   -- A list of parser names, or "all" (the five listed parsers should always be installed)
   ensure_installed = { "yaml", "json", "javascript", "typescript", 
   	"go", "java", "c", "lua", "vim", "vimdoc", "query",
@@ -30,4 +40,3 @@ require'nvim-treesitter.configs'.setup {
     additional_vim_regex_highlighting = false,
   },
 }
-

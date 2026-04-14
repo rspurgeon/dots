@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+MODE="${1:-install}"
+DOTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SOURCE_CONFIG="$DOTS_DIR/mise/config.toml"
+TARGET_CONFIG="$HOME/.config/mise/config.toml"
+
+usage() {
+    cat <<'EOF'
+Usage: bin/mise-sync [install|status]
+
+Commands:
+  install   Install or update tools declared in the repo-managed mise config.
+  status    Show installed tools and anything outdated.
+
+Recommended workflow:
+  1. Trial a tool locally with `mise use -g <tool>@<version>`.
+  2. If it belongs in the shared machine baseline, add it to .config/mise/config.toml.
+  3. Run `bin/mise-sync install`.
+  4. Commit the config change.
+EOF
+}
+
+case "$MODE" in
+    install)
+        mkdir -p "$(dirname "$TARGET_CONFIG")"
+        cp "$SOURCE_CONFIG" "$TARGET_CONFIG"
+        mise -C "$HOME" install
+        ;;
+    status)
+        if [ -f "$TARGET_CONFIG" ]; then
+            echo "using $TARGET_CONFIG"
+        else
+            echo "missing $TARGET_CONFIG"
+        fi
+        echo
+        mise -C "$HOME" ls --current
+        echo
+        mise -C "$HOME" outdated || true
+        ;;
+    -h|--help|help)
+        usage
+        ;;
+    *)
+        usage >&2
+        exit 1
+        ;;
+esac

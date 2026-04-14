@@ -121,9 +121,9 @@ This installs the theme plugins added to `packer.lua`:
 
 ### 2. Install Font (Optional)
 
-The ghostty config uses JetBrains Mono:
+The terminal and Neovim GUI settings use JetBrainsMono Nerd Font Mono:
 ```bash
-brew install --cask font-jetbrains-mono
+# Install a JetBrains Mono Nerd Font package for your platform.
 ```
 
 ### 3. Create Initial Backup

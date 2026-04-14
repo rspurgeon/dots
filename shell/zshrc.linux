@@ -1,0 +1,3 @@
+# Linux-specific tracked shell behavior belongs here.
+# Keep shared logic in zshrc.shared and host-only tracked overrides in
+# shell/zshrc.host.<hostname>.

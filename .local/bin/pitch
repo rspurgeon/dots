@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PITCH_ROOT="${PITCH_ROOT:-$HOME/dev/rspurgeon/pitch}"
+
+if [ -n "${SSH_AUTH_SOCK:-}" ] && command -v tmux >/dev/null 2>&1; then
+  tmux set-environment -g SSH_AUTH_SOCK "$SSH_AUTH_SOCK" >/dev/null 2>&1 || true
+fi
+
+exec node --import "$PITCH_ROOT/node_modules/tsx/dist/esm/index.mjs" \
+  "$PITCH_ROOT/src/bin/pitch.ts" "$@"

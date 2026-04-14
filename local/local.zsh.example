@@ -1,0 +1,6 @@
+# Untracked shell overrides for this machine.
+# Copy relevant lines into ~/.config/rspurgeon/local.zsh.
+
+# Example machine-local paths or secrets loaded from files
+# export OPENCODE_SERVER_PASSWORD="$(cat ~/.tok/opencode_server_password)"
+# export KONGCTL_E2E_KONNECT_PAT="$(cat ~/.tok/kongctl-acceptance)"

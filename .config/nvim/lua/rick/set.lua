@@ -1,5 +1,6 @@
 vim.opt.mouse = ""
 vim.opt.guicursor = ""
+vim.opt.guifont = "JetBrainsMono Nerd Font Mono:h14"
 
 vim.opt.nu = true
 vim.opt.relativenumber = true
@@ -36,3 +37,5 @@ vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 vim.opt.foldlevel = 99
+
+vim.opt.clipboard = "unnamedplus"

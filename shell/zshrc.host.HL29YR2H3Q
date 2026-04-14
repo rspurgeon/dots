@@ -1,0 +1,2 @@
+# Host-specific tracked overrides for HL29YR2H3Q belong here.
+# Keep secrets and volatile machine-local paths in ~/.config/rspurgeon/local.zsh.

@@ -1,0 +1,2 @@
+# Host-specific tracked overrides for omarchy belong here.
+# Keep secrets and volatile machine-local paths in ~/.config/rspurgeon/local.zsh.

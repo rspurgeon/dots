@@ -1,0 +1,15 @@
+# source	target	os	host
+.zshrc	~/.zshrc	*	*
+.vimrc	~/.vimrc	*	*
+.tmux.conf.local	~/.tmux.conf.local	*	*
+.config/ghostty	~/.config/ghostty	*	*
+.config/alacritty	~/.config/alacritty	*	*
+.config/git/config	~/.config/git/config	*	*
+.config/nvim	~/.config/nvim	*	*
+.config/powerline	~/.config/powerline	*	*
+.config/starship.toml	~/.config/starship.toml	*	*
+.config/starship-simple.toml	~/.config/starship-simple.toml	*	*
+.config/tmux-powerline	~/.config/tmux-powerline	*	*
+.config/tmux-powerline-segments	~/.config/tmux-powerline-segments	*	*
+.local/bin/pitch	~/.local/bin/pitch	*	*
+.local/bin/pitch-mcp	~/.local/bin/pitch-mcp	*	*

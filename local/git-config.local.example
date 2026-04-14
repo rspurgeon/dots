@@ -1,0 +1,9 @@
+# Untracked Git overrides for this machine.
+# Copy relevant lines into ~/.config/git/config.local.
+
+# Example:
+# [core]
+#     editor = nvim
+#
+# [commit]
+#     gpgsign = false

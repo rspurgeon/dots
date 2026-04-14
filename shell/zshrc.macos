@@ -1,0 +1,21 @@
+fpath=(/usr/local/share/zsh-completions $fpath)
+
+if command -v brew >/dev/null 2>&1; then
+    fpath+=("$(brew --prefix)/share/zsh/site-functions")
+fi
+
+alias browse='open -a "Arc"'
+alias b='browse'
+alias copy='pbcopy'
+alias paste='pbpaste'
+
+if command -v brew >/dev/null 2>&1; then
+    source_if_exists "$(brew --prefix zsh-syntax-highlighting 2>/dev/null)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+fi
+source_if_exists "/usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+
+eval "$(mise activate zsh --shims)"
+
+if command -v starship >/dev/null 2>&1; then
+    eval "$(starship init zsh)"
+fi

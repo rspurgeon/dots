@@ -1,0 +1,52 @@
+# See https://git-scm.com/docs/git-config
+
+[alias]
+    co = checkout
+    br = branch
+    ci = commit
+    st = status
+[init]
+    defaultBranch = main
+[pull]
+    rebase = true
+[push]
+    autoSetupRemote = true
+[diff]
+    algorithm = histogram
+    colorMoved = plain
+    mnemonicPrefix = true
+[commit]
+    verbose = true
+    gpgsign = true
+[column]
+    ui = never
+    status = never
+[branch]
+    sort = -committerdate
+[tag]
+    sort = -version:refname
+[rerere]
+    enabled = true
+    autoupdate = true
+[user]
+    name = Rick Spurgeon
+    email = 10521262+rspurgeon@users.noreply.github.com
+    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPsRp2PBMiMAywPZ9Dcj+fJ/dlQrpKaxCLArjjfRXjLp
+[url "git@github.com:"]
+    insteadOf = git://github.com/
+[url "ssh://git@github.com/"]
+    insteadOf = git://github.com/
+[gpg]
+    format = ssh
+[gpg "ssh"]
+    allowedSignersFile = ~/.ssh/allowed_signers
+[status]
+    display = normal
+[credential "https://github.com"]
+    helper =
+    helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+    helper =
+    helper = !gh auth git-credential
+[include]
+    path = ~/.config/git/config.local

@@ -1,0 +1,5 @@
+# source	target	os	host
+# Add Linux-only desktop or service entries here, for example:
+# .config/hypr	~/.config/hypr	linux	*
+# .config/waybar	~/.config/waybar	linux	*
+# .config/systemd/user	~/.config/systemd/user	linux	*

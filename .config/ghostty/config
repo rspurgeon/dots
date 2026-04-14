@@ -2,9 +2,8 @@
 # Generated for developer workflow with tmux integration
 
 # Font Configuration
-# JetBrains Mono is excellent for coding with ligatures
-# Install with: brew install --cask font-jetbrains-mono
-font-family = "JetBrains Mono"
+# JetBrainsMono Nerd Font Mono keeps terminal, tmux, and Neovim glyphs aligned.
+font-family = "JetBrainsMono Nerd Font Mono"
 font-size = 14
 
 # Enable font ligatures for better code readability (==, =>, !=, etc.)
@@ -82,4 +81,3 @@ auto-update = check
 
 custom-shader = shaders/cursor_warp.glsl
 #custom-shader = shaders/ripple_cusor.glsl
-

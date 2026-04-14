@@ -1,14 +1,19 @@
-require("neodev").setup({
+local ok_neodev, neodev = pcall(require, "neodev")
+local ok_pbp, pbp = pcall(require, "persistent-breakpoints")
+local ok_dap, dap = pcall(require, "dap")
+local ok_dapui, dapui = pcall(require, "dapui")
+if not (ok_neodev and ok_pbp and ok_dap and ok_dapui) then
+  return
+end
+
+neodev.setup({
   library = { plugins = { "nvim-dap-ui" }, types = true },
 })
-
-local pbp = require('persistent-breakpoints')
 
 pbp.setup{
 	load_breakpoints_event = { "BufReadPost" }
 }
 
-local dap, dapui = require("dap"), require("dapui")
 dapui.setup()
 
 dap.listeners.before.attach.dapui_config = function()

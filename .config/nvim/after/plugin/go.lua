@@ -2,7 +2,13 @@
 -- with custom tags (e.g., e2e) work in gopls.
 local gopls_build_tags = os.getenv('GOPLS_BUILD_TAGS') or 'integration,e2e'
 
-require('go').setup({
+local ok_go, go = pcall(require, 'go')
+local ok_dap_go, dap_go = pcall(require, 'dap-go')
+if not ok_go then
+  return
+end
+
+go.setup({
   -- Let go.nvim start ONE gopls and ONE golangci-lint LS
   lsp_cfg = {                  -- table = customise gopls here
     settings = {
@@ -32,6 +38,8 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 
 -- Golang Debug Adapter, uses delve (dlv)
-require('dap-go').setup()
+if ok_dap_go then
+  dap_go.setup()
+end
 
 vim.api.nvim_create_user_command('GoFumpt', '!gofumpt -w %', {})

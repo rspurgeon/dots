@@ -1,4 +1,9 @@
-require('telescope').setup {
+local ok_telescope, telescope = pcall(require, 'telescope')
+if not ok_telescope then
+    return
+end
+
+telescope.setup {
     defaults = {
         vimgrep_arguments = {
             'rg',
@@ -14,7 +19,8 @@ require('telescope').setup {
 }
 
 -- Load fzf native extension for better fuzzy finding
-require('telescope').load_extension('fzf')
+telescope.load_extension('fzf')
+telescope.load_extension('live_grep_args')
 
 -- require('telescope').load_extension('bookmarks')
 
@@ -27,26 +33,9 @@ end, { noremap = true, silent = true })
 -- (f)ile -> (g)it -> (f)ind
 vim.keymap.set('n', '<leader>fgf', builtin.git_files, { noremap = true, silent = true })
 
-local telescope = require('telescope.builtin')
+local live_grep_args = telescope.extensions.live_grep_args
 
-local function grep_all()
-  telescope.live_grep({
-    additional_args = function()
-      return { '--hidden', '--no-ignore' }
-    end,
-  })
-end
-
-local function grep_clean()
-  telescope.live_grep({
-    additional_args = function()
-      return { '--hidden', '--glob', '!**/node_modules/**' }
-    end,
-  })
-end
-
-vim.keymap.set('n', '<leader>fa', grep_all, { noremap = true, silent = true })   -- "find all"
-vim.keymap.set('n', '<leader>fs', grep_clean, { noremap = true, silent = true }) -- "find clean"
+vim.keymap.set('n', '<leader>fs', live_grep_args.live_grep_args, { noremap = true, silent = true })
 
 -- (f)ile -> (c)ommand history
 vim.keymap.set('n', '<leader>fc', builtin.command_history, { noremap = true, silent = true })
@@ -65,4 +54,3 @@ vim.keymap.set("n", "<Leader>fh", function()
         hidden = true,
     })
 end, { noremap = true, silent = true })
-
