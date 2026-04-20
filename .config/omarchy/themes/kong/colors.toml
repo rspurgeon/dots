@@ -1,0 +1,33 @@
+accent = "#CCFF00"
+cursor = "#CCFF00"
+foreground = "#B7BDB5"
+background = "#000F06"
+selection_foreground = "#000F06"
+selection_background = "#CCFF00"
+
+# Black / Dark
+color0 = "#101110"
+# Red (errors, deletions)
+color1 = "#E05F56"
+# Green (electric lime - strings, success)
+color2 = "#CCFF00"
+# Yellow (muted lime - types, warnings)
+color3 = "#A3BE40"
+# Blue (teal - functions, keywords)
+color4 = "#6B9E8A"
+# Magenta (muted rose - constants, special)
+color5 = "#C4869B"
+# Cyan (sage - comments, secondary)
+color6 = "#7DAF7D"
+# White (bay - normal text)
+color7 = "#B7BDB5"
+
+# Bright variants
+color8 = "#4A4D49"
+color9 = "#FF8785"
+color10 = "#DDFF55"
+color11 = "#C8E060"
+color12 = "#8CC4A8"
+color13 = "#E3A6BB"
+color14 = "#A3D4A0"
+color15 = "#E7EDE5"

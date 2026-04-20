@@ -1,0 +1,17 @@
+# Host-specific tracked overrides for beelink-eqr6 belong here.
+# Keep secrets and volatile machine-local paths in ~/.config/rspurgeon/local.zsh.
+
+export LIBVIRT_DEFAULT_URI='qemu:///system'
+export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
+
+vibe() {
+    bash -lc "$(agent-en-place codex)"
+}
+zle -N vibe
+bindkey '^u' vibe
+
+if [ -t 0 ] && [ -S "$SSH_AUTH_SOCK" ]; then
+    if ! ssh-add -l >/dev/null 2>&1; then
+        ssh-add "$HOME/.ssh/id_ed25519" </dev/tty
+    fi
+fi

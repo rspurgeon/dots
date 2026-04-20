@@ -1,0 +1,7 @@
+[Unit]
+Description=Refresh Pitch agent status summary
+
+[Service]
+Type=oneshot
+Environment=PITCH_ROOT=/home/rspurgeon/dev/rspurgeon/pitch
+ExecStart=/home/rspurgeon/.local/bin/pitch agent-status

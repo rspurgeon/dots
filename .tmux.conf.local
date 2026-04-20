@@ -278,8 +278,7 @@ set -g mouse on
 unbind C-b
 unbind C-a
 set-option -g prefix C-Space
-set-option -g prefix2 C-a
-bind-key C-a send-prefix -2
+bind-key C-Space send-prefix
 
 bind "e" copy-mode
 
@@ -311,10 +310,13 @@ bind -r C-l resize-pane -R
 bind -r n next-window
 bind -r p previous-window
 bind C-o run-shell 'target=$(tmux show-options -gvq @jump_back_previous); [ -n "$target" ] || { tmux display-message "No previous tmux location recorded"; exit 0; }; current=$(tmux display-message -p "#{session_id}:#{window_id}:#{pane_id}"); session=${target%%:*}; rest=${target#*:}; window=${rest%%:*}; pane=${rest##*:}; tmux switch-client -t "$session"; tmux select-window -t "$window"; tmux select-pane -t "$pane"; tmux set-option -gq @jump_back_previous "$current"; tmux set-option -gq @jump_back_current "$target"'
+bind C-a run-shell 'pitch agents-popup'
 
+# move window left/right
 bind-key -n C-S-Left swap-window -t -1 \; select-window -t -1
 bind-key -n C-S-Right swap-window -t +1 \; select-window -t +1
 
+# keep numbering compact
 set -g renumber-windows on
 
 bind ";" display-popup -E 'tmux new-session -A -s scratch -c "#{pane_current_path}"'
@@ -350,9 +352,11 @@ bind-key -T copy-mode-vi 'C-k' select-pane -U
 bind-key -T copy-mode-vi 'C-l' select-pane -R
 bind-key -T copy-mode-vi 'C-\' select-pane -l
 
+# Cycle panes and zoom the selected pane without colliding with next-window.
 bind -r N select-pane -t .+1 \; resize-pane -Z
 bind-key Y set-window-option synchronize-panes \; display-message "synchronize-panes: #{?pane_synchronized,on,off}"
 
+# Track the previous session/window/pane so prefix + o can jump back to it.
 set -g @jump_back_current ''
 set -g @jump_back_previous ''
 run-shell 'current=$(tmux display-message -p "#{session_id}:#{window_id}:#{pane_id}" 2>/dev/null || true); [ -n "$current" ] && tmux set-option -gq @jump_back_current "$current"'
@@ -363,7 +367,6 @@ set-hook -g after-split-window "run-shell 'current=\$(tmux display-message -p \"
 set-hook -g after-new-window "run-shell 'current=\$(tmux display-message -p \"#{session_id}:#{window_id}:#{pane_id}\"); last=\$(tmux show-options -gvq @jump_back_current); [ \"\$current\" = \"\$last\" ] && exit 0; [ -n \"\$last\" ] && tmux set-option -gq @jump_back_previous \"\$last\"; tmux set-option -gq @jump_back_current \"\$current\"'"
 
 # List of plugins
-set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-sensible'
 set -g @plugin 'erikw/tmux-powerline'
 set -g @plugin 'tmux-plugins/tmux-resurrect'
@@ -373,9 +376,6 @@ set -g @plugin 'tmux-plugins/tmux-resurrect'
 # set -g @plugin 'github_username/plugin_name#branch'
 # set -g @plugin 'git@github.com:user/plugin'
 # set -g @plugin 'git@bitbucket.com:user/plugin'
-
-# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
-run '~/.tmux/plugins/tpm/tpm'
 
 # Add border line at bottom of panes (above status bar)
 set -g pane-border-status bottom

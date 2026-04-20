@@ -1,0 +1,11 @@
+[Unit]
+Description=Refresh Pitch agent status summary every minute
+
+[Timer]
+OnBootSec=30s
+OnUnitActiveSec=10s
+AccuracySec=10s
+Unit=pitch-agent-status-refresh.service
+
+[Install]
+WantedBy=timers.target
