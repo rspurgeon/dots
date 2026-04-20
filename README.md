@@ -1,6 +1,14 @@
 # dots
 A repository containing instructions and dotfiles for tools I use across multiple development machines.
 
+The intended model is:
+
+* one `main` branch
+* shared tracked config
+* OS-specific tracked overlays
+* host-specific tracked overlays
+* untracked local/private overrides
+
 The repo now includes a layered bootstrap flow for symlinking managed files into
 a machine:
 
@@ -31,6 +39,42 @@ The bootstrap manifests are also layered:
 * `bootstrap/manifest.d/10-macos.tsv`
 * `bootstrap/manifest.d/10-linux.tsv`
 * `bootstrap/manifest.d/20-host-<hostname>.tsv`
+
+## New Machine Workflow
+
+For a new machine or a major refactor migration, use this order:
+
+1. Clone the repo to `$HOME/dev/rspurgeon/dots`
+2. Install base OS packages and fonts
+3. Install `oh-my-zsh`
+4. Run `bin/mise-sync install`
+5. Run `bin/setup-nvim`
+6. Run `bin/setup-tmux`
+7. Create local-only files as needed:
+* `~/.config/rspurgeon/local.zsh`
+* `~/.config/git/config.local`
+8. Run `bin/bootstrap plan`
+9. Run `bin/bootstrap apply`
+10. Open a new shell and verify the machine with:
+* `bin/bootstrap status`
+* `bin/mise-sync status`
+
+## Overlay Rules
+
+Use this rule of thumb when deciding where config belongs:
+
+* Shared defaults used on most machines belong in shared tracked config.
+* OS-specific behavior belongs in `shell/zshrc.<os>` or `bootstrap/manifest.d/10-<os>.tsv`.
+* Stable host-specific behavior belongs in `shell/zshrc.host.<hostname>` or `bootstrap/manifest.d/20-host-<hostname>.tsv`.
+* Secrets, private tokens, personal aliases, and machine-private paths belong in untracked local files.
+
+Examples of local-only files:
+
+* `~/.config/rspurgeon/local.zsh`
+* `~/.config/git/config.local`
+
+Do not use long-lived machine branches for normal setup. Prefer extending the
+overlay model on `main`.
 
 I use the `zsh` shell which is the default on macOS Monterey, the current OS of choice. The `brew install` commands below could be replaced with a `Brewfile` solutions, I just haven't take the time yet.
 
@@ -113,6 +157,23 @@ Enable the environment by creating symbolic links to the dotfiles in this reposi
 * `bin/bootstrap apply`
 * Managed paths currently include `.zshrc`, `.vimrc`, `.tmux.conf.local`, `.config/alacritty`, `.config/git/config`, `.config/nvim`, `.config/powerline`, `.config/starship.toml`, `.config/starship-simple.toml`, `.config/tmux-powerline`, `.config/tmux-powerline-segments`, `.config/ghostty`, `.local/bin/pitch`, `.local/bin/pitch-mcp`, and the iTerm2 dynamic profile on macOS
 * `mise` is handled by `bin/mise-sync`, which copies `mise/config.toml` into `~/.config/mise/config.toml` instead of symlinking it
+
+## Linux Host Notes
+
+Some Linux hosts may also have host-specific tracked entries such as:
+
+* Hyprland config in `.config/hypr`
+* Waybar config in `.config/waybar`
+* host-specific helper configs like `.config/pitch`, `.config/codex/guest`, or `nono/profiles`
+* host-specific theme assets under `.config/omarchy/themes/...`
+
+These should normally be introduced through `bootstrap/manifest.d/20-host-<hostname>.tsv`.
+
+For `systemd --user` units on Linux:
+
+* Keep the tracked unit file contents in the repo under `.config/systemd/user/*.service` and `*.timer`.
+* Reload and activate them with `systemctl --user daemon-reload` and the appropriate `enable` or `start` commands.
+* Avoid assuming repo-managed `*.wants` symlinks belong in Git or bootstrap manifests unless you have verified that behavior on the target host.
 
 Install [exa](https://github.com/ogham/exa) for better file listing
 * `brew install exa`
