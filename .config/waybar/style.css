@@ -8,23 +8,23 @@
   border-radius: 0;
   min-height: 0;
   font-family: 'JetBrainsMono Nerd Font Mono';
-  font-size: 20px;
+  font-size: 16px;
   border-radius: 8px;
 }
 
 .modules-left {
-  margin-left: 8px;
+  margin-left: 6px;
 }
 
 .modules-right {
-  margin-right: 8px;
+  margin-right: 6px;
 }
 
 #workspaces button {
   all: initial;
-  padding: 0 6px;
-  margin: 0 1.5px;
-  min-width: 9px;
+  padding: 0 5px;
+  margin: 0 1px;
+  min-width: 8px;
 }
 
 #workspaces button.empty {
@@ -38,23 +38,23 @@
 #custom-screenrecording-indicator,
 #custom-update {
   min-width: 12px;
-  margin: 0 7.5px;
+  margin: 0 6px;
 }
 
 #tray {
-  margin-right: 16px;
+  margin-right: 12px;
 }
 
 #bluetooth {
-  margin-right: 17px;
+  margin-right: 12px;
 }
 
 #network {
-  margin-right: 13px;
+  margin-right: 10px;
 }
 
 #custom-expand-icon {
-  margin-right: 20px;
+  margin-right: 14px;
 }
 
 tooltip {
@@ -66,7 +66,7 @@ tooltip {
 }
 
 #clock {
-  margin-left: 8.75px;
+  margin-left: 6px;
 }
 
 .hidden {
@@ -75,7 +75,7 @@ tooltip {
 
 #custom-screenrecording-indicator {
   min-width: 12px;
-  margin-left: 8.75px;
+  margin-left: 6px;
   font-size: 10px;
 }
 
