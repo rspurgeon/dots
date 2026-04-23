@@ -11,6 +11,11 @@ Before making machine-setup or repo-structure changes, read these files in this 
 defines the managed symlink model. `docs/MISE.md` defines the CLI tool policy.
 Prefer updating those docs over restating them elsewhere.
 
+Terminal note: Alacritty is the primary terminal across machines. Treat
+`.config/alacritty/alacritty.toml` as the authoritative source for terminal
+font size, padding, and terminal-local behavior unless a task explicitly
+references Ghostty. Keep `.config/ghostty` usable, but treat it as secondary.
+
 ## Project Structure & Module Organization
 The repo root stores shared dotfiles (`.zshrc`, `.vimrc`, `.tmux.conf.local`) plus iTerm2 and Starship profiles. Tool-specific assets live under `.config/<tool>/` so the layout mirrors the eventual host: Ghostty themes, Neovim Lua, tmux and powerline segments, and Starship presets. Utility scripts (`switch-theme`, `tmux-sessionizer`, `setup-ghostty.sh`) coordinate theme changes, tmux session bootstraps, and symlink setup; treat them as canonical and link into `$HOME` after local edits.
 

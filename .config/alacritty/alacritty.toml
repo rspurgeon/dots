@@ -1,3 +1,9 @@
+[general]
+# Primary terminal across machines. Treat this file as the authoritative
+# source for terminal font size, padding, and terminal-local behavior unless a
+# task explicitly calls out another emulator.
+import = ["~/.config/omarchy/current/theme/alacritty.toml"]
+
 [env]
 TERM = "xterm-256color"
 
@@ -5,11 +11,11 @@ TERM = "xterm-256color"
 normal = { family = "JetBrainsMono Nerd Font Mono" }
 bold = { family = "JetBrainsMono Nerd Font Mono" }
 italic = { family = "JetBrainsMono Nerd Font Mono" }
-size = 14
+size = 11
 
 [window]
 padding.x = 6
-padding.y = 6
+padding.y = 3
 
 [bell]
 duration = 0

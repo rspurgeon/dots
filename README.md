@@ -157,6 +157,7 @@ Enable the environment by creating symbolic links to the dotfiles in this reposi
 * `bin/bootstrap apply`
 * Managed paths currently include `.zshrc`, `.vimrc`, `.tmux.conf.local`, `.config/alacritty`, `.config/git/config`, `.config/nvim`, `.config/powerline`, `.config/starship.toml`, `.config/starship-simple.toml`, `.config/tmux-powerline`, `.config/tmux-powerline-segments`, `.config/ghostty`, `.local/bin/pitch`, `.local/bin/pitch-mcp`, and the iTerm2 dynamic profile on macOS
 * `mise` is handled by `bin/mise-sync`, which copies `mise/config.toml` into `~/.config/mise/config.toml` instead of symlinking it
+* Alacritty is the primary cross-machine terminal. Treat `.config/alacritty/alacritty.toml` as the authoritative source for terminal font size and related defaults; `.config/ghostty` is retained as a secondary config
 
 ## Linux Host Notes
 

@@ -60,7 +60,7 @@ agents:
       - --ask-for-approval
       - on-request
       - --model
-      - gpt-5.4
+      - gpt-5.5
 
   claude-enterprise:
     type: claude
@@ -79,12 +79,3 @@ agents:
     env:
       CLAUDE_CONFIG_DIR: ~/.claude-personal
       CLAUDE_CODE_NO_FLICKER: "1"
-
-  opencode:
-    type: opencode
-    args:
-      - attach
-      - http://localhost:4096
-      - --dir
-    env:
-      OPENCODE_SERVER_PASSWORD: ricky

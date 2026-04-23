@@ -5,7 +5,7 @@ end
 
 local palette = {
     dark = "#000F06",
-    panel = "#101110",
+    panel = "#000F06",
     panel_alt = "#4A4D49",
     text = "#B7BDB5",
     text_dim = "#676B66",

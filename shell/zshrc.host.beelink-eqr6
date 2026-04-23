@@ -10,8 +10,16 @@ vibe() {
 zle -N vibe
 bindkey '^u' vibe
 
-if [ -t 0 ] && [ -S "$SSH_AUTH_SOCK" ]; then
-    if ! ssh-add -l >/dev/null 2>&1; then
+if [ -t 0 ]; then
+    if [ ! -S "$SSH_AUTH_SOCK" ] && command -v systemctl >/dev/null 2>&1; then
+        systemctl --user start ssh-agent.service >/dev/null 2>&1 || true
+        for _ in 1 2 3 4 5; do
+            [ -S "$SSH_AUTH_SOCK" ] && break
+            sleep 0.1
+        done
+    fi
+
+    if [ -S "$SSH_AUTH_SOCK" ] && ! ssh-add -l >/dev/null 2>&1; then
         ssh-add "$HOME/.ssh/id_ed25519" </dev/tty
     fi
 fi

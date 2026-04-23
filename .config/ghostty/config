@@ -1,5 +1,7 @@
 # Ghostty Terminal Configuration
 # Generated for developer workflow with tmux integration
+# Secondary terminal config. Keep it usable, but do not treat Ghostty as the
+# default terminal for this setup when diagnosing font/zoom issues.
 
 # Font Configuration
 # JetBrainsMono Nerd Font Mono keeps terminal, tmux, and Neovim glyphs aligned.
@@ -62,7 +64,16 @@ keybind = ctrl+shift+v=paste_from_clipboard
 # Available themes (uncomment to switch):
 #theme = catppuccin-mocha
 #theme = nord
-theme = gruvbox-dark
+#theme = gruvbox-dark
+
+# Keep the terminal background aligned with the active Omarchy/Kong palette
+# so tmux and Neovim surfaces blend into the terminal instead of drifting to
+# the built-in Ghostty theme background.
+background = #000F06
+foreground = #B7BDB5
+cursor-color = #CCFF00
+selection-background = #CCFF00
+selection-foreground = #000F06
 
 # Alternative: use a theme file directly
 # You can switch themes by changing this line and reloading config

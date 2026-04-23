@@ -87,7 +87,7 @@ tmux_conf_theme_mode_attr='bold'
 
 # status line style
 tmux_conf_theme_status_fg='#B7BDB5'                     # kong bay
-tmux_conf_theme_status_bg='#101110'                     # kong gray 900
+tmux_conf_theme_status_bg='#000F06'                     # kong dark green
 tmux_conf_theme_status_attr='none'
 
 # terminal title
@@ -109,7 +109,7 @@ tmux_conf_theme_terminal_title='#h • #S • #I) #W'
 #     - #{username}
 #     - #{username_ssh}
 tmux_conf_theme_window_status_fg='#B7BDB5'              # kong bay
-tmux_conf_theme_window_status_bg='#101110'              # kong gray 900
+tmux_conf_theme_window_status_bg='#000F06'              # kong dark green
 tmux_conf_theme_window_status_attr='none'
 tmux_conf_theme_window_status_format='#I #W'
 #tmux_conf_theme_window_status_format='#{circled_window_index} #W'
@@ -185,12 +185,12 @@ tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized} #{?battery_stat
 
 # status left style
 tmux_conf_theme_status_left_fg='#000F06,#B7BDB5,#B7BDB5'  # kong dark green, kong bay, kong bay
-tmux_conf_theme_status_left_bg='#6B9E8A,#101110,#101110'  # kong teal, kong gray 900, kong gray 900
+tmux_conf_theme_status_left_bg='#6B9E8A,#000F06,#000F06'  # kong teal, kong dark green, kong dark green
 tmux_conf_theme_status_left_attr='bold,none,none'
 
 # status right style
 tmux_conf_theme_status_right_fg='#B7BDB5,#B7BDB5,#000F06' # kong bay, kong bay, kong dark green
-tmux_conf_theme_status_right_bg='#101110,#4A4D49,#6B9E8A' # kong gray 900, kong gray 700, kong teal
+tmux_conf_theme_status_right_bg='#000F06,#4A4D49,#6B9E8A' # kong dark green, kong gray 700, kong teal
 tmux_conf_theme_status_right_attr='none,none,bold'
 
 # pairing indicator
@@ -359,7 +359,7 @@ bind-key Y set-window-option synchronize-panes \; display-message "synchronize-p
 # Track the previous session/window/pane so prefix + o can jump back to it.
 set -g @jump_back_current ''
 set -g @jump_back_previous ''
-run-shell 'current=$(tmux display-message -p "#{session_id}:#{window_id}:#{pane_id}" 2>/dev/null || true); [ -n "$current" ] && tmux set-option -gq @jump_back_current "$current"'
+run-shell 'current=$(tmux display-message -p "#{session_id}:#{window_id}:#{pane_id}" 2>/dev/null || true); if [ -n "$current" ]; then tmux set-option -gq @jump_back_current "$current"; fi; true'
 set-hook -g client-session-changed "run-shell 'current=\$(tmux display-message -p \"#{session_id}:#{window_id}:#{pane_id}\"); last=\$(tmux show-options -gvq @jump_back_current); [ \"\$current\" = \"\$last\" ] && exit 0; [ -n \"\$last\" ] && tmux set-option -gq @jump_back_previous \"\$last\"; tmux set-option -gq @jump_back_current \"\$current\"'"
 set-hook -g after-select-pane "run-shell 'current=\$(tmux display-message -p \"#{session_id}:#{window_id}:#{pane_id}\"); last=\$(tmux show-options -gvq @jump_back_current); [ \"\$current\" = \"\$last\" ] && exit 0; [ -n \"\$last\" ] && tmux set-option -gq @jump_back_previous \"\$last\"; tmux set-option -gq @jump_back_current \"\$current\"'"
 set-hook -g after-select-window "run-shell 'current=\$(tmux display-message -p \"#{session_id}:#{window_id}:#{pane_id}\"); last=\$(tmux show-options -gvq @jump_back_current); [ \"\$current\" = \"\$last\" ] && exit 0; [ -n \"\$last\" ] && tmux set-option -gq @jump_back_previous \"\$last\"; tmux set-option -gq @jump_back_current \"\$current\"'"
@@ -377,7 +377,7 @@ set -g @plugin 'tmux-plugins/tmux-resurrect'
 # set -g @plugin 'git@github.com:user/plugin'
 # set -g @plugin 'git@bitbucket.com:user/plugin'
 
-# Add border line at bottom of panes (above status bar)
+# Keep a divider line above the powerline status bar.
 set -g pane-border-status bottom
 set -g pane-border-format ""
 
