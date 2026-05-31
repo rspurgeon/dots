@@ -8,6 +8,11 @@ alias paste='wl-paste'
 source_if_exists "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh"
 
 if command -v mise >/dev/null 2>&1; then
+    _mise_data_dir="${MISE_DATA_DIR:-$HOME/.local/share/mise}"
+    path=("${(@)path:#$_mise_data_dir/installs/*}")
+    path=("${(@)path:#$_mise_data_dir/shims}")
+    unset _mise_data_dir
+
     eval "$(mise activate zsh --shims)"
 fi
 

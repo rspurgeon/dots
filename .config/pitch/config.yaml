@@ -21,6 +21,7 @@ repos:
     main_worktree: ~/dev/kong/kongctl
     additional_paths:
       - ~/go
+      - /home/rspurgeon/dev/kong/developer.konghq.com
     bootstrap_prompts:
       pr: >
         Use gh to read GitHub PR #{pr_number} in {repo}. Understand the current
