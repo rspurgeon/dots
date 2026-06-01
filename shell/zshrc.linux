@@ -4,6 +4,7 @@
 
 alias copy='wl-copy'
 alias paste='wl-paste'
+alias ls='ls --color=tty'
 
 if command -v mise >/dev/null 2>&1; then
     _mise_data_dir="${MISE_DATA_DIR:-$HOME/.local/share/mise}"

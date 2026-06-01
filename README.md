@@ -67,7 +67,8 @@ Use this rule of thumb when deciding where config belongs:
 
 * Shared defaults used on most machines belong in shared tracked config.
 * OS-specific behavior belongs in `shell/zshrc.<os>` or `bootstrap/manifest.d/10-<os>.tsv`.
-* Stable host-specific behavior belongs in `shell/zshrc.host.<hostname>` or `bootstrap/manifest.d/20-host-<hostname>.tsv`.
+* Role-specific behavior belongs in `shell/zshrc.profile.<profile>` or manifest selectors like `profile:work` and `profile:desktop`.
+* Stable host-specific behavior is reserved for physical-machine details such as monitor layout under `.config/hypr/hosts/<hostname>/`.
 * Secrets, private tokens, personal aliases, and machine-private paths belong in untracked local files.
 
 Examples of local-only files:

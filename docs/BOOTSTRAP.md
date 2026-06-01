@@ -42,7 +42,8 @@ This lets `main` keep one repo while separating:
 
 - shared links
 - OS-specific links
-- host-specific links
+- profile-specific links
+- host-specific hardware links
 
 Each non-comment row is tab-separated:
 
@@ -53,7 +54,28 @@ source<TAB>target<TAB>os<TAB>host
 - `source`: path relative to the repo root
 - `target`: destination path, `~/...` supported
 - `os`: `macos`, `linux`, `*`, or a comma-separated list
-- `host`: exact hostname, `*`, or a comma-separated list
+- `host`: exact hostname, `profile:<name>`, `*`, or a comma-separated list
+
+Host-to-profile mapping lives in [bootstrap/hosts.tsv](/Users/rick.spurgeon/dev/rspurgeon/dots/bootstrap/hosts.tsv):
+
+```text
+# host	profiles
+avery	work,desktop
+ari	work,headless
+```
+
+Use profiles for roles that can survive host renames:
+
+- `work`: shared work tooling such as pitch, codex, nono profiles, and shell helpers
+- `desktop`: GUI desktop assets such as Hyprland, Waybar, Omarchy theme files, and monitor layout
+- `headless`: support machines that should not receive desktop display configuration
+
+Use exact hostnames only for true per-machine hardware details. Manifest `source`
+paths may include `{host}` for those files, for example:
+
+```text
+.config/hypr/hosts/{host}/monitors.conf	~/.config/hypr/monitors.conf	linux	profile:desktop
+```
 
 Example:
 
@@ -68,7 +90,8 @@ Recommended manifest split:
 - `bootstrap/manifest.d/00-shared.tsv`
 - `bootstrap/manifest.d/10-macos.tsv`
 - `bootstrap/manifest.d/10-linux.tsv`
-- `bootstrap/manifest.d/20-host-<hostname>.tsv`
+- `bootstrap/manifest.d/20-profile-<role>.tsv`
+- exact-host entries only when a file is tied to one physical machine
 
 `mise` is intentionally excluded from the bootstrap manifest. Use
 `bin/mise-sync install` to copy [mise/config.toml](/Users/rick.spurgeon/dev/rspurgeon/dots/mise/config.toml)
@@ -86,7 +109,8 @@ Use this layering model:
 
 - shared tracked config
 - OS-specific tracked overlays
-- host-specific tracked overlays
+- profile-specific tracked overlays
+- host-specific tracked overlays for hardware-only differences
 - untracked local/private overlays
 
 Current shell overlay files:
@@ -96,8 +120,8 @@ Current shell overlay files:
 - `shell/zshrc.shared`
 - `shell/zshrc.macos`
 - `shell/zshrc.linux`
-- `shell/zshrc.host.HL29YR2H3Q`
-- `shell/zshrc.host.omarchy`
+- `shell/zshrc.profile.<profile>`
+- `shell/zshrc.host.<hostname>` only when a machine needs exact-host shell behavior
 - `~/.config/rspurgeon/local.zsh`
 
 That keeps Linux-specific files in the repo without forcing them onto macOS, and
@@ -124,5 +148,6 @@ For the current shell setup, the loader order is:
 2. `.zshrc`
 3. `shell/zshrc.shared`
 4. `shell/zshrc.<os>`
-5. `shell/zshrc.host.<hostname>`
-6. `~/.config/rspurgeon/local.zsh`
+5. `shell/zshrc.profile.<profile>` for each profile in `bootstrap/hosts.tsv`
+6. `shell/zshrc.host.<hostname>`
+7. `~/.config/rspurgeon/local.zsh`

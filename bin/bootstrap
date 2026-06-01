@@ -18,6 +18,7 @@ Commands:
 
 Environment:
   DOTS_HOSTNAME   Override detected hostname.
+  DOTS_PROFILES   Comma-separated profile override for this host.
   DOTS_OS         Override detected OS family (macos/linux).
   DOTS_MANIFEST   Override manifest file path.
   DOTS_MANIFEST_DIR Override manifest directory path.
@@ -61,10 +62,36 @@ detect_host() {
 
 CURRENT_OS="$(detect_os)"
 CURRENT_HOST="$(detect_host)"
+HOSTS_FILE="${DOTS_HOSTS_FILE:-$DOTS_DIR/bootstrap/hosts.tsv}"
 BACKUP_ROOT="$HOME/.dots-backups/$(date +%Y%m%d-%H%M%S)"
 BACKUP_CREATED=0
 ENTRY_COUNT=0
 MANIFEST_COUNT=0
+
+detect_profiles() {
+    if [ -n "${DOTS_PROFILES:-}" ]; then
+        printf '%s\n' "$DOTS_PROFILES"
+        return
+    fi
+
+    if [ ! -f "$HOSTS_FILE" ]; then
+        return
+    fi
+
+    local host profiles
+    while IFS=$'\t' read -r host profiles; do
+        if [ -z "${host:-}" ] || [[ "$host" == \#* ]]; then
+            continue
+        fi
+
+        if [ "$host" = "$CURRENT_HOST" ]; then
+            printf '%s\n' "${profiles:-}"
+            return
+        fi
+    done < "$HOSTS_FILE"
+}
+
+CURRENT_PROFILES="$(detect_profiles)"
 
 gather_manifests() {
     if [ -n "$MANIFEST_FILE" ]; then
@@ -123,6 +150,65 @@ matches_selector() {
     done
     IFS="$OLD_IFS"
     return 1
+}
+
+has_profile() {
+    local profile="$1"
+    local item
+
+    [ -n "$profile" ] || return 1
+    [ -n "$CURRENT_PROFILES" ] || return 1
+
+    OLD_IFS="$IFS"
+    IFS=','
+    for item in $CURRENT_PROFILES; do
+        item="${item#"${item%%[![:space:]]*}"}"
+        item="${item%"${item##*[![:space:]]}"}"
+        if [ "$item" = "$profile" ]; then
+            IFS="$OLD_IFS"
+            return 0
+        fi
+    done
+    IFS="$OLD_IFS"
+    return 1
+}
+
+matches_host_selector() {
+    local selector="$1"
+    local item
+
+    if [ -z "$selector" ] || [ "$selector" = "*" ]; then
+        return 0
+    fi
+
+    OLD_IFS="$IFS"
+    IFS=','
+    for item in $selector; do
+        item="${item#"${item%%[![:space:]]*}"}"
+        item="${item%"${item##*[![:space:]]}"}"
+        case "$item" in
+            profile:*)
+                if has_profile "${item#profile:}"; then
+                    IFS="$OLD_IFS"
+                    return 0
+                fi
+                ;;
+            *)
+                if [ "$item" = "$CURRENT_HOST" ]; then
+                    IFS="$OLD_IFS"
+                    return 0
+                fi
+                ;;
+        esac
+    done
+    IFS="$OLD_IFS"
+    return 1
+}
+
+expand_source() {
+    local path="$1"
+    path="${path//\{host\}/$CURRENT_HOST}"
+    printf '%s\n' "$path"
 }
 
 ensure_backup_root() {
@@ -184,11 +270,11 @@ while IFS= read -r manifest_path; do
             continue
         fi
 
-        if ! matches_selector "${host_selector:-*}" "$CURRENT_HOST"; then
+        if ! matches_host_selector "${host_selector:-*}"; then
             continue
         fi
 
-        source_abs="$DOTS_DIR/$source_rel"
+        source_abs="$DOTS_DIR/$(expand_source "$source_rel")"
         target_abs="$(expand_target "$target_path")"
         ENTRY_COUNT=$((ENTRY_COUNT + 1))
 
@@ -230,6 +316,7 @@ while IFS= read -r manifest_path; do
 done < <(gather_manifests)
 
 printf 'host    %s\n' "$CURRENT_HOST"
+printf 'profiles %s\n' "${CURRENT_PROFILES:-none}"
 printf 'os      %s\n' "$CURRENT_OS"
 printf 'entries  %s\n' "$ENTRY_COUNT"
 printf 'manifests %s\n' "$MANIFEST_COUNT"
