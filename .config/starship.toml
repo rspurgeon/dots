@@ -1,5 +1,5 @@
 format = """
-[┌─](#ebbcba) $character$cmd_duration(#ebbcba)(#6e6a86)[$directory $git_branch$git_status$git_state](#7695a0)
+[┌─](#ebbcba) $character$cmd_duration$hostname(#ebbcba)(#6e6a86)[$directory $git_branch$git_status$git_state](#7695a0)
 [└─❯❯](#ebbcba) """
 
 #format = """
@@ -29,6 +29,10 @@ style = "bold blue"
 format='$symbol'
 error_symbol='[ ](#eb6f92)'
 success_symbol='[ ](#7695a0)'
+
+[hostname]
+ssh_only = true
+format = '[$hostname](#eab676) '
 
 [aws]
 disabled=false
