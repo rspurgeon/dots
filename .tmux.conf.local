@@ -298,15 +298,15 @@ set -sg escape-time 0
 bind -r '"' split-window -v -c '#{pane_current_path}'
 bind -r '%' split-window -h -c '#{pane_current_path}'
 
-bind -r h select-pane -L
-bind -r j select-pane -D
-bind -r k select-pane -U
-bind -r l select-pane -R
+bind -r h select-pane -L #!important
+bind -r j select-pane -D #!important
+bind -r k select-pane -U #!important
+bind -r l select-pane -R #!important
 
-bind -r C-h resize-pane -L
-bind -r C-j resize-pane -D
-bind -r C-k resize-pane -U
-bind -r C-l resize-pane -R
+bind -r C-h resize-pane -L #!important
+bind -r C-j resize-pane -D #!important
+bind -r C-k resize-pane -U #!important
+bind -r C-l resize-pane -R #!important
 
 bind -r n next-window
 bind -r p previous-window
