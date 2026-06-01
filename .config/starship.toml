@@ -31,7 +31,7 @@ error_symbol='[ ](#eb6f92)'
 success_symbol='[ ](#7695a0)'
 
 [hostname]
-ssh_only = true
+ssh_only = false
 format = ' [$hostname](#eab676)'
 
 [aws]
