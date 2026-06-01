@@ -26,8 +26,9 @@ through overlays rather than long-lived machine branches.
 
 The shell config is layered:
 
-* `.zshrc` is a thin loader
-* `shell/zshrc.shared` contains the common baseline
+* `.zshenv` is a quiet non-interactive PATH baseline for `mise` shims and local bins
+* `.zshrc` is a thin interactive loader
+* `shell/zshrc.shared` contains the common interactive baseline
 * `shell/zshrc.macos` or `shell/zshrc.linux` contains OS-specific setup
 * `shell/zshrc.host.<hostname>` is for tracked host-specific overrides
 * `~/.config/rspurgeon/local.zsh` is the untracked local include for secrets and machine-private paths
@@ -46,16 +47,17 @@ For a new machine or a major refactor migration, use this order:
 
 1. Clone the repo to `$HOME/dev/rspurgeon/dots`
 2. Install base OS packages and fonts
-3. Install `oh-my-zsh`
-4. Run `bin/mise-sync install`
-5. Run `bin/setup-nvim`
-6. Run `bin/setup-tmux`
-7. Create local-only files as needed:
+3. Run `bin/setup-shell` to ensure `zsh`, zsh plugins, and the login shell are configured
+4. Install `oh-my-zsh`
+5. Run `bin/mise-sync install`
+6. Run `bin/setup-nvim`
+7. Run `bin/setup-tmux`
+8. Create local-only files as needed:
 * `~/.config/rspurgeon/local.zsh`
 * `~/.config/git/config.local`
-8. Run `bin/bootstrap plan`
-9. Run `bin/bootstrap apply`
-10. Open a new shell and verify the machine with:
+9. Run `bin/bootstrap plan`
+10. Run `bin/bootstrap apply`
+11. Open a new shell and verify the machine with:
 * `bin/bootstrap status`
 * `bin/mise-sync status`
 
@@ -132,7 +134,12 @@ Install Starship
 * https://starship.rs/guide/#%F0%9F%9A%80-installation
 
 Install [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md)
-* `git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions`
+* `bin/setup-shell`
+* The shell setup script installs the plugin into `${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions` when needed.
+
+Install [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md)
+* `bin/setup-shell`
+* The shell setup script installs the plugin into `${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting` when needed.
 
 Install [tmux](https://github.com/tmux/tmux/wiki)
 * `brew install tmux`
@@ -155,7 +162,7 @@ Install [powerline status bar](), which I use in vim and tmux
 Enable the environment by creating symbolic links to the dotfiles in this repository 
 * `bin/bootstrap plan`
 * `bin/bootstrap apply`
-* Managed paths currently include `.zshrc`, `.vimrc`, `.tmux.conf.local`, `.config/alacritty`, `.config/git/config`, `.config/nvim`, `.config/powerline`, `.config/starship.toml`, `.config/starship-simple.toml`, `.config/tmux-powerline`, `.config/tmux-powerline-segments`, `.config/ghostty`, `.local/bin/pitch`, `.local/bin/pitch-mcp`, and the iTerm2 dynamic profile on macOS
+* Managed paths currently include `.zshenv`, `.zshrc`, `.vimrc`, `.tmux.conf.local`, `.config/alacritty`, `.config/git/config`, `.config/nvim`, `.config/powerline`, `.config/starship.toml`, `.config/starship-simple.toml`, `.config/tmux-powerline`, `.config/tmux-powerline-segments`, `.config/ghostty`, `.local/bin/pitch`, `.local/bin/pitch-mcp`, and the iTerm2 dynamic profile on macOS
 * `mise` is handled by `bin/mise-sync`, which copies `mise/config.toml` into `~/.config/mise/config.toml` instead of symlinking it
 * Alacritty is the primary cross-machine terminal. Treat `.config/alacritty/alacritty.toml` as the authoritative source for terminal font size and related defaults; `.config/ghostty` is retained as a secondary config
 

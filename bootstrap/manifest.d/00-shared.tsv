@@ -1,5 +1,6 @@
 # source	target	os	host
 .zshrc	~/.zshrc	*	*
+.zshenv	~/.zshenv	*	*
 .vimrc	~/.vimrc	*	*
 .tmux.conf.local	~/.tmux.conf.local	*	*
 .config/ghostty	~/.config/ghostty	*	*

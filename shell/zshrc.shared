@@ -5,7 +5,13 @@ export XDG_CONFIG_HOME="$HOME/.config"
 zle_bracketed_paste=0
 
 source_if_exists() {
-    [ -f "$1" ] && source "$1"
+    [ -f "$1" ] || return 0
+    source "$1"
+}
+
+source_fzf_if_exists() {
+    [ -f "$1" ] || return 0
+    source "$1" 2> >(grep -v "can't change option: zle" >&2)
 }
 
 prepend_path() {
@@ -37,10 +43,12 @@ fi
 source_if_exists "$ZSH/oh-my-zsh.sh"
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=240"
 if ! (( $+functions[_zsh_autosuggest_enable] )); then
+    source_if_exists "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
     if command -v brew >/dev/null 2>&1; then
         source_if_exists "$(brew --prefix zsh-autosuggestions 2>/dev/null)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
     fi
     source_if_exists "/usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+    source_if_exists "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
 fi
 
 function clicolors() {
@@ -86,14 +94,19 @@ alias v='vim .'
 alias vf='vim $(fzf --height 40% --reverse)'
 bindkey -s '^f' 'vf^M'
 bindkey '^y' clear-screen
+bindkey -M viins '^P' up-line-or-history
+bindkey -M viins '^N' down-line-or-history
+bindkey -M viins '^E' autosuggest-accept
 
 autosuggest-toggle() {
     if [[ -n "${ZSH_AUTOSUGGEST_DISABLED:-}" ]]; then
         _zsh_autosuggest_enable
         unset ZSH_AUTOSUGGEST_DISABLED
+        zle -M "autosuggestions enabled"
     else
         _zsh_autosuggest_disable
         ZSH_AUTOSUGGEST_DISABLED=1
+        zle -M "autosuggestions disabled"
     fi
 }
 zle -N autosuggest-toggle
@@ -159,7 +172,9 @@ tmp() {
 alias k8='kubectl'
 alias kco='kubectl config unset current-context'
 
-alias ping='prettyping --nolegend'
+if command -v prettyping >/dev/null 2>&1; then
+    alias ping='prettyping --nolegend'
+fi
 alias du='ncdu --color dark -rr -x --exclude .git --exclude node_modules'
 alias help='tldr'
 
@@ -229,8 +244,8 @@ if [ -f "$HOME/.fzf.zsh" ]; then
 else
     source_if_exists "/opt/homebrew/opt/fzf/shell/key-bindings.zsh"
     source_if_exists "/opt/homebrew/opt/fzf/shell/completion.zsh"
-    source_if_exists "/usr/share/fzf/key-bindings.zsh"
-    source_if_exists "/usr/share/fzf/completion.zsh"
+    source_fzf_if_exists "/usr/share/fzf/key-bindings.zsh"
+    source_fzf_if_exists "/usr/share/fzf/completion.zsh"
 fi
 bindkey '^R' fzf-history-widget
 

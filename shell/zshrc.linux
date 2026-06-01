@@ -5,8 +5,6 @@
 alias copy='wl-copy'
 alias paste='wl-paste'
 
-source_if_exists "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh"
-
 if command -v mise >/dev/null 2>&1; then
     _mise_data_dir="${MISE_DATA_DIR:-$HOME/.local/share/mise}"
     path=("${(@)path:#$_mise_data_dir/installs/*}")
@@ -19,3 +17,7 @@ fi
 if command -v starship >/dev/null 2>&1; then
     eval "$(starship init zsh)"
 fi
+
+# zsh-syntax-highlighting should be sourced after other widget integrations.
+source_if_exists "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+source_if_exists "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh"

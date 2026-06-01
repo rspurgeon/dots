@@ -1,0 +1,4 @@
+# Host-specific tracked overrides for bee-se reuse the desktop bee profile.
+# Keep secrets and volatile machine-local paths in ~/.config/rspurgeon/local.zsh.
+
+source "$DOTS_DIR/shell/zshrc.host.beelink-eqr6"

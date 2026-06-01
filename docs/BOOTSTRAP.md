@@ -91,6 +91,7 @@ Use this layering model:
 
 Current shell overlay files:
 
+- `.zshenv`
 - `.zshrc`
 - `shell/zshrc.shared`
 - `shell/zshrc.macos`
@@ -119,8 +120,9 @@ Example starter files live in:
 
 For the current shell setup, the loader order is:
 
-1. `.zshrc`
-2. `shell/zshrc.shared`
-3. `shell/zshrc.<os>`
-4. `shell/zshrc.host.<hostname>`
-5. `~/.config/rspurgeon/local.zsh`
+1. `.zshenv` for quiet non-interactive PATH setup
+2. `.zshrc`
+3. `shell/zshrc.shared`
+4. `shell/zshrc.<os>`
+5. `shell/zshrc.host.<hostname>`
+6. `~/.config/rspurgeon/local.zsh`

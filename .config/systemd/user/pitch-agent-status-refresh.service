@@ -4,4 +4,5 @@ Description=Refresh Pitch agent status summary
 [Service]
 Type=oneshot
 Environment=PITCH_ROOT=/home/rspurgeon/dev/rspurgeon/pitch
+Environment=PATH=/home/rspurgeon/.local/share/mise/shims:/home/rspurgeon/.local/bin:/usr/local/bin:/usr/bin:/bin
 ExecStart=/home/rspurgeon/.local/bin/pitch agent-status

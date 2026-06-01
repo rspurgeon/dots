@@ -13,5 +13,7 @@ for fragment in \
     "$DOTS_DIR/shell/zshrc.host.$DOTS_HOSTNAME" \
     "$HOME/.config/rspurgeon/local.zsh"
 do
-    [ -f "$fragment" ] && source "$fragment"
+    if [ -f "$fragment" ]; then
+        source "$fragment"
+    fi
 done

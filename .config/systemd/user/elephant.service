@@ -5,7 +5,8 @@ After=graphical-session.target
 
 [Service]
 Type=simple
-ExecStart=elephant
+Environment=PATH=/home/rspurgeon/.local/share/mise/shims:/home/rspurgeon/.local/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/usr/bin/elephant
 Restart=on-failure
 
 [Install]

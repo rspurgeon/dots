@@ -84,6 +84,7 @@ tmux_conf_theme_message_command_attr='bold'
 tmux_conf_theme_mode_fg='#000F06'                       # kong dark green
 tmux_conf_theme_mode_bg='#CCFF00'                       # kong electric lime
 tmux_conf_theme_mode_attr='bold'
+setw -g mode-style 'fg=#000F06,bg=#CCFF00,bold' #!important
 
 # status line style
 tmux_conf_theme_status_fg='#B7BDB5'                     # kong bay
@@ -181,7 +182,7 @@ tmux_conf_theme_right_separator_sub='\uE0B3'  #   PowerlineSymbols.otf font, see
 #     - #{username}
 #     - #{username_ssh}
 tmux_conf_theme_status_left=' ❐ #S '
-tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized} #{?battery_status, #{battery_status},}#{?battery_bar, #{battery_bar},}#{?battery_percentage, #{battery_percentage},} , %R , %d %b '
+tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized} #{?battery_status, #{battery_status},}#{?battery_bar, #{battery_bar},}#{?battery_percentage, #{battery_percentage},} , #{hostname} , %R , %d %b '
 
 # status left style
 tmux_conf_theme_status_left_fg='#000F06,#B7BDB5,#B7BDB5'  # kong dark green, kong bay, kong bay
@@ -378,6 +379,7 @@ set -g @plugin 'tmux-plugins/tmux-resurrect'
 # set -g @plugin 'git@bitbucket.com:user/plugin'
 
 # Keep a divider line above the powerline status bar.
+set -g status-position bottom #!important
 set -g pane-border-status bottom
 set -g pane-border-format ""
 

@@ -31,7 +31,7 @@
 [user]
     name = Rick Spurgeon
     email = 10521262+rspurgeon@users.noreply.github.com
-    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPsRp2PBMiMAywPZ9Dcj+fJ/dlQrpKaxCLArjjfRXjLp
+    signingkey = ~/.ssh/id_ed25519.pub
 [url "git@github.com:"]
     insteadOf = git://github.com/
 [url "ssh://git@github.com/"]

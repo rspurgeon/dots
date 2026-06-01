@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+user_name="${USER:-$(id -un)}"
+zsh_path="$(command -v zsh || true)"
+autosuggestions_dir="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
+syntax_highlighting_dir="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
+
+if [ -z "$zsh_path" ]; then
+    if command -v omarchy >/dev/null 2>&1; then
+        echo "zsh is not installed; installing with omarchy pkg add zsh"
+        omarchy pkg add zsh
+        zsh_path="$(command -v zsh || true)"
+    else
+        echo "zsh is not installed. Install it with your system package manager first." >&2
+        exit 1
+    fi
+fi
+
+if ! grep -qx "$zsh_path" /etc/shells; then
+    echo "$zsh_path is not listed in /etc/shells. Add it before changing shells." >&2
+    exit 1
+fi
+
+if ! command -v prettyping >/dev/null 2>&1; then
+    if command -v omarchy >/dev/null 2>&1; then
+        echo "prettyping is not installed; installing with omarchy pkg add prettyping"
+        if ! omarchy pkg add prettyping; then
+            echo "could not install prettyping automatically; run: omarchy pkg add prettyping" >&2
+        fi
+    else
+        echo "prettyping is not installed. Install it with your system package manager for the enhanced ping alias." >&2
+    fi
+else
+    echo "prettyping already installed"
+fi
+
+if [ ! -d "$autosuggestions_dir/.git" ]; then
+    echo "installing zsh-autosuggestions at $autosuggestions_dir"
+    mkdir -p "$(dirname "$autosuggestions_dir")"
+    git clone https://github.com/zsh-users/zsh-autosuggestions "$autosuggestions_dir"
+else
+    echo "zsh-autosuggestions already installed at $autosuggestions_dir"
+fi
+
+if [ ! -d "$syntax_highlighting_dir/.git" ]; then
+    echo "installing zsh-syntax-highlighting at $syntax_highlighting_dir"
+    mkdir -p "$(dirname "$syntax_highlighting_dir")"
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting "$syntax_highlighting_dir"
+else
+    echo "zsh-syntax-highlighting already installed at $syntax_highlighting_dir"
+fi
+
+current_shell="$(getent passwd "$user_name" | cut -d: -f7)"
+if [ "$current_shell" = "$zsh_path" ]; then
+    echo "$user_name already uses $zsh_path"
+    exit 0
+fi
+
+echo "$user_name currently uses $current_shell"
+echo "Changing login shell to $zsh_path"
+
+if [ -t 0 ]; then
+    chsh -s "$zsh_path" "$user_name"
+else
+    echo "Run this from an interactive terminal:"
+    echo "  chsh -s $zsh_path $user_name"
+    exit 1
+fi

@@ -24,10 +24,14 @@ if [ -n "${TMUX:-}" ]; then
     tmux source-file "$HOME/.tmux.conf.local"
     "$TPM_DIR/bin/install_plugins"
 else
+    session_name="dots-setup-tmux"
+    tmux new-session -d -s "$session_name" 'sleep 5' 2>/dev/null || true
+    tmux source-file "$HOME/.tmux.conf"
+    tmux source-file "$HOME/.tmux.conf.local"
+    "$TPM_DIR/bin/install_plugins"
+    tmux kill-session -t "$session_name" 2>/dev/null || true
+
     echo "Base tmux config linked at $TMUX_CONF_LINK"
     echo "TPM installed at $TPM_DIR"
-    echo "Start tmux, then run:"
-    echo "  ~/.tmux/plugins/tpm/bin/install_plugins"
-    echo
-    echo "Or inside tmux, press prefix + I"
+    echo "tmux plugins installed"
 fi

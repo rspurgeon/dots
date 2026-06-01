@@ -29,6 +29,7 @@ cursor-style-blink = false
 # Shell Integration
 shell-integration = auto
 #shell-integration-features = cursor,sudo,title
+command = /usr/bin/zsh
 
 # Tmux-specific optimizations
 # Enable true color support (critical for tmux)
