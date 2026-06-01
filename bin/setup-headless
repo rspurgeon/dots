@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+DOTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+host_name="${DOTS_HOSTNAME:-$(hostname)}"
+profiles="$("$DOTS_DIR/bin/bootstrap" status | awk '/^profiles / { $1=""; sub(/^ /, ""); print }')"
+backup_root="$HOME/.dots-backups/headless-$host_name-$(date +%Y%m%d-%H%M%S)"
+
+has_profile() {
+    local profile="$1"
+    local item
+
+    IFS=',' read -r -a items <<< "$profiles"
+    for item in "${items[@]}"; do
+        item="${item#"${item%%[![:space:]]*}"}"
+        item="${item%"${item##*[![:space:]]}"}"
+        if [ "$item" = "$profile" ]; then
+            return 0
+        fi
+    done
+    return 1
+}
+
+backup_path() {
+    local path="$1"
+    local rel="${path#/}"
+    local destination="$backup_root/$rel"
+
+    mkdir -p "$(dirname "$destination")"
+    mv "$path" "$destination"
+    printf 'backup  %s -> %s\n' "$path" "$destination"
+}
+
+backup_link_if_desktop_managed() {
+    local path="$1"
+    local target
+
+    [ -L "$path" ] || return 0
+    target="$(readlink "$path")"
+    case "$target" in
+        "$DOTS_DIR/.config/hypr/"*|"$DOTS_DIR/.config/waybar/"*|"$DOTS_DIR/.config/omarchy/"*|"$DOTS_DIR/.local/bin/kong-bg")
+            backup_path "$path"
+            ;;
+    esac
+}
+
+if has_profile desktop; then
+    echo "$host_name has desktop profile; refusing headless cleanup" >&2
+    exit 1
+fi
+
+"$DOTS_DIR/bin/bootstrap" apply
+
+for path in \
+    "$HOME/.local/bin/kong-bg" \
+    "$HOME/.config/hypr/"* \
+    "$HOME/.config/waybar/"* \
+    "$HOME/.config/omarchy/themes/kong/"*
+do
+    [ -e "$path" ] || [ -L "$path" ] || continue
+    backup_link_if_desktop_managed "$path"
+done
+
+if command -v systemctl >/dev/null 2>&1; then
+    systemctl --user disable --now elephant.service >/dev/null 2>&1 || true
+    systemctl --user stop app-walker@autostart.service wayland-wm@hyprland.desktop.service >/dev/null 2>&1 || true
+fi
+
+cat <<EOF
+
+Headless user cleanup complete for $host_name.
+
+To prevent the full desktop from starting on boot, run these on $host_name:
+
+  sudo systemctl disable --now sddm.service
+  sudo systemctl set-default multi-user.target
+
+To stop the current graphical session immediately, run:
+
+  systemctl --user stop wayland-wm@hyprland.desktop.service
+
+EOF
