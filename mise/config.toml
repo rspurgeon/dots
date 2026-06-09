@@ -38,3 +38,8 @@ tmux = "3.6a"
 vale = "latest"
 vercel = "latest"
 yq = "latest"
+
+[settings]
+
+[settings.github]
+credential_command = 'test -r "$HOME/.tok/GITHUB_TOKEN" && cat "$HOME/.tok/GITHUB_TOKEN" || true'

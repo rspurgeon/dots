@@ -144,7 +144,7 @@ Example starter files live in:
 
 For the current shell setup, the loader order is:
 
-1. `.zshenv` for quiet non-interactive PATH setup
+1. `.zshenv` for quiet non-interactive PATH and user `ssh-agent` socket setup
 2. `.zshrc`
 3. `shell/zshrc.shared`
 4. `shell/zshrc.<os>`

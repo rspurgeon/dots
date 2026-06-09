@@ -4,3 +4,7 @@
 typeset -U path
 path=("$HOME/.local/share/mise/shims" "$HOME/.local/bin" $path)
 export PATH
+
+if [ -z "${SSH_AUTH_SOCK:-}" ] && [ -n "${XDG_RUNTIME_DIR:-}" ] && [ -S "$XDG_RUNTIME_DIR/ssh-agent.socket" ]; then
+    export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+fi

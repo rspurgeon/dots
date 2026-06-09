@@ -101,6 +101,12 @@ bindkey -M viins '^P' up-line-or-history
 bindkey -M viins '^N' down-line-or-history
 bindkey -M viins '^E' autosuggest-accept
 
+if (( $+functions[e2e-scenario-prompt] )); then
+    zle -N e2e-scenario-prompt
+    bindkey '^G' e2e-scenario-prompt
+    bindkey -M viins '^G' e2e-scenario-prompt
+fi
+
 autosuggest-toggle() {
     if [[ -n "${ZSH_AUTOSUGGEST_DISABLED:-}" ]]; then
         _zsh_autosuggest_enable
@@ -208,7 +214,10 @@ alias ggo='git checkout'
 alias gsa='git --no-pager stash list'
 alias gpom='git push origin main'
 alias gwt='git worktree'
+alias gb='git branch'
 alias gbv='git branch -vv'
+alias gbd='git branch -d'
+alias gbD='git branch -D'
 alias get='gpu && grpo'
 
 alias lg='lazygit'
@@ -253,7 +262,22 @@ fi
 bindkey '^R' fzf-history-widget
 
 autoload -U compinit && compinit
+zmodload -i zsh/complist
+zstyle ':completion:*' menu select
+bindkey '^I' expand-or-complete
+bindkey -M viins '^I' expand-or-complete
+bindkey -M menuselect '^I' menu-complete
+bindkey -M menuselect '^M' .accept-line
 autoload -U +X bashcompinit && bashcompinit
+dots-register-completions() {
+    (( $+functions[compdef] )) || return 0
+
+    if (( $+functions[_dots_make] )); then
+        autoload -Uz _make
+        compdef _dots_make make m gmake
+    fi
+}
+dots-register-completions
 if command -v zoxide >/dev/null 2>&1; then
     eval "$(zoxide init zsh)"
 fi

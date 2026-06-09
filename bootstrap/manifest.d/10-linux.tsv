@@ -3,3 +3,4 @@
 # .config/hypr	~/.config/hypr	linux	*
 # .config/waybar	~/.config/waybar	linux	*
 # .config/systemd/user	~/.config/systemd/user	linux	*
+.config/tmux/tmux.conf	~/.config/tmux/tmux.conf	linux	*

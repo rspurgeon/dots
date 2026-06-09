@@ -26,7 +26,7 @@ through overlays rather than long-lived machine branches.
 
 The shell config is layered:
 
-* `.zshenv` is a quiet non-interactive PATH baseline for `mise` shims and local bins
+* `.zshenv` is a quiet non-interactive baseline for `mise` shims, local bins, and the user `ssh-agent` socket
 * `.zshrc` is a thin interactive loader
 * `shell/zshrc.shared` contains the common interactive baseline
 * `shell/zshrc.macos` or `shell/zshrc.linux` contains OS-specific setup

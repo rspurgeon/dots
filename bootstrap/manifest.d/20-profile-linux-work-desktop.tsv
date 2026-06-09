@@ -1,12 +1,14 @@
 # source	target	os	host
 .curlrc	~/.curlrc	linux	profile:work
 .config/codex/guest	~/.config/codex/guest	linux	profile:work
+.config/codex/hooks/nono-post-tool-use.sh	~/.config/codex/hooks/nono-post-tool-use.sh	linux	profile:work
 .config/pitch/config.yaml	~/.config/pitch/config.yaml	linux	profile:work
 nono/profiles/kongctl-claude.json	~/.config/nono/profiles/kongctl-claude.json	linux	profile:work
 nono/profiles/kongctl-codex.json	~/.config/nono/profiles/kongctl-codex.json	linux	profile:work
 nono/profiles/pitch-claude.json	~/.config/nono/profiles/pitch-claude.json	linux	profile:work
 nono/profiles/pitch-codex.json	~/.config/nono/profiles/pitch-codex.json	linux	profile:work
 .local/bin/kong-bg	~/.local/bin/kong-bg	linux	profile:desktop
+.local/bin/omarchy-launch-apps	~/.local/bin/omarchy-launch-apps	linux	profile:desktop
 .config/hypr/autostart.conf	~/.config/hypr/autostart.conf	linux	profile:desktop
 .config/hypr/bindings.conf	~/.config/hypr/bindings.conf	linux	profile:desktop
 .config/hypr/envs.conf	~/.config/hypr/envs.conf	linux	profile:desktop
@@ -18,6 +20,7 @@ nono/profiles/pitch-codex.json	~/.config/nono/profiles/pitch-codex.json	linux	pr
 .config/hypr/looknfeel.conf	~/.config/hypr/looknfeel.conf	linux	profile:desktop
 .config/hypr/hosts/{host}/monitors.conf	~/.config/hypr/monitors.conf	linux	profile:desktop
 .config/hypr/hosts/{host}/workspaces.conf	~/.config/hypr/workspaces.conf	linux	profile:desktop
+.config/walker/config.toml	~/.config/walker/config.toml	linux	profile:desktop
 .config/waybar/config.jsonc	~/.config/waybar/config.jsonc	linux	profile:desktop
 .config/waybar/style.css	~/.config/waybar/style.css	linux	profile:desktop
 .config/omarchy/themes/kong/colors.toml	~/.config/omarchy/themes/kong/colors.toml	linux	profile:desktop

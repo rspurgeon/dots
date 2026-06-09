@@ -5,6 +5,55 @@ alias kk='./kongctl'
 alias ve='nvim .latest-e2e/tests'
 alias ro='make reset-org'
 
+e2e-scenario-prompt() {
+    BUFFER="make test-e2e-scenarios SCENARIO="
+    CURSOR=${#BUFFER}
+    zle redisplay
+}
+
+dots-kongctl-root() {
+    local dir="${PWD:A}"
+    while [[ -n "$dir" && "$dir" != / ]]; do
+        if [[ -f "$dir/Makefile" && -d "$dir/test/e2e/scenarios" ]]; then
+            print -r -- "$dir"
+            return 0
+        fi
+        dir="${dir:h}"
+    done
+
+    if [[ -d "$HOME/dev/kong/kongctl/test/e2e/scenarios" ]]; then
+        print -r -- "$HOME/dev/kong/kongctl"
+        return 0
+    fi
+
+    return 1
+}
+
+_dots_kongctl_e2e_scenarios() {
+    local root scenarios_dir
+    local -a scenario_files scenarios
+
+    root="$(dots-kongctl-root)" || return 1
+    scenarios_dir="$root/test/e2e/scenarios"
+    scenario_files=("$scenarios_dir"/**/scenario.yaml(N))
+    (( ${#scenario_files} )) || return 1
+
+    scenarios=("${scenario_files[@]#$scenarios_dir/}")
+    scenarios=("${scenarios[@]%/scenario.yaml}")
+    compadd -S ' ' -a scenarios
+}
+
+_dots_make() {
+    if (( ${words[(Ie)test-e2e-scenarios]} || ${words[(Ie)scenario]} )); then
+        if [[ "${words[CURRENT]}" == SCENARIO=* ]]; then
+            compset -P 'SCENARIO=' || return 1
+            _dots_kongctl_e2e_scenarios && return 0
+        fi
+    fi
+
+    _make "$@"
+}
+
 if [ -f "$HOME/dev/chmouel/lazyworktree/shell/functions.zsh" ]; then
     source "$HOME/dev/chmouel/lazyworktree/shell/functions.zsh"
     lwt() { worktree_jump "$HOME/dev/kong/kongctl" "$@"; }

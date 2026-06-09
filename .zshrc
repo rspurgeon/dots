@@ -42,3 +42,7 @@ do
         source "$fragment"
     fi
 done
+
+if (( $+functions[dots-register-completions] )); then
+    dots-register-completions
+fi
