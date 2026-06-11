@@ -8,6 +8,11 @@
 # Stable symlink pattern for expiring tokens used by mise:
 #   ~/.tok/GITHUB_TOKEN -> ~/.tok/YYYYMMDD-GH_TOKEN
 #
-# mise/config.toml reads this through settings.github.credential_command.
+# mise/config.toml can read this through settings.github.credential_command.
+# MISE_GITHUB_TOKEN is scoped to mise, unlike broad GITHUB_TOKEN.
+# if [ -s "$HOME/.tok/GITHUB_TOKEN" ]; then
+#     export MISE_GITHUB_TOKEN="$(cat "$HOME/.tok/GITHUB_TOKEN")"
+# fi
+#
 # Do not export GITHUB_TOKEN globally; it can shadow git, gh, and other auth.
 # unset GITHUB_TOKEN

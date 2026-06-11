@@ -26,7 +26,8 @@ bindings = [
   { key = "Space", mods = "Control", chars = "\u0000" },
   { key = "Insert", mods = "Shift", action = "Paste" },
   { key = "Insert", mods = "Control", action = "Copy" },
-  { key = "Return", mods = "Shift", chars = "\u001B\r" }
+  { key = "Return", mods = "Shift", chars = "\u001B\r" },
+  { key = "Return", mods = "Control", chars = "\u001B\r" }
 ]
 
 [terminal]

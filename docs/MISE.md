@@ -62,6 +62,8 @@ symlink back into the active repo. For `mise`, a copied global config is more
 stable than a symlink.
 
 GitHub-backed tools use the repo-managed `settings.github.credential_command`.
+Interactive shells may also export `MISE_GITHUB_TOKEN` from the same local
+token file so mise has a scoped token without exposing broad `GITHUB_TOKEN`.
 Keep the token itself out of the repo by maintaining this local symlink:
 
 ```bash
@@ -69,8 +71,7 @@ Keep the token itself out of the repo by maintaining this local symlink:
 ```
 
 Do not export `GITHUB_TOKEN` globally from shell startup files. That variable is
-used by many tools and can shadow normal `git` or `gh` authentication. The mise
-credential command reads the token only when mise needs GitHub API access.
+used by many tools and can shadow normal `git` or `gh` authentication.
 
 4. Verify current state:
 

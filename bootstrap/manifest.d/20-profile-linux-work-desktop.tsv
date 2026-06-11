@@ -20,6 +20,8 @@ nono/profiles/pitch-codex.json	~/.config/nono/profiles/pitch-codex.json	linux	pr
 .config/hypr/looknfeel.conf	~/.config/hypr/looknfeel.conf	linux	profile:desktop
 .config/hypr/hosts/{host}/monitors.conf	~/.config/hypr/monitors.conf	linux	profile:desktop
 .config/hypr/hosts/{host}/workspaces.conf	~/.config/hypr/workspaces.conf	linux	profile:desktop
+.config/elephant/files.toml	~/.config/elephant/files.toml	linux	profile:desktop
+.config/systemd/user/elephant.service	~/.config/systemd/user/elephant.service	linux	profile:desktop
 .config/walker/config.toml	~/.config/walker/config.toml	linux	profile:desktop
 .config/waybar/config.jsonc	~/.config/waybar/config.jsonc	linux	profile:desktop
 .config/waybar/style.css	~/.config/waybar/style.css	linux	profile:desktop

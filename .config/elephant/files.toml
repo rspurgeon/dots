@@ -1,0 +1,5 @@
+# Keep Elephant resident for Walker's app launcher without indexing $HOME.
+search_dirs = ["/home/rspurgeon/.local/share/elephant-empty"]
+watch = false
+watch_dirs = []
+hide_from_providerlist = true

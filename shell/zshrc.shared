@@ -170,6 +170,9 @@ alias hunta='ag -A5 -B5'
 alias spot='find . -name'
 alias ghc='gh copilot'
 alias s='ag --nobreak --nonumbers --noheading . | fzf --delimiter=: --nth=2..'
+
+autoload -Uz edit-command-line
+zle -N edit-command-line
 bindkey -M vicmd v edit-command-line
 
 tmp() {
