@@ -101,6 +101,14 @@ Runtime/plugin managers are also handled outside bootstrap. For tmux, use
 [bin/setup-tmux](/Users/rick.spurgeon/dev/rspurgeon/dots/bin/setup-tmux) to install TPM and then install tmux plugins.
 For Neovim, use [bin/setup-nvim](/Users/rick.spurgeon/dev/rspurgeon/dots/bin/setup-nvim) to install `packer.nvim`, then run `nvim +PackerSync`.
 
+Desktop integration state is also handled outside bootstrap. On Omarchy Linux
+desktops, use [bin/setup-omarchy-browser-defaults](/Users/rick.spurgeon/dev/rspurgeon/dots/bin/setup-omarchy-browser-defaults)
+after Firefox and Chromium are installed. It keeps Firefox as the normal XDG
+browser while preserving Chromium-backed Omarchy web app launchers, refreshes
+the desktop application database, and restarts Walker when it is running. Do
+not manage `~/.config/mimeapps.list` through the symlink manifest; desktop tools
+rewrite that file as user state.
+
 ## Overlay model
 
 `main` is intended to support multiple machines from one repo.

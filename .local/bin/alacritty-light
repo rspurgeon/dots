@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Launch Alacritty with the light theme for CLI testing.
+# Does not touch the default alacritty config or starship config.
+exec alacritty \
+  --config-file ~/.config/alacritty/alacritty-light.toml \
+  -e env STARSHIP_CONFIG="$HOME/.config/starship-light.toml" /usr/bin/zsh "$@"

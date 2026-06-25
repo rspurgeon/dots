@@ -1,0 +1,81 @@
+# Standalone light-theme config for CLI testing.
+# Launch with: alacritty --config-file ~/.config/alacritty/alacritty-light.toml
+# or via the alacritty-light script.
+# Does NOT import the omarchy theme -- fully self-contained.
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+normal = { family = "JetBrainsMono Nerd Font Mono" }
+bold   = { family = "JetBrainsMono Nerd Font Mono" }
+italic = { family = "JetBrainsMono Nerd Font Mono" }
+size   = 11
+
+[window]
+padding.x = 6
+padding.y = 3
+title = "light-term"
+
+[bell]
+duration = 0
+command  = "None"
+
+[keyboard]
+bindings = [
+  { key = "Space",  mods = "Control", chars = "\u0000" },
+  { key = "Insert", mods = "Shift",   action = "Paste" },
+  { key = "Insert", mods = "Control", action = "Copy" },
+  { key = "Return", mods = "Shift",   chars = "\u001B\r" },
+  { key = "Return", mods = "Control", chars = "\u001B\r" },
+]
+
+[terminal]
+osc52 = "CopyPaste"
+
+[terminal.shell]
+program = "/usr/bin/zsh"
+
+[colors.primary]
+background = "#FFFFFF"
+foreground = "#1E1E1E"
+
+[colors.cursor]
+text   = "#FFFFFF"
+cursor = "#1E1E1E"
+
+[colors.vi_mode_cursor]
+text   = "#FFFFFF"
+cursor = "#1E1E1E"
+
+[colors.search.matches]
+foreground = "#FFFFFF"
+background = "#0063CC"
+
+[colors.search.focused_match]
+foreground = "#FFFFFF"
+background = "#CC3300"
+
+[colors.selection]
+text       = "#FFFFFF"
+background = "#3372C8"
+
+[colors.normal]
+black   = "#1E1E1E"
+red     = "#AA0000"
+green   = "#006600"
+yellow  = "#897200"
+blue    = "#0044CC"
+magenta = "#880099"
+cyan    = "#006E80"
+white   = "#AAAAAA"
+
+[colors.bright]
+black   = "#555555"
+red     = "#DD3300"
+green   = "#008800"
+yellow  = "#B89000"
+blue    = "#1155EE"
+magenta = "#BB00CC"
+cyan    = "#008EA0"
+white   = "#DDDDDD"

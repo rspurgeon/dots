@@ -1,0 +1,109 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if [ "$(uname -s)" != "Linux" ]; then
+    echo "setup-omarchy-browser-defaults is only needed on Linux desktops"
+    exit 0
+fi
+
+export OMARCHY_PATH="${OMARCHY_PATH:-$HOME/.local/share/omarchy}"
+case ":$PATH:" in
+    *":$OMARCHY_PATH/bin:"*) ;;
+    *) export PATH="$OMARCHY_PATH/bin:$PATH" ;;
+esac
+
+missing=0
+for cmd in xdg-settings xdg-mime firefox chromium omarchy-launch-webapp; do
+    if ! command -v "$cmd" >/dev/null 2>&1; then
+        echo "missing required command: $cmd" >&2
+        missing=1
+    fi
+done
+
+if [ "$missing" -ne 0 ]; then
+    exit 1
+fi
+
+desktop_exec() {
+    local desktop_id="$1"
+    local dir
+
+    for dir in \
+        "$HOME/.local/share/applications" \
+        "$HOME/.nix-profile/share/applications" \
+        /usr/share/applications
+    do
+        [ -f "$dir/$desktop_id" ] || continue
+        sed -n '/^Exec=/{s/^Exec=\([^ ]*\).*/\1/p;q;}' "$dir/$desktop_id"
+        return
+    done
+}
+
+xdg-settings set default-web-browser firefox.desktop
+xdg-mime default firefox.desktop x-scheme-handler/http
+xdg-mime default firefox.desktop x-scheme-handler/https
+xdg-mime default firefox.desktop text/html
+
+if [ -f "$HOME/.local/share/applications/HEY.desktop" ]; then
+    xdg-mime default HEY.desktop x-scheme-handler/mailto
+fi
+
+if [ -f "$HOME/.local/share/applications/Zoom.desktop" ]; then
+    xdg-mime default Zoom.desktop x-scheme-handler/zoommtg
+    xdg-mime default Zoom.desktop x-scheme-handler/zoomus
+fi
+
+if command -v update-desktop-database >/dev/null 2>&1 && [ -d "$HOME/.local/share/applications" ]; then
+    update-desktop-database "$HOME/.local/share/applications"
+fi
+
+default_browser="$(xdg-settings get default-web-browser)"
+if [ "$default_browser" != "firefox.desktop" ]; then
+    echo "expected firefox.desktop default browser, got $default_browser" >&2
+    exit 1
+fi
+
+webapp_browser="$default_browser"
+case "$webapp_browser" in
+    google-chrome*|brave*|microsoft-edge*|opera*|vivaldi*|helium*) ;;
+    *) webapp_browser="chromium.desktop" ;;
+esac
+
+webapp_exec="$(desktop_exec "$webapp_browser")"
+if [ -z "$webapp_exec" ]; then
+    echo "could not resolve $webapp_browser for Omarchy web apps" >&2
+    exit 1
+fi
+
+case "$webapp_exec" in
+    *chromium*) ;;
+    *)
+        echo "expected Omarchy web apps to resolve to chromium, got $webapp_exec" >&2
+        exit 1
+        ;;
+esac
+
+echo "default browser: $default_browser"
+echo "web app browser: $webapp_exec"
+
+if command -v pgrep >/dev/null 2>&1 && pgrep -x elephant >/dev/null; then
+    pkill -x elephant >/dev/null 2>&1 || true
+    for _ in {1..40}; do
+        pgrep -x elephant >/dev/null || break
+        sleep 0.05
+    done
+fi
+
+if command -v uwsm-app >/dev/null 2>&1 && command -v elephant >/dev/null 2>&1; then
+    setsid uwsm-app -- env OMARCHY_PATH="$OMARCHY_PATH" PATH="$PATH" elephant >/dev/null 2>&1 &
+    echo "restarted Elephant"
+fi
+
+if command -v systemctl >/dev/null 2>&1 && systemctl --user is-active --quiet app-walker@autostart.service; then
+    if systemctl --user restart app-walker@autostart.service; then
+        echo "restarted Walker"
+    else
+        echo "could not restart Walker; run: omarchy restart walker" >&2
+    fi
+fi

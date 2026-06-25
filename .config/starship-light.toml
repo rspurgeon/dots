@@ -1,0 +1,53 @@
+# Starship config for light terminal (alacritty-light).
+# Same structure as starship.toml but with high-contrast colors for white backgrounds.
+# Original Rose Pine pastels replaced with WCAG AA-compliant dark equivalents.
+
+format = """
+[┌─](#8B2027) $character$cmd_duration$hostname(#8B2027)(#4B3E6B)[$directory $git_branch$git_status$git_state](#1C5875)
+[└─❯❯](#8B2027) """
+
+[cmd_duration]
+disabled = false
+min_time = 0
+format = "[$duration](#1C5875)"
+style = "bold blue"
+
+[character]
+format='$symbol'
+error_symbol='[ ](#B01050)'
+success_symbol='[ ](#1C5875)'
+
+[hostname]
+ssh_only = false
+format = ' [$hostname](#8B5A00)'
+
+[aws]
+disabled=false
+format=' [  $symbol](black)[($profile )(\($region\) )(\[$duration\] )](#8B5A00) '
+symbol=''
+
+[terraform]
+disabled=true
+
+[status]
+disabled=true
+
+[directory]
+format=" $path"
+truncation_length=2
+truncate_to_repo=false
+fish_style_pwd_dir_length=0
+
+[git_branch]
+format="[$symbol](#4B3E6B)[$branch(:$remote_branch)](#1C5875) "
+
+[git_status]
+format='([\[$modified$ahead_behind\]](#1C5875) )'
+
+[kubernetes]
+disabled=false
+format = '[$symbol](black)[$context](#7B3100) '
+
+[kubernetes.context_aliases]
+"arn:aws:eks:(?P<var_region>[\\w-]+):(?P<var_acct>[\\d]+):cluster/(?P<var_cluster>[\\w-]+)" = "$var_cluster => $var_region"
+"gke_.*_(?P<var_cluster>[\\w-]+)" = "gke-$var_cluster"

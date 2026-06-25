@@ -57,7 +57,8 @@ For a new machine or a major refactor migration, use this order:
 * `~/.config/git/config.local`
 9. Run `bin/bootstrap plan`
 10. Run `bin/bootstrap apply`
-11. Open a new shell and verify the machine with:
+11. On Omarchy Linux desktops, run `bin/setup-omarchy-browser-defaults` after installing Firefox and Chromium
+12. Open a new shell and verify the machine with:
 * `bin/bootstrap status`
 * `bin/mise-sync status`
 
@@ -183,6 +184,11 @@ For `systemd --user` units on Linux:
 * Keep the tracked unit file contents in the repo under `.config/systemd/user/*.service` and `*.timer`.
 * Reload and activate them with `systemctl --user daemon-reload` and the appropriate `enable` or `start` commands.
 * Avoid assuming repo-managed `*.wants` symlinks belong in Git or bootstrap manifests unless you have verified that behavior on the target host.
+
+For Omarchy browser defaults on Linux desktops:
+
+* Use `bin/setup-omarchy-browser-defaults` to keep Firefox as the normal XDG browser while Omarchy web app launchers continue to use Chromium's `--app` mode.
+* Do not commit `~/.config/mimeapps.list`; desktop tools rewrite it as user state.
 
 Install [exa](https://github.com/ogham/exa) for better file listing
 * `brew install exa`
