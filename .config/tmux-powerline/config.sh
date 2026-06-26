@@ -16,8 +16,12 @@
 	# Overlay directory to look for segments. There you can put your own segments outside the repo. Fallback will still be the "segments" directory in the repo.
 	export TMUX_POWERLINE_DIR_USER_SEGMENTS="${XDG_CONFIG_HOME:-$HOME/.config}/tmux-powerline-segments"
 
-	# The initial visibility of the status bar. Can be {"on, off"}.
-	export TMUX_POWERLINE_STATUS_VISIBILITY="on"
+	# The initial visibility of the status bar. Can be {"on", "off", "2"}. 2 creates separate rows for windows and status segments.
+	export TMUX_POWERLINE_STATUS_VISIBILITY="2"
+	# Keep the AI status on the upper row, with windows and right-side status on the lower row.
+	export TMUX_POWERLINE_WINDOW_STATUS_LINE=1
+	export TMUX_POWERLINE_STATUS_FORMAT_WINDOW="${TMUX_POWERLINE_STATUS_FORMAT_WINDOW_DEFAULT}${TMUX_POWERLINE_STATUS_FORMAT_RIGHT_DEFAULT}"
+	export TMUX_POWERLINE_STATUS_FORMAT_RIGHT="#[default]"
 	# The status bar refresh interval in seconds.
 	# Note that events that force-refresh the status bar (such as window renaming) will ignore this.
 	export TMUX_POWERLINE_STATUS_INTERVAL="1"

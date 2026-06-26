@@ -87,17 +87,16 @@ esac
 echo "default browser: $default_browser"
 echo "web app browser: $webapp_exec"
 
-if command -v pgrep >/dev/null 2>&1 && pgrep -x elephant >/dev/null; then
-    pkill -x elephant >/dev/null 2>&1 || true
-    for _ in {1..40}; do
-        pgrep -x elephant >/dev/null || break
-        sleep 0.05
-    done
-fi
-
-if command -v uwsm-app >/dev/null 2>&1 && command -v elephant >/dev/null 2>&1; then
+if command -v systemctl >/dev/null 2>&1 && systemctl --user list-unit-files elephant.service >/dev/null 2>&1; then
+    systemctl --user daemon-reload >/dev/null 2>&1 || true
+    if systemctl --user restart elephant.service; then
+        echo "restarted Elephant"
+    else
+        echo "could not restart Elephant; run: systemctl --user restart elephant.service" >&2
+    fi
+elif command -v uwsm-app >/dev/null 2>&1 && command -v elephant >/dev/null 2>&1; then
     setsid uwsm-app -- env OMARCHY_PATH="$OMARCHY_PATH" PATH="$PATH" elephant >/dev/null 2>&1 &
-    echo "restarted Elephant"
+    echo "started transient Elephant"
 fi
 
 if command -v systemctl >/dev/null 2>&1 && systemctl --user is-active --quiet app-walker@autostart.service; then

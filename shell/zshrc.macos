@@ -14,7 +14,11 @@ if command -v brew >/dev/null 2>&1; then
 fi
 source_if_exists "/usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
-eval "$(mise activate zsh --shims)"
+if command -v mise >/dev/null 2>&1; then
+    eval "$(mise activate zsh)"
+    path=("${(@)path:#$HOME/.local/share/mise/shims}")
+    export PATH
+fi
 
 if command -v starship >/dev/null 2>&1; then
     eval "$(starship init zsh)"

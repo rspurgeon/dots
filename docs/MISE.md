@@ -19,6 +19,7 @@ Use `mise` for:
 Do not force everything into `mise`. Keep using the platform package manager for:
 
 - GUI apps like iTerm2, Ghostty, Arc
+- coding agents like Claude Code, Codex, and opencode
 - fonts
 - tools that `mise` does not support well
 - services, drivers, and OS integrations
@@ -72,6 +73,11 @@ Keep the token itself out of the repo by maintaining this local symlink:
 
 Do not export `GITHUB_TOKEN` globally from shell startup files. That variable is
 used by many tools and can shadow normal `git` or `gh` authentication.
+
+Shell activation keeps `.zshenv` minimal. Login shells get the `mise` shim PATH
+from `.zprofile`; interactive shells then run `mise activate zsh` from
+`shell/zshrc.<os>`, remove the shim directory from the interactive PATH, and
+use mise-managed tool paths directly.
 
 4. Verify current state:
 

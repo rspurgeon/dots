@@ -2,7 +2,7 @@
 # Keep this quiet: it is read by every zsh invocation, including ssh host command.
 
 typeset -U path
-path=("$HOME/.local/share/mise/shims" "$HOME/.local/bin" $path)
+path=("$HOME/.local/bin" $path)
 export PATH
 
 if [ -z "${SSH_AUTH_SOCK:-}" ] && [ -n "${XDG_RUNTIME_DIR:-}" ] && [ -S "$XDG_RUNTIME_DIR/ssh-agent.socket" ]; then

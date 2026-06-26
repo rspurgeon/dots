@@ -1,43 +1,25 @@
 [tools]
-claude = { version = "latest", bin = "claude", platforms = """
-[linux-arm64]
-url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/{version}/linux-arm64/claude"
-
-[linux-x64]
-url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/{version}/linux-x64/claude"
-
-[macos-arm64]
-url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/{version}/darwin-arm64/claude"
-
-[macos-x64]
-url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/{version}/darwin-x64/claude"
-""", version_list_url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/stable" }
-codex = "latest"
-gcloud = "latest"
-gh = "latest"
-"github:Kong/deck" = "1.62.1"
-"github:agavra/tuicr" = "latest"
-"github:always-further/nono" = "latest"
-"github:chmouel/lazyworktree" = "latest"
-"github:Kong/kongctl" = "1.2.0"
+gcloud = "570.0.0"
+"github:agavra/tuicr" = "0.16.1"
+"github:always-further/nono" = "0.60.0"
+"github:chmouel/lazyworktree" = "1.46.0"
 "github:speakeasy-api/speakeasy" = "1.769.1"
-go = "latest"
-gofumpt = "latest"
+go = "1.26.3"
+gofumpt = "0.10.0"
 golangci-lint = "2.12.2"
-jq = "latest"
-kubectl = "latest"
-mockery = "latest"
+jq = "1.8.1"
+kubectl = "1.36.1"
+mockery = "3.7.0"
 neovim = "0.12.2"
 node = "26.3.0"
-"npm:@openchamber/web" = "latest"
-opencode = "latest"
+"npm:@openchamber/web" = "1.11.7"
 python = "3.11"
 starship = "1.25.1"
-terraform = "latest"
+terraform = "1.15.5"
 tmux = "3.6a"
-vale = "latest"
-vercel = "latest"
-yq = "latest"
+vale = "3.14.2"
+vercel = "54.6.1"
+yq = "4.53.2"
 
 [settings]
 

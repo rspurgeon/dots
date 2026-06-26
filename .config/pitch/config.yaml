@@ -2,7 +2,7 @@ defaults:
   repo: kong/kongctl
   agent: codex
   environment: host
-  worktree_root: ~/.local/share/worktrees
+  worktree_root: /home/rspurgeon/.local/share/worktrees
 
 bootstrap_prompts:
   issue: >
@@ -20,8 +20,8 @@ repos:
     sandbox: kongctl
     main_worktree: ~/dev/kong/kongctl
     additional_paths:
-      - ~/go
-      - ~/.config/kongctl
+      - /home/rspurgeon/go
+      - /home/rspurgeon/.config/kongctl
       - /home/rspurgeon/dev/kong/developer.konghq.com
     bootstrap_prompts:
       pr: >
@@ -32,7 +32,7 @@ repos:
         Wait for the next instruction.
   rspurgeon/pitch:
     sandbox: pitch
-    main_worktree: ~/dev/rspurgeon/pitch
+    main_worktree: /home/rspurgeon/dev/rspurgeon/pitch
 
 environments:
   host:
@@ -45,14 +45,14 @@ sandboxes:
   pitch:
     provider: nono
     profiles:
-      codex: ~/dev/rspurgeon/dots/nono/profiles/pitch-codex.json
-      claude: ~/dev/rspurgeon/dots/nono/profiles/pitch-claude.json
+      codex: /home/rspurgeon/dev/rspurgeon/dots/nono/profiles/pitch-codex.json
+      claude: /home/rspurgeon/dev/rspurgeon/dots/nono/profiles/pitch-claude.json
     capability_elevation: false
   kongctl:
     provider: nono
     profiles:
-      codex: ~/dev/rspurgeon/dots/nono/profiles/kongctl-codex.json
-      claude: ~/dev/rspurgeon/dots/nono/profiles/kongctl-claude.json
+      codex: /home/rspurgeon/dev/rspurgeon/dots/nono/profiles/kongctl-codex.json
+      claude: /home/rspurgeon/dev/rspurgeon/dots/nono/profiles/kongctl-claude.json
     capability_elevation: false
 
 agents:
@@ -70,7 +70,7 @@ agents:
       - --permission-mode
       - auto
     env:
-      CLAUDE_CONFIG_DIR: ~/.claude
+      CLAUDE_CONFIG_DIR: /home/rspurgeon/.claude
       CLAUDE_CODE_NO_FLICKER: "1"
 
   claude-personal:
@@ -79,5 +79,5 @@ agents:
       - --permission-mode
       - auto
     env:
-      CLAUDE_CONFIG_DIR: ~/.claude-personal
+      CLAUDE_CONFIG_DIR: /home/rspurgeon/.claude-personal
       CLAUDE_CODE_NO_FLICKER: "1"

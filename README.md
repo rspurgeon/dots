@@ -26,10 +26,11 @@ through overlays rather than long-lived machine branches.
 
 The shell config is layered:
 
-* `.zshenv` is a quiet non-interactive baseline for `mise` shims, local bins, and the user `ssh-agent` socket
+* `.zshenv` is a quiet non-interactive baseline for local bins and the user `ssh-agent` socket
+* `.zprofile` prepares login shells with the `mise` shim PATH before interactive startup
 * `.zshrc` is a thin interactive loader
 * `shell/zshrc.shared` contains the common interactive baseline
-* `shell/zshrc.macos` or `shell/zshrc.linux` contains OS-specific setup
+* `shell/zshrc.macos` or `shell/zshrc.linux` contains OS-specific setup, including interactive `mise activate`
 * `shell/zshrc.host.<hostname>` is for tracked host-specific overrides
 * `~/.config/rspurgeon/local.zsh` is the untracked local include for secrets and machine-private paths
 * `local/local.zsh.example` and `local/git-config.local.example` show the intended local-only shape
@@ -164,7 +165,7 @@ Install [powerline status bar](), which I use in vim and tmux
 Enable the environment by creating symbolic links to the dotfiles in this repository 
 * `bin/bootstrap plan`
 * `bin/bootstrap apply`
-* Managed paths currently include `.zshenv`, `.zshrc`, `.vimrc`, `.tmux.conf.local`, `.config/alacritty`, `.config/git/config`, `.config/nvim`, `.config/powerline`, `.config/starship.toml`, `.config/starship-simple.toml`, `.config/tmux-powerline`, `.config/tmux-powerline-segments`, `.config/ghostty`, `.local/bin/pitch`, `.local/bin/pitch-mcp`, and the iTerm2 dynamic profile on macOS
+* Managed paths currently include `.zshenv`, `.zprofile`, `.zshrc`, `.vimrc`, `.tmux.conf.local`, `.config/alacritty`, `.config/git/config`, `.config/nvim`, `.config/powerline`, `.config/starship.toml`, `.config/starship-simple.toml`, `.config/tmux-powerline`, `.config/tmux-powerline-segments`, `.config/ghostty`, `.local/bin/pitch`, `.local/bin/pitch-mcp`, and the iTerm2 dynamic profile on macOS
 * `mise` is handled by `bin/mise-sync`, which copies `mise/config.toml` into `~/.config/mise/config.toml` instead of symlinking it
 * Alacritty is the primary cross-machine terminal. Treat `.config/alacritty/alacritty.toml` as the authoritative source for terminal font size and related defaults; `.config/ghostty` is retained as a secondary config
 

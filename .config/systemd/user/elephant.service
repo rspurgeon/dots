@@ -5,7 +5,8 @@ After=graphical-session.target
 
 [Service]
 Type=simple
-Environment=PATH=/home/rspurgeon/.local/share/mise/shims:/home/rspurgeon/.local/bin:/usr/local/bin:/usr/bin:/bin
+Environment=OMARCHY_PATH=/home/rspurgeon/.local/share/omarchy
+Environment=PATH=/home/rspurgeon/.local/share/mise/shims:/home/rspurgeon/.local/share/omarchy/bin:/home/rspurgeon/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin
 ExecStart=/usr/bin/elephant
 Restart=on-failure
 

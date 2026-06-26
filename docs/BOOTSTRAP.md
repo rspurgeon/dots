@@ -124,6 +124,7 @@ Use this layering model:
 Current shell overlay files:
 
 - `.zshenv`
+- `.zprofile`
 - `.zshrc`
 - `shell/zshrc.shared`
 - `shell/zshrc.macos`
@@ -152,10 +153,11 @@ Example starter files live in:
 
 For the current shell setup, the loader order is:
 
-1. `.zshenv` for quiet non-interactive PATH and user `ssh-agent` socket setup
-2. `.zshrc`
-3. `shell/zshrc.shared`
-4. `shell/zshrc.<os>`
-5. `shell/zshrc.profile.<profile>` for each profile in `bootstrap/hosts.tsv`
-6. `shell/zshrc.host.<hostname>`
-7. `~/.config/rspurgeon/local.zsh`
+1. `.zshenv` for quiet non-interactive local-bin PATH and user `ssh-agent` socket setup
+2. `.zprofile` for login-shell `mise` shim PATH setup
+3. `.zshrc`
+4. `shell/zshrc.shared`
+5. `shell/zshrc.<os>` for interactive `mise activate` and OS-specific setup
+6. `shell/zshrc.profile.<profile>` for each profile in `bootstrap/hosts.tsv`
+7. `shell/zshrc.host.<hostname>`
+8. `~/.config/rspurgeon/local.zsh`
