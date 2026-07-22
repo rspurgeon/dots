@@ -314,6 +314,7 @@ bind -r C-l resize-pane -R #!important
 
 bind -r n next-window
 bind -r p previous-window
+bind w choose-tree -Zw -O index
 bind C-o run-shell 'target=$(tmux show-options -gvq @jump_back_previous); [ -n "$target" ] || { tmux display-message "No previous tmux location recorded"; exit 0; }; current=$(tmux display-message -p "#{session_id}:#{window_id}:#{pane_id}"); session=${target%%:*}; rest=${target#*:}; window=${rest%%:*}; pane=${rest##*:}; tmux switch-client -t "$session"; tmux select-window -t "$window"; tmux select-pane -t "$pane"; tmux set-option -gq @jump_back_previous "$current"; tmux set-option -gq @jump_back_current "$target"'
 bind C-a run-shell 'pitch agents-popup'
 

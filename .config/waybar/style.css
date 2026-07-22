@@ -8,7 +8,7 @@
   border-radius: 0;
   min-height: 0;
   font-family: 'JetBrainsMono Nerd Font Mono';
-  font-size: 16px;
+  font-size: 18px;
   border-radius: 8px;
 }
 
@@ -35,6 +35,7 @@
 #battery,
 #pulseaudio,
 #custom-omarchy,
+#custom-pitch-agents,
 #custom-screenrecording-indicator,
 #custom-update {
   min-width: 12px;
@@ -62,11 +63,21 @@ tooltip {
 }
 
 #custom-update {
-  font-size: 10px;
+  font-size: 12px;
+}
+
+#custom-pitch-agents {
+  font-size: 15px;
+}
+
+#custom-pitch-agents.question,
+#custom-pitch-agents.error {
+  font-weight: bold;
 }
 
 #clock {
-  margin-left: 6px;
+  margin-left: 10px;
+  margin-right: 6px;
 }
 
 .hidden {
@@ -76,7 +87,7 @@ tooltip {
 #custom-screenrecording-indicator {
   min-width: 12px;
   margin-left: 6px;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 #custom-screenrecording-indicator.active {

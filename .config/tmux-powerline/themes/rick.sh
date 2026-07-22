@@ -78,7 +78,6 @@ fi
 #
 if [ -z $TMUX_POWERLINE_LEFT_STATUS_SEGMENTS ]; then
 	TMUX_POWERLINE_LEFT_STATUS_SEGMENTS=(
-		"pitch_status $MY_BG_COLOR $MY_FG_COLOR default_separator no_sep_bg_color no_sep_fg_color left_disable" \
 	)
 fi
 #

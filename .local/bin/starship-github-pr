@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+set -u
+
+cache_root="${XDG_CACHE_HOME:-$HOME/.cache}/starship-github-pr"
+cache_ttl_seconds=300
+
+refresh_cache() {
+    local repo_root="$1"
+    local cache_file="$2"
+    local lock_dir="$3"
+    local number=""
+    local temp_file
+
+    mkdir -p "$cache_root"
+    mkdir "$lock_dir" 2>/dev/null || exit 0
+    trap 'rmdir "$lock_dir" 2>/dev/null || true' EXIT
+
+    if cd "$repo_root"; then
+        number="$(timeout 8 gh pr view --json number --jq '.number' 2>/dev/null || true)"
+    fi
+
+    temp_file="${cache_file}.$$"
+    printf '%s\n' "$number" > "$temp_file"
+    mv "$temp_file" "$cache_file"
+}
+
+if [[ "${1:-}" == "--refresh" ]]; then
+    refresh_cache "$2" "$3" "$4"
+    exit 0
+fi
+
+repo_root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 1
+branch="$(git symbolic-ref --quiet --short HEAD 2>/dev/null)" || exit 1
+
+# Pitch can resolve PR-backed workspaces without a GitHub request.
+pitch_state="$(
+    rg -l -F "worktree_path: $repo_root" "$HOME/.pitch/workspaces" \
+        --glob '*.yaml' 2>/dev/null | head -n 1
+)"
+if [[ -n "$pitch_state" ]]; then
+    source_kind="$(sed -n 's/^source_kind: //p' "$pitch_state" | head -n 1)"
+    if [[ "$source_kind" == "pr" ]]; then
+        source_number="$(sed -n 's/^source_number: //p' "$pitch_state" | head -n 1)"
+        if [[ "$source_number" =~ ^[0-9]+$ ]]; then
+            printf '%s\n' "$source_number"
+            exit 0
+        fi
+    fi
+fi
+
+remote="$(git remote get-url origin 2>/dev/null || printf '%s' "$repo_root")"
+cache_key="$(printf '%s\n%s\n' "$remote" "$branch" | sha256sum | cut -d' ' -f1)"
+cache_file="$cache_root/$cache_key"
+lock_dir="$cache_file.lock"
+now="$(date +%s)"
+cache_mtime=0
+
+if [[ -f "$cache_file" ]]; then
+    cache_mtime="$(stat -c %Y "$cache_file" 2>/dev/null || printf '0')"
+fi
+
+if (( now - cache_mtime >= cache_ttl_seconds )); then
+    nohup "$0" --refresh "$repo_root" "$cache_file" "$lock_dir" \
+        </dev/null >/dev/null 2>&1 &
+fi
+
+if [[ -f "$cache_file" ]]; then
+    number="$(head -n 1 "$cache_file")"
+    if [[ "$number" =~ ^[0-9]+$ ]]; then
+        printf '%s\n' "$number"
+        exit 0
+    fi
+fi
+
+exit 1

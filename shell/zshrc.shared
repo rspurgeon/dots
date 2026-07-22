@@ -134,6 +134,8 @@ bindkey '^H' prompt-toggle
 
 export EDITOR='nvim'
 export STARSHIP_CONFIG="${STARSHIP_CONFIG:-$HOME/.config/starship.toml}"
+export GHUI_BIN_PATH=/home/rspurgeon/dev/rspurgeon/ghui/dist/release/linux-x64/ghui
+
 
 alias c='curl -s'
 alias wmip='dig @resolver4.opendns.com myip.opendns.com +short'
@@ -278,6 +280,10 @@ dots-register-completions() {
     if (( $+functions[_dots_make] )); then
         autoload -Uz _make
         compdef _dots_make make m gmake
+    fi
+
+    if (( $+functions[_lwt] )); then
+        compdef _lwt lwt
     fi
 }
 dots-register-completions

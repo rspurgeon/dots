@@ -1,5 +1,5 @@
 format = """
-[┌─](#ebbcba) $character$cmd_duration$hostname(#ebbcba)(#6e6a86)[$directory $git_branch$git_status$git_state](#7695a0)
+[┌─](#ebbcba) $character$cmd_duration$hostname(#ebbcba)(#6e6a86)[$directory $git_branch${custom.github_pr}$git_status$git_state](#7695a0)${custom.kongctl_profile}${custom.kongctl_profile_env}
 [└─❯❯](#ebbcba) """
 
 #format = """
@@ -34,6 +34,21 @@ success_symbol='[ ](#7695a0)'
 ssh_only = false
 format = ' [$hostname](#eab676)'
 
+[custom.github_pr]
+when = true
+command = '/home/rspurgeon/dev/rspurgeon/dots/.local/bin/starship-github-pr'
+format = '([\(#$output\)](#858983) )'
+
+[custom.kongctl_profile]
+when = 'test -n "$KONGCTL_PROFILE"'
+command = 'profile="$KONGCTL_PROFILE"; case "$profile" in *_tech) printf "%s" "${profile%_tech}" ;; *_com) printf "%s" "${profile%_com}" ;; *) printf "%s" "$profile" ;; esac'
+format = '[󱐋](#CCFF00) [$output](#858983)'
+
+[custom.kongctl_profile_env]
+when = 'case "$KONGCTL_PROFILE" in *_tech|*_com) exit 0 ;; *) exit 1 ;; esac'
+command = 'case "$KONGCTL_PROFILE" in *_tech) printf "_tech" ;; *_com) printf "_com" ;; esac'
+format = '[$output](#CCFF00)'
+
 [aws]
 disabled=false
 format=' [  $symbol](white)[($profile )(\($region\) )(\[$duration\] )](#eab676) '
@@ -54,7 +69,7 @@ truncate_to_repo=false
 fish_style_pwd_dir_length=0
 
 [git_branch]
-format="[$symbol](#6e6a86)[$branch(:$remote_branch)](#7695a0) "
+format="[$symbol](#6e6a86)[$branch(:$remote_branch)](#f6c177) "
 
 [git_status]
 format='([\[$modified$ahead_behind\]](#7695a0) )'

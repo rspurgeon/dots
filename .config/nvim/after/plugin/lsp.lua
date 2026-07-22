@@ -2,7 +2,8 @@ local ok_lsp_zero, lsp_zero = pcall(require, 'lsp-zero')
 local ok_cmp, cmp = pcall(require, 'cmp')
 local ok_mason, mason = pcall(require, 'mason')
 local ok_mason_lspconfig, mason_lspconfig = pcall(require, 'mason-lspconfig')
-if not (ok_lsp_zero and ok_cmp and ok_mason and ok_mason_lspconfig) then
+local ok_lspconfig, lspconfig = pcall(require, 'lspconfig')
+if not (ok_lsp_zero and ok_cmp and ok_mason and ok_mason_lspconfig and ok_lspconfig) then
   return
 end
 
@@ -57,11 +58,40 @@ end)
 vim.keymap.set("n", "<leader>y", "\"+y")
 vim.diagnostic.config({ virtual_text = true })
 
+lsp_zero.extend_lspconfig({})
+
+local yaml_settings = {
+  yaml = {
+    completion = true,
+    hover = true,
+    validate = true,
+    format = {
+      enable = true,
+    },
+  },
+}
+
+local ok_schemastore, schemastore = pcall(require, 'schemastore')
+if ok_schemastore then
+  yaml_settings.yaml.schemaStore = {
+    enable = false,
+    url = "",
+  }
+  yaml_settings.yaml.schemas = schemastore.yaml.schemas()
+end
+
 mason.setup({})
 mason_lspconfig.setup({
+  ensure_installed = { 'yamlls' },
   handlers = {
     function(server)
       if server == 'gopls' or server == 'golangci_lint_ls' then
+        return
+      end
+      if server == 'yamlls' then
+        lspconfig.yamlls.setup({
+          settings = yaml_settings,
+        })
         return
       end
       lsp_zero.default_setup(server)

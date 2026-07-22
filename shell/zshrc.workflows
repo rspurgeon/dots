@@ -54,7 +54,153 @@ _dots_make() {
     _make "$@"
 }
 
-if [ -f "$HOME/dev/chmouel/lazyworktree/shell/functions.zsh" ]; then
-    source "$HOME/dev/chmouel/lazyworktree/shell/functions.zsh"
-    lwt() { worktree_jump "$HOME/dev/kong/kongctl" "$@"; }
+dots-lazyworktree-functions-file() {
+    local root
+
+    if command -v mise >/dev/null 2>&1; then
+        root="$(mise where github:chmouel/lazyworktree 2>/dev/null)"
+        if [[ -n "$root" && -f "$root/shell/functions.zsh" ]]; then
+            print -r -- "$root/shell/functions.zsh"
+            return 0
+        fi
+    fi
+
+    if [[ -f "$HOME/dev/chmouel/lazyworktree/shell/functions.zsh" ]]; then
+        print -r -- "$HOME/dev/chmouel/lazyworktree/shell/functions.zsh"
+        return 0
+    fi
+
+    return 1
+}
+
+dots-lazyworktree-root() {
+    local root main
+
+    if root="$(git rev-parse --show-toplevel 2>/dev/null)"; then
+        main="$(git -C "$root" worktree list --porcelain 2>/dev/null | awk '/^worktree / { sub(/^worktree /, ""); print; exit }')"
+        if [[ -n "$main" && -d "$main" ]]; then
+            print -r -- "$main"
+            return 0
+        fi
+
+        print -r -- "$root"
+        return 0
+    fi
+
+    if [[ -d "$HOME/dev/kong/kongctl" ]]; then
+        print -r -- "$HOME/dev/kong/kongctl"
+        return 0
+    fi
+
+    print -u2 "lwt: not in a git repository and no default worktree root found"
+    return 1
+}
+
+dots-lazyworktree-worktree-dir() {
+    local root="$1"
+    local id slug
+    local -a candidates
+
+    id="$(_git_repo_slug "$root" 2>/dev/null)"
+    if [[ -n "$id" ]]; then
+        slug="${id#*:}"
+    else
+        slug="${root:t}"
+    fi
+    slug="${slug%.git}"
+
+    candidates=(
+        "$HOME/.local/share/worktrees/$slug"
+        "$HOME/.local/share/worktrees/${slug:l}"
+        "$HOME/.local/share/worktrees/${root:t}"
+        "$HOME/.local/share/worktrees/${root:t:l}"
+    )
+
+    local candidate
+    local -a child_dirs
+    for candidate in "${candidates[@]}"; do
+        child_dirs=("$candidate"/*(/N))
+        if [[ -d "$candidate" && ${#child_dirs[@]} -gt 0 ]]; then
+            print -r -- "$candidate"
+            return 0
+        fi
+    done
+
+    for candidate in "${candidates[@]}"; do
+        if [[ -d "$candidate" ]]; then
+            print -r -- "$candidate"
+            return 0
+        fi
+    done
+
+    print -r -- "$HOME/.local/share/worktrees/${slug:l}"
+}
+
+if lazyworktree_functions="$(dots-lazyworktree-functions-file)"; then
+    source "$lazyworktree_functions"
+    unset lazyworktree_functions
+
+    lwt() {
+        local root wt_root tmp selected rc
+        root="$(dots-lazyworktree-root)" || return 1
+        wt_root="$(dots-lazyworktree-worktree-dir "$root")" || return 1
+
+        if [[ -n "$1" && -d "$wt_root/$1" ]]; then
+            cd "$wt_root/$1" || return 1
+            return 0
+        fi
+
+        cd "$root" || return 1
+
+        tmp="$(mktemp "${TMPDIR:-/tmp}/lazyworktree.selection.XXXXXX")" || return 1
+        lazyworktree --worktree-dir "$wt_root" --output-selection "$tmp"
+        rc=$?
+        if [[ $rc -ne 0 ]]; then
+            rm -f "$tmp"
+            return $rc
+        fi
+
+        if [[ -s "$tmp" ]]; then
+            selected="$(<"$tmp")"
+            [[ -n "$selected" && -d "$selected" ]] && cd "$selected"
+        fi
+        rm -f "$tmp"
+    }
+
+    lwtl() {
+        local root wt_root last_selected selected
+        root="$(dots-lazyworktree-root)" || return 1
+        wt_root="$(dots-lazyworktree-worktree-dir "$root")" || return 1
+        last_selected="$wt_root/.last-selected"
+
+        if [[ -f "$last_selected" ]]; then
+            selected="$(<"$last_selected")"
+            if [[ -n "$selected" && -d "$selected" ]]; then
+                cd "$selected" || return 1
+                return 0
+            fi
+        fi
+
+        print -u2 "No last selected worktree found"
+        return 1
+    }
+
+    lwtm() {
+        local root wt_root main
+        root="$(dots-lazyworktree-root)" || return 1
+        wt_root="$(dots-lazyworktree-worktree-dir "$root")" || return 1
+        main="$(lazyworktree --worktree-dir "$wt_root" list --pristine --main)"
+        [[ -n "$main" ]] && cd "$main"
+    }
+
+    _lwt() {
+        local root wt_root
+        local -a dirs
+        root="$(dots-lazyworktree-root 2>/dev/null)" || return 1
+        wt_root="$(dots-lazyworktree-worktree-dir "$root")" || return 1
+        [[ -d "$wt_root" ]] || return 1
+
+        dirs=("$wt_root"/*(/:t))
+        _describe 'worktree' dirs
+    }
 fi

@@ -62,6 +62,7 @@ return require('packer').startup(function(use)
 
     use('lewis6991/gitsigns.nvim')
     use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
+    use('b0o/schemastore.nvim')
 
     -- simple common file navigator
     use('theprimeagen/harpoon')
