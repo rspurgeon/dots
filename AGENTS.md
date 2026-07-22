@@ -32,14 +32,14 @@ Relevant layout:
 - `shell/zshrc.shared`, `shell/zshrc.<os>`, `shell/zshrc.host.<hostname>`
 - `bootstrap/manifest.d/00-shared.tsv`, `10-<os>.tsv`, `20-host-<hostname>.tsv`
 - `local/local.zsh.example`, `local/git-config.local.example`
-- `mise/config.toml`
+- `mise/global-config.toml`
 
 ## Build, Test, and Development Commands
 - `./setup-ghostty.sh` — links `.config/ghostty` into `~/.config/ghostty`; rerun after Ghostty tweaks.
 - `./bin/bootstrap plan` — preview managed links for the current host and OS.
 - `./bin/bootstrap status` — verify current machine links match repo expectations.
 - `./bin/bootstrap apply` — back up conflicting paths to `~/.dots-backups/` and apply managed symlinks.
-- `./bin/mise-sync install` — copy `mise/config.toml` into `~/.config/mise/config.toml` and install/update shared CLI tools.
+- `./bin/mise-sync install` — copy `mise/global-config.toml` into `~/.config/mise/config.toml` and install/update shared CLI tools.
 - `./bin/mise-sync status` — show current and outdated `mise` tools.
 - `./switch-theme list` — lists registered themes; extend `AVAILABLE_THEMES` and mapping tables when adding new ones.
 - `./switch-theme switch tokyo-night` — syncs Ghostty, Neovim, tmux, and tmux-powerline while snapshotting to `.theme-backups/`.
@@ -78,7 +78,9 @@ Do not create long-lived machine branches unless explicitly asked. Prefer one
 `main` branch plus overlays.
 
 Treat `mise` specially: the intended model is a copied global config at
-`~/.config/mise/config.toml`, not a symlink back into the repo.
+`~/.config/mise/config.toml`, sourced from `mise/global-config.toml`, not a
+symlink back into the repo. The source filename intentionally avoids Mise's
+project-config discovery names.
 
 Treat `systemd --user` carefully on Linux:
 

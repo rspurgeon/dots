@@ -28,7 +28,7 @@ Do not force everything into `mise`. Keep using the platform package manager for
 
 Shared baseline:
 
-- [mise/config.toml](/Users/rick.spurgeon/dev/rspurgeon/dots/mise/config.toml)
+- [mise/global-config.toml](/Users/rick.spurgeon/dev/rspurgeon/dots/mise/global-config.toml)
 - anything every machine should have by default
 - pin versions after they are proven to install cleanly
 
@@ -47,7 +47,7 @@ mise use -g --pin neovim@0.12.1
 ```
 
 2. If the tool should become part of the shared baseline, add it to
-[mise/config.toml](/Users/rick.spurgeon/dev/rspurgeon/dots/mise/config.toml).
+[mise/global-config.toml](/Users/rick.spurgeon/dev/rspurgeon/dots/mise/global-config.toml).
 
 3. Sync the machine to the shared config:
 
@@ -61,6 +61,10 @@ bin/mise-sync install
 This is intentional: `mise` does not behave reliably when its global config is a
 symlink back into the active repo. For `mise`, a copied global config is more
 stable than a symlink.
+
+The tracked template is deliberately not named `mise/config.toml`, because Mise
+would discover that path as a project-local config and reject credential commands
+there for security reasons.
 
 GitHub-backed tools use the repo-managed `settings.github.credential_command`.
 Interactive shells may also export `MISE_GITHUB_TOKEN` from the same local
@@ -89,7 +93,7 @@ bin/mise-sync status
 
 ## Shared baseline policy
 
-Only put a tool into `mise/config.toml` when all of these are true:
+Only put a tool into `mise/global-config.toml` when all of these are true:
 
 - it is needed on almost every machine
 - it installs cleanly on the target platforms you care about

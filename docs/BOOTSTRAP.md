@@ -94,7 +94,7 @@ Recommended manifest split:
 - exact-host entries only when a file is tied to one physical machine
 
 `mise` is intentionally excluded from the bootstrap manifest. Use
-`bin/mise-sync install` to copy [mise/config.toml](/Users/rick.spurgeon/dev/rspurgeon/dots/mise/config.toml)
+`bin/mise-sync install` to copy [mise/global-config.toml](/Users/rick.spurgeon/dev/rspurgeon/dots/mise/global-config.toml)
 into `~/.config/mise/config.toml` and then install/update tools from there.
 
 Runtime/plugin managers are also handled outside bootstrap. For tmux, use

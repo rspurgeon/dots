@@ -4,7 +4,7 @@ set -euo pipefail
 
 MODE="${1:-install}"
 DOTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-SOURCE_CONFIG="$DOTS_DIR/mise/config.toml"
+SOURCE_CONFIG="$DOTS_DIR/mise/global-config.toml"
 TARGET_CONFIG="$HOME/.config/mise/config.toml"
 
 usage() {
@@ -17,7 +17,7 @@ Commands:
 
 Recommended workflow:
   1. Trial a tool locally with `mise use -g <tool>@<version>`.
-  2. If it belongs in the shared machine baseline, add it to .config/mise/config.toml.
+  2. If it belongs in the shared machine baseline, add it to mise/global-config.toml.
   3. Run `bin/mise-sync install`.
   4. Commit the config change.
 EOF
