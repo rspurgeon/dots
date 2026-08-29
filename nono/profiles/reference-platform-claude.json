@@ -1,0 +1,40 @@
+{
+  "extends": "claude",
+  "meta": {
+    "name": "reference-platform-claude",
+    "description": "Reference Platform docs, examples, and kongctl development"
+  },
+  "filesystem": {
+    "allow": [
+      "$TMPDIR",
+      "$HOME/.cache/mise",
+      "$HOME/.cache/go",
+      "$HOME/.cache/golangci-lint",
+      "$HOME/.cache/agent-status",
+      "$HOME/.ssh/agent",
+      "/home/rspurgeon/dev/kong/developer.konghq.com/.git",
+      "/home/rspurgeon/dev/kong/developer.konghq.com/.git/worktrees"
+    ],
+    "read": [
+      "/etc",
+      "/proc",
+      "/usr",
+      "/usr/local/sbin",
+      "/home/rspurgeon/dev/rspurgeon/pitch",
+      "/home/rspurgeon/dev/rspurgeon/dots/.config/git",
+      "$HOME/.config/git",
+      "$HOME/dev/rspurgeon/dots/.config/mise",
+      "$HOME/.config/go",
+      "$HOME/.config/gh",
+      "$HOME/.config/mise",
+      "$HOME/.ssh",
+      "$HOME/.local/share/mise/installs",
+      "$HOME/.local/share/mise/shims",
+      "$HOME/.local/share/omarchy/bin",
+      "$HOME/bin"
+    ]
+  },
+  "network": {
+    "open_port": [3036, 4000, 8888, 35729]
+  }
+}

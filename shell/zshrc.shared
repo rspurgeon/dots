@@ -100,6 +100,8 @@ bindkey '^y' clear-screen
 bindkey -M viins '^P' up-line-or-history
 bindkey -M viins '^N' down-line-or-history
 bindkey -M viins '^E' autosuggest-accept
+bindkey -M viins '^?' backward-delete-char
+bindkey -M viins '^H' backward-delete-char
 
 if (( $+functions[e2e-scenario-prompt] )); then
     zle -N e2e-scenario-prompt
@@ -130,7 +132,7 @@ prompt-toggle() {
     zle reset-prompt
 }
 zle -N prompt-toggle
-bindkey '^H' prompt-toggle
+bindkey '^X^H' prompt-toggle
 
 export EDITOR='nvim'
 export STARSHIP_CONFIG="${STARSHIP_CONFIG:-$HOME/.config/starship.toml}"
@@ -301,6 +303,7 @@ export GOTMPDIR="$HOME/go/tmp"
 export GOMODCACHE="$HOME/go/mod-cache"
 export GOFLAGS=-buildvcs=false
 export KONGCTL_E2E_ARTIFACTS_DIR="$HOME/go/e2e-artifacts"
+export KONGCTL_SMOKE_YES=1
 export TMPDIR="$HOME/.tmp"
 
 prepend_path "$GOPATH/bin"

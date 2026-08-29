@@ -1,7 +1,6 @@
 [tools]
 gcloud = "570.0.0"
 "github:agavra/tuicr" = "0.16.1"
-"github:always-further/nono" = "0.60.0"
 "github:chmouel/lazyworktree" = "1.46.0"
 "github:speakeasy-api/speakeasy" = "1.769.1"
 go = "1.26.3"
