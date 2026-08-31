@@ -1,0 +1,2 @@
+-- Avery currently has no additional startup processes. Keep this module so
+-- future host customizations have a stable, update-safe home.

@@ -105,9 +105,17 @@ Desktop integration state is also handled outside bootstrap. On Omarchy Linux
 desktops, use [bin/setup-omarchy-browser-defaults](/Users/rick.spurgeon/dev/rspurgeon/dots/bin/setup-omarchy-browser-defaults)
 after Firefox and Chromium are installed. It keeps Firefox as the normal XDG
 browser while preserving Chromium-backed Omarchy web app launchers, refreshes
-the desktop application database, and restarts Walker when it is running. Do
+the desktop application database, and (on Omarchy 3 only) restarts Walker when
+it is running. Quattro uses its supported browser command and does not restart
+the retired Walker/Elephant services. Do
 not manage `~/.config/mimeapps.list` through the symlink manifest; desktop tools
 rewrite that file as user state.
+
+The desktop manifest targets Omarchy Quattro's Lua Hyprland entry point and
+`~/.config/omarchy/shell.json`. Legacy Hyprland `.conf`, Waybar, Walker, and
+Elephant sources stay tracked only as rollback material and are not linked by
+bootstrap. After NetworkManager is installed, `bin/setup-omarchy-direct-network`
+can install Avery's isolated `ari-direct` profile without activating it.
 
 ## Overlay model
 

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# Hyprland sizing and placement are handled by hypr/windows.lua.
+exec uwsm-app -- xdg-terminal-exec --app-id=org.omarchy.pitch -e pitch view

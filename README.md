@@ -173,8 +173,8 @@ Enable the environment by creating symbolic links to the dotfiles in this reposi
 
 Some Linux hosts may also have host-specific tracked entries such as:
 
-* Hyprland config in `.config/hypr`
-* Waybar config in `.config/waybar`
+* Omarchy Quattro Lua config in `.config/hypr` (legacy `.conf` files remain only for pre-Quattro rollback)
+* Omarchy shell/bar config in `.config/omarchy/shell.json` (legacy Waybar files remain only for pre-Quattro rollback)
 * host-specific helper configs like `.config/pitch`, `.config/codex/guest`, or `nono/profiles`
 * host-specific theme assets under `.config/omarchy/themes/...`
 
@@ -190,6 +190,11 @@ For Omarchy browser defaults on Linux desktops:
 
 * Use `bin/setup-omarchy-browser-defaults` to keep Firefox as the normal XDG browser while Omarchy web app launchers continue to use Chromium's `--app` mode.
 * Do not commit `~/.config/mimeapps.list`; desktop tools rewrite it as user state.
+
+For the optional direct Avery-to-Ari Ethernet path after Quattro installs NetworkManager:
+
+* Run `bin/setup-omarchy-direct-network` to install an isolated `ari-direct` profile for `10.77.0.2/30` with no default route or DNS and EEE disabled.
+* The script deliberately does not activate the profile. Keep Wi-Fi/Tailscale available and test Ethernet separately after the upgrade.
 
 Install [exa](https://github.com/ogham/exa) for better file listing
 * `brew install exa`

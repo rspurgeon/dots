@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "idle": {
+    "screensaver": 86400,
+    "lock": 900
+  },
+  "bar": {
+    "position": "top",
+    "transparent": false,
+    "centerAnchor": "pitch-agents",
+    "layout": {
+      "left": [
+        {
+          "id": "omarchy.workspaces"
+        }
+      ],
+      "center": [
+        {
+          "id": "pitch-agents",
+          "type": "command",
+          "exec": "pitch waybar-status",
+          "interval": 2,
+          "tooltip": "Pitch Agents",
+          "onClick": "notify-send -u low \"Pitch Agents\" \"$(pitch agent-status)\"",
+          "fontSize": 15,
+          "horizontalMargin": 6
+        }
+      ],
+      "right": [
+        {
+          "id": "omarchy.system-update"
+        },
+        {
+          "id": "omarchy.indicators"
+        },
+        {
+          "id": "omarchy.tray"
+        },
+        {
+          "id": "omarchy.bluetooth"
+        },
+        {
+          "id": "omarchy.network"
+        },
+        {
+          "id": "omarchy.audio"
+        },
+        {
+          "id": "omarchy.clock",
+          "format": "ddd MMM dd HH:mm",
+          "formatAlt": "d MMMM 'W'ww yyyy"
+        }
+      ]
+    }
+  },
+  "plugins": []
+}

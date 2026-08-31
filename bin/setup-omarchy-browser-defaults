@@ -7,7 +7,13 @@ if [ "$(uname -s)" != "Linux" ]; then
     exit 0
 fi
 
-export OMARCHY_PATH="${OMARCHY_PATH:-$HOME/.local/share/omarchy}"
+if [ -z "${OMARCHY_PATH:-}" ]; then
+    if [ -d /usr/share/omarchy ]; then
+        export OMARCHY_PATH=/usr/share/omarchy
+    else
+        export OMARCHY_PATH="$HOME/.local/share/omarchy"
+    fi
+fi
 case ":$PATH:" in
     *":$OMARCHY_PATH/bin:"*) ;;
     *) export PATH="$OMARCHY_PATH/bin:$PATH" ;;
@@ -40,7 +46,11 @@ desktop_exec() {
     done
 }
 
-xdg-settings set default-web-browser firefox.desktop
+if command -v omarchy-default-browser >/dev/null 2>&1; then
+    omarchy-default-browser firefox
+else
+    xdg-settings set default-web-browser firefox.desktop
+fi
 xdg-mime default firefox.desktop x-scheme-handler/http
 xdg-mime default firefox.desktop x-scheme-handler/https
 xdg-mime default firefox.desktop text/html
@@ -87,7 +97,9 @@ esac
 echo "default browser: $default_browser"
 echo "web app browser: $webapp_exec"
 
-if command -v systemctl >/dev/null 2>&1 && systemctl --user list-unit-files elephant.service >/dev/null 2>&1; then
+# Omarchy 3 compatibility. Quattro no longer uses Elephant or Walker and picks
+# up browser/XDG changes without restarting either service.
+if [ ! -d /usr/share/omarchy ] && command -v systemctl >/dev/null 2>&1 && systemctl --user list-unit-files elephant.service >/dev/null 2>&1; then
     systemctl --user daemon-reload >/dev/null 2>&1 || true
     if systemctl --user restart elephant.service; then
         echo "restarted Elephant"
@@ -99,7 +111,7 @@ elif command -v uwsm-app >/dev/null 2>&1 && command -v elephant >/dev/null 2>&1;
     echo "started transient Elephant"
 fi
 
-if command -v systemctl >/dev/null 2>&1 && systemctl --user is-active --quiet app-walker@autostart.service; then
+if [ ! -d /usr/share/omarchy ] && command -v systemctl >/dev/null 2>&1 && systemctl --user is-active --quiet app-walker@autostart.service; then
     if systemctl --user restart app-walker@autostart.service; then
         echo "restarted Walker"
     else

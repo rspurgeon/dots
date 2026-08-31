@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if ! command -v nmcli >/dev/null 2>&1; then
+    echo "NetworkManager is not installed yet; run this after the Quattro package transition" >&2
+    exit 1
+fi
+
+connection_name="ari-direct"
+interface_name="eno1"
+
+if sudo nmcli -t -f NAME connection show | grep -Fxq "$connection_name"; then
+    echo "updating NetworkManager connection: $connection_name"
+else
+    echo "creating NetworkManager connection: $connection_name"
+    sudo nmcli connection add \
+        type ethernet \
+        ifname "$interface_name" \
+        con-name "$connection_name"
+fi
+
+sudo nmcli connection modify "$connection_name" \
+    connection.interface-name "$interface_name" \
+    connection.autoconnect yes \
+    802-3-ethernet.auto-negotiate yes \
+    ipv4.method manual \
+    ipv4.addresses 10.77.0.2/30 \
+    ipv4.gateway "" \
+    ipv4.dns "" \
+    ipv4.ignore-auto-dns yes \
+    ipv4.never-default yes \
+    ipv6.method disabled \
+    ethtool.eee-enabled off
+
+echo "installed but did not activate $connection_name"
+sudo nmcli --fields \
+    connection.id,connection.interface-name,connection.autoconnect,ipv4.method,ipv4.addresses,ipv4.gateway,ipv4.never-default,ipv4.ignore-auto-dns,ipv6.method,ethtool.eee-enabled \
+    connection show "$connection_name"

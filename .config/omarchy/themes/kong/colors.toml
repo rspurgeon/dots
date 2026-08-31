@@ -5,6 +5,10 @@ background = "#000F06"
 selection_foreground = "#000F06"
 selection_background = "#CCFF00"
 
+# Quattro renders Hyprland and shell borders from these theme roles.
+hyprland_active_border = "rgba(CCFF00ee)"
+hyprland_inactive_border = "rgba(595959aa)"
+
 # Black / Dark
 color0 = "#101110"
 # Red (errors, deletions)

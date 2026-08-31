@@ -1,3 +1,13 @@
-#!/bin/bash
-pkill -x swaybg
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+solid_background="$HOME/.config/omarchy/themes/kong/backgrounds/kong-solid.png"
+
+if command -v omarchy-shell >/dev/null 2>&1 && [ -f "$solid_background" ]; then
+    exec omarchy theme bg set "$solid_background"
+fi
+
+# Omarchy 3 compatibility until the Quattro cutover.
+pkill -x swaybg || true
 setsid uwsm-app -- swaybg --color '#000F06' >/dev/null 2>&1 &
