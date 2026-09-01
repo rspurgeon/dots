@@ -7,8 +7,8 @@ BarWidget {
   moduleName: "rspurgeon.pitch-agents"
 
   property string outputText: ""
+  property string outputMarkup: ""
   property string outputTooltip: "Pitch Agents"
-  property bool outputActive: false
 
   visible: outputText !== ""
   implicitWidth: button.implicitWidth
@@ -20,15 +20,14 @@ BarWidget {
 
     try {
       var data = JSON.parse(value)
-      var klass = data.class || data.alt || ""
-      outputText = String(data.text || "").replace(/<[^>]*>/g, "")
+      var text = String(data.text || "")
+      outputText = text.replace(/<[^>]*>/g, "")
+      outputMarkup = text.replace(/<span foreground="([^"]+)">/g, '<span style="color:$1">')
       outputTooltip = String(data.tooltip || "Pitch Agents")
-      outputActive = klass === "active" || klass === "running"
-        || (Array.isArray(klass) && (klass.indexOf("active") !== -1 || klass.indexOf("running") !== -1))
     } catch (error) {
       outputText = value
+      outputMarkup = value
       outputTooltip = "Pitch Agents"
-      outputActive = false
     }
   }
 
@@ -37,10 +36,21 @@ BarWidget {
     anchors.fill: parent
     bar: root.bar
     text: root.outputText
+    labelVisible: false
     tooltipText: root.outputTooltip
-    active: root.outputActive
+    useActiveColor: false
     horizontalMargin: 6
     fontSize: 15
+
+    Text {
+      anchors.centerIn: parent
+      text: root.outputMarkup
+      textFormat: Text.StyledText
+      color: root.bar ? root.bar.barForeground : "white"
+      font.family: root.bar ? root.bar.fontFamily : "monospace"
+      font.pixelSize: 15
+      renderType: Text.NativeRendering
+    }
 
     onPressed: function(button) {
       if (button === Qt.LeftButton && root.bar)
