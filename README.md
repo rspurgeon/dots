@@ -196,6 +196,11 @@ For the optional direct Avery-to-Ari Ethernet path after Quattro installs Networ
 * Run `bin/setup-omarchy-direct-network` to install an isolated `ari-direct` profile for `10.77.0.2/30` with no default route or DNS and EEE disabled.
 * The script deliberately does not activate the profile. Keep Wi-Fi/Tailscale available and test Ethernet separately after the upgrade.
 
+For Avery's Wi-Fi handoff from Omarchy 3's iwd to Quattro's NetworkManager:
+
+* After the Quattro packages are installed but before rebooting, run `bin/setup-omarchy-wifi-networkmanager`. It converts the saved root-only iwd key for `NUTNET` into an inactive root-only NetworkManager profile without printing the secret or starting NetworkManager.
+* Do not activate NetworkManager in the legacy live session. Its profile autoconnects on the first Quattro boot, restoring Wi-Fi before Tailscale reconnects.
+
 Install [exa](https://github.com/ogham/exa) for better file listing
 * `brew install exa`
 

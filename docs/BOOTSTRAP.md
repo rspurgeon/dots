@@ -116,6 +116,10 @@ The desktop manifest targets Omarchy Quattro's Lua Hyprland entry point and
 Elephant sources stay tracked only as rollback material and are not linked by
 bootstrap. After NetworkManager is installed, `bin/setup-omarchy-direct-network`
 can install Avery's isolated `ari-direct` profile without activating it.
+Because the Quattro upgrader does not import iwd credentials,
+`bin/setup-omarchy-wifi-networkmanager` must also run after package installation
+and before the first Quattro reboot. It creates an inactive root-only `NUTNET`
+profile using the existing iwd key; NetworkManager autoconnects it after reboot.
 
 ## Overlay model
 

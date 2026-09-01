@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+ssid="${1:-NUTNET}"
+interface_name="${2:-wlan0}"
+connection_name="$ssid"
+iwd_profile="/var/lib/iwd/${ssid}.psk"
+target_dir="/etc/NetworkManager/system-connections"
+target_file="$target_dir/${connection_name}.nmconnection"
+
+if [ "${EUID:-$(id -u)}" -ne 0 ]; then
+    exec sudo "$0" "$@"
+fi
+
+if ! command -v nmcli >/dev/null 2>&1; then
+    echo "NetworkManager is not installed yet; run this after the Quattro package transition" >&2
+    exit 1
+fi
+
+if [ ! -f "$iwd_profile" ]; then
+    echo "saved iwd profile not found: $iwd_profile" >&2
+    exit 1
+fi
+
+wifi_secret="$({
+    awk -F= '
+        /^\[Security\]$/ { in_security = 1; next }
+        /^\[/ { in_security = 0 }
+        in_security && ($1 == "PreSharedKey" || $1 == "Passphrase") {
+            print substr($0, index($0, "=") + 1)
+            exit
+        }
+    ' "$iwd_profile"
+} 2>/dev/null)"
+
+if [ -z "$wifi_secret" ]; then
+    echo "no PreSharedKey or Passphrase found in $iwd_profile" >&2
+    exit 1
+fi
+
+umask 077
+temporary_file="$(mktemp /run/omarchy-wifi-profile.XXXXXX)"
+trap 'rm -f "$temporary_file"' EXIT
+
+# Generate a NetworkManager keyfile without starting its daemon. The live
+# Omarchy 3 session remains on iwd until the Quattro reboot.
+nmcli --offline connection add \
+    type wifi \
+    con-name "$connection_name" \
+    ifname "$interface_name" \
+    ssid "$ssid" \
+    wifi-sec.key-mgmt wpa-psk \
+    wifi-sec.psk "$wifi_secret" \
+    connection.autoconnect yes \
+    ipv4.method auto \
+    ipv6.method auto >"$temporary_file"
+unset wifi_secret
+
+install -d -m 0700 "$target_dir"
+if [ -f "$target_file" ]; then
+    cp -a "$target_file" "$target_file.$(date +%Y%m%d%H%M%S).bak"
+fi
+install -o root -g root -m 0600 "$temporary_file" "$target_file"
+
+echo "installed inactive NetworkManager Wi-Fi profile: $target_file"
+echo "SSID: $ssid"
+echo "interface: $interface_name"
+echo "autoconnect: yes"
+echo "The saved Wi-Fi secret was not printed. Do not activate NetworkManager before the Quattro reboot."
