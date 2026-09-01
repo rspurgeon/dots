@@ -175,6 +175,7 @@ Some Linux hosts may also have host-specific tracked entries such as:
 
 * Omarchy Quattro Lua config in `.config/hypr` (legacy `.conf` files remain only for pre-Quattro rollback)
 * Omarchy shell/bar config in `.config/omarchy/shell.json` (legacy Waybar files remain only for pre-Quattro rollback)
+* Centered Pitch status as the user-owned `rspurgeon.pitch-agents` Omarchy shell plugin
 * host-specific helper configs like `.config/pitch`, `.config/codex/guest`, or `nono/profiles`
 * host-specific theme assets under `.config/omarchy/themes/...`
 
@@ -198,7 +199,7 @@ For the optional direct Avery-to-Ari Ethernet path after Quattro installs Networ
 
 For Avery's Wi-Fi handoff from Omarchy 3's iwd to Quattro's NetworkManager:
 
-* After the Quattro packages are installed but before rebooting, run `bin/setup-omarchy-wifi-networkmanager`. It converts the saved root-only iwd key for `NUTNET` into an inactive root-only NetworkManager profile without printing the secret or starting NetworkManager.
+* After the Quattro packages are installed but before rebooting, run `bin/setup-omarchy-wifi-networkmanager`. It converts the saved root-only iwd key for `NUTNET` into an inactive root-only NetworkManager profile without printing the secret or starting NetworkManager. The profile is not tied to the legacy interface name, so it remains eligible if predictable naming changes `wlan0` after reboot.
 * Do not activate NetworkManager in the legacy live session. Its profile autoconnects on the first Quattro boot, restoring Wi-Fi before Tailscale reconnects.
 
 Install [exa](https://github.com/ogham/exa) for better file listing

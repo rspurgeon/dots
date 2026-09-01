@@ -7,7 +7,7 @@
   "bar": {
     "position": "top",
     "transparent": false,
-    "centerAnchor": "pitch-agents",
+    "centerAnchor": "rspurgeon.pitch-agents",
     "layout": {
       "left": [
         {
@@ -16,14 +16,7 @@
       ],
       "center": [
         {
-          "id": "pitch-agents",
-          "type": "command",
-          "exec": "pitch waybar-status",
-          "interval": 2,
-          "tooltip": "Pitch Agents",
-          "onClick": "notify-send -u low \"Pitch Agents\" \"$(pitch agent-status)\"",
-          "fontSize": 15,
-          "horizontalMargin": 6
+          "id": "rspurgeon.pitch-agents"
         }
       ],
       "right": [

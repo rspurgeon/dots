@@ -20,6 +20,7 @@ nono/profiles/pitch-codex.json	~/.config/nono/profiles/pitch-codex.json	linux	pr
 .config/hypr/hosts/{host}/monitors.lua	~/.config/hypr/monitors.lua	linux	profile:desktop
 .config/hypr/hosts/{host}/workspaces.lua	~/.config/hypr/workspaces.lua	linux	profile:desktop
 .config/omarchy/shell.json	~/.config/omarchy/shell.json	linux	profile:desktop
+.config/omarchy/plugins/rspurgeon.pitch-agents	~/.config/omarchy/plugins/rspurgeon.pitch-agents	linux	profile:desktop
 .config/xdg-terminals.list	~/.config/xdg-terminals.list	linux	profile:desktop
 .config/systemd/user/pitch-agent-status-refresh.service	~/.config/systemd/user/pitch-agent-status-refresh.service	linux	profile:work
 .config/systemd/user/pitch-agent-status-refresh.timer	~/.config/systemd/user/pitch-agent-status-refresh.timer	linux	profile:work

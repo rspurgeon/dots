@@ -112,14 +112,16 @@ not manage `~/.config/mimeapps.list` through the symlink manifest; desktop tools
 rewrite that file as user state.
 
 The desktop manifest targets Omarchy Quattro's Lua Hyprland entry point and
-`~/.config/omarchy/shell.json`. Legacy Hyprland `.conf`, Waybar, Walker, and
+`~/.config/omarchy/shell.json`, including the user-owned
+`rspurgeon.pitch-agents` bar plugin. Legacy Hyprland `.conf`, Waybar, Walker, and
 Elephant sources stay tracked only as rollback material and are not linked by
 bootstrap. After NetworkManager is installed, `bin/setup-omarchy-direct-network`
 can install Avery's isolated `ari-direct` profile without activating it.
 Because the Quattro upgrader does not import iwd credentials,
 `bin/setup-omarchy-wifi-networkmanager` must also run after package installation
 and before the first Quattro reboot. It creates an inactive root-only `NUTNET`
-profile using the existing iwd key; NetworkManager autoconnects it after reboot.
+profile using the existing iwd key without binding the legacy `wlan0` name;
+NetworkManager can therefore autoconnect it after predictable interface renaming.
 
 ## Overlay model
 

@@ -3,7 +3,7 @@
 set -euo pipefail
 
 ssid="${1:-NUTNET}"
-interface_name="${2:-wlan0}"
+interface_name="${2:-*}"
 connection_name="$ssid"
 iwd_profile="/var/lib/iwd/${ssid}.psk"
 target_dir="/etc/NetworkManager/system-connections"
@@ -65,6 +65,10 @@ install -o root -g root -m 0600 "$temporary_file" "$target_file"
 
 echo "installed inactive NetworkManager Wi-Fi profile: $target_file"
 echo "SSID: $ssid"
-echo "interface: $interface_name"
+if [ "$interface_name" = "*" ]; then
+    echo "interface: any Wi-Fi device (survives predictable interface renaming)"
+else
+    echo "interface: $interface_name"
+fi
 echo "autoconnect: yes"
 echo "The saved Wi-Fi secret was not printed. Do not activate NetworkManager before the Quattro reboot."

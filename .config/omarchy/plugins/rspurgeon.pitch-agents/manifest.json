@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "rspurgeon.pitch-agents",
+  "name": "Pitch Agents",
+  "version": "1.0.0",
+  "author": "Rick Spurgeon",
+  "description": "Centered Pitch agent status for the Omarchy bar",
+  "kinds": [
+    "bar-widget"
+  ],
+  "activation": "on-demand",
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Pitch Agents",
+    "description": "Shows the current Pitch agent summary and opens its detailed status on click.",
+    "category": "Development",
+    "allowMultiple": false,
+    "defaultSection": "center",
+    "defaults": {},
+    "schema": []
+  }
+}
