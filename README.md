@@ -176,6 +176,7 @@ Some Linux hosts may also have host-specific tracked entries such as:
 * Omarchy Quattro Lua config in `.config/hypr` (legacy `.conf` files remain only for pre-Quattro rollback)
 * Omarchy shell/bar config in `.config/omarchy/shell.json` (legacy Waybar files remain only for pre-Quattro rollback)
 * Centered Pitch status as the user-owned `rspurgeon.pitch-agents` Omarchy shell plugin
+* Per-monitor workspace indicators as the user-owned `rspurgeon.workspaces` Omarchy shell plugin
 * host-specific helper configs like `.config/pitch`, `.config/codex/guest`, or `nono/profiles`
 * host-specific theme assets under `.config/omarchy/themes/...`
 
