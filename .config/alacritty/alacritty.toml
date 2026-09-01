@@ -2,7 +2,7 @@
 # Primary terminal across machines. Treat this file as the authoritative
 # source for terminal font size, padding, and terminal-local behavior unless a
 # task explicitly calls out another emulator.
-import = ["~/.config/omarchy/current/theme/alacritty.toml"]
+import = ["~/.local/state/omarchy/current/theme/alacritty.toml"]
 
 [env]
 TERM = "xterm-256color"

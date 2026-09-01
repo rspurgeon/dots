@@ -3,3 +3,4 @@
 pcall(require, "rick.packer")
 require("rick.remap")
 require("rick.set")
+require("config.remote_clipboard").setup()
