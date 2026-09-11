@@ -46,3 +46,7 @@ done
 if (( $+functions[dots-register-completions] )); then
     dots-register-completions
 fi
+
+# >>> Codex installer >>>
+export PATH="/home/rspurgeon/.local/bin:$PATH"
+# <<< Codex installer <<<

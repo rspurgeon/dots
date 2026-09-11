@@ -22,7 +22,9 @@ BarWidget {
       var data = JSON.parse(value)
       var text = String(data.text || "")
       outputText = text.replace(/<[^>]*>/g, "")
-      outputMarkup = text.replace(/<span foreground="([^"]+)">/g, '<span style="color:$1">')
+      outputMarkup = text
+        .replace(/<span foreground="([^"]+)">/g, '<font color="$1">')
+        .replace(/<\/span>/g, "</font>")
       outputTooltip = String(data.tooltip || "Pitch Agents")
     } catch (error) {
       outputText = value
@@ -60,18 +62,18 @@ BarWidget {
 
   Process {
     id: statusProcess
-    command: ["bash", "-lc", "pitch waybar-status"]
-    stdout: StdioCollector {
-      waitForEnd: true
-      onStreamFinished: root.update(text)
+    command: ["bash", "-lc", "exec pitch waybar-status --watch"]
+    running: true
+    stdout: SplitParser {
+      onRead: function(line) { root.update(line) }
     }
+    onExited: restartTimer.restart()
   }
 
   Timer {
+    id: restartTimer
     interval: 2000
-    running: true
-    repeat: true
-    triggeredOnStart: true
-    onTriggered: if (!statusProcess.running) statusProcess.running = true
+    repeat: false
+    onTriggered: statusProcess.running = true
   }
 }

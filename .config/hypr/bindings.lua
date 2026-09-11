@@ -5,10 +5,10 @@ local function rebind(keys, description, dispatcher, options)
   o.bind(keys, description, dispatcher, options)
 end
 
--- Keep the applications launcher on Super+Space and the full Omarchy menu on
--- Super+Alt+Space (the reverse of Quattro's defaults).
-rebind("SUPER + SPACE", "Apps menu", "omarchy-menu toggle apps")
-rebind("SUPER + ALT + SPACE", "Omarchy menu", "omarchy-menu toggle")
+-- Use Quattro's unified Omarchy launcher on Super+Space, with the dedicated
+-- applications-only view available on Super+Alt+Space.
+rebind("SUPER + SPACE", "Omarchy menu", "omarchy-menu toggle")
+rebind("SUPER + ALT + SPACE", "Apps menu", "omarchy-menu toggle apps")
 
 -- Vim-style focus. Arrow-key focus is intentionally disabled as on Omarchy 3.
 for _, keys in ipairs({
